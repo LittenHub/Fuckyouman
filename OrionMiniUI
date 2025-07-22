@@ -1,3 +1,12 @@
+-- destroy ui if there a ui 
+pcall(function()
+	local oldUI = game.CoreGui:FindFirstChild("Orion")
+	if oldUI then
+		oldUI:Destroy()
+	end
+end)
+
+-- Service
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -5,6 +14,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
+-- local Library
 local OrionLib = {
 	Elements = {},
 	ThemeObjects = {},
@@ -81,6 +91,7 @@ task.spawn(function()
 	end
 end)
 
+-- draggable function
 local function MakeDraggable(DragPoint, Main)
 	pcall(function()
 		local Dragging, DragInput, MousePos, FramePos = false
@@ -583,6 +594,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		Position = UDim2.new(0, 0, 1, -1)
 	}), "Stroke")
 
+-- MainWindow
 	local MainWindow = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
 		Parent = Orion,
 		Position = UDim2.new(0.5, -300, 0.5, -175),
@@ -640,6 +652,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		end
 	end)
 
+-- Minimize function
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
 		if Minimized then
 			TweenService:Create(MainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, 580, 0, 330)}):Play()
