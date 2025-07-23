@@ -459,6 +459,9 @@ function OrionLib:Init()
 end	
 
 function OrionLib:MakeWindow(WindowConfig)
+        if WindowConfig.Theme then
+                OrionLib.SelectedTheme = WindowConfig.Theme
+        end
 	local FirstTab = true
 	local Minimized = false
 	local Loaded = false
