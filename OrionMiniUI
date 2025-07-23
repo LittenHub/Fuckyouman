@@ -28,6 +28,71 @@ local OrionLib = {
 			Divider = Color3.fromRGB(60, 60, 70),
 			Text = Color3.fromRGB(240, 240, 240),
 			TextDark = Color3.fromRGB(150, 150, 150)
+		},
+        	AmberGlow = {
+		        Main = Color3.fromRGB(40, 25, 10),
+		        Second = Color3.fromRGB(55, 35, 15),
+		        Stroke = Color3.fromRGB(255, 180, 80),
+		        Divider = Color3.fromRGB(200, 140, 60),
+		        Text = Color3.fromRGB(255, 210, 130),
+		        TextDark = Color3.fromRGB(180, 140, 100)
+	        },
+                Amethyst = {
+		        Main = Color3.fromRGB(35, 20, 50),
+		        Second = Color3.fromRGB(50, 30, 70),
+		        Stroke = Color3.fromRGB(180, 120, 255),
+			Divider = Color3.fromRGB(140, 90, 200),
+			Text = Color3.fromRGB(200, 160, 255),
+			TextDark = Color3.fromRGB(170, 130, 200)
+	        },
+	        Bloom = {
+			Main = Color3.fromRGB(45, 20, 40),
+			Second = Color3.fromRGB(60, 30, 55),
+			Stroke = Color3.fromRGB(255, 105, 180),
+			Divider = Color3.fromRGB(220, 80, 150),
+			Text = Color3.fromRGB(255, 160, 210),
+			TextDark = Color3.fromRGB(200, 100, 170)
+		},
+		DarkBlue = {
+			Main = Color3.fromRGB(10, 15, 30),
+			Second = Color3.fromRGB(20, 30, 50),
+			Stroke = Color3.fromRGB(80, 150, 255),
+			Divider = Color3.fromRGB(50, 100, 200),
+			Text = Color3.fromRGB(130, 190, 255),
+			TextDark = Color3.fromRGB(100, 150, 200)
+		},
+
+		Green = {
+			Main = Color3.fromRGB(10, 20, 10),
+			Second = Color3.fromRGB(20, 40, 20),
+			Stroke = Color3.fromRGB(0, 255, 100),
+			Divider = Color3.fromRGB(0, 200, 80),
+			Text = Color3.fromRGB(0, 255, 100),
+			TextDark = Color3.fromRGB(100, 255, 150)
+		},
+		Light = {
+			Main = Color3.fromRGB(240, 240, 240),
+			Second = Color3.fromRGB(220, 220, 220),
+			Stroke = Color3.fromRGB(180, 180, 180),
+			Divider = Color3.fromRGB(160, 160, 160),
+			Text = Color3.fromRGB(30, 30, 30),
+			TextDark = Color3.fromRGB(80, 80, 80)
+		},
+		Ocean = {
+			Main = Color3.fromRGB(0, 30, 40),
+			Second = Color3.fromRGB(0, 50, 70),
+			Stroke = Color3.fromRGB(0, 170, 200),
+			Divider = Color3.fromRGB(0, 140, 180),
+			Text = Color3.fromRGB(100, 230, 255),
+			TextDark = Color3.fromRGB(60, 160, 180)
+		},
+		Serenity = {
+			Main = Color3.fromRGB(30, 40, 50),
+			Second = Color3.fromRGB(50, 60, 70),
+			Stroke = Color3.fromRGB(180, 210, 255),
+			Divider = Color3.fromRGB(140, 180, 220),
+			Text = Color3.fromRGB(220, 240, 255),
+			TextDark = Color3.fromRGB(150, 180, 200)
 		}
 	},
 	SelectedTheme = "Default",
