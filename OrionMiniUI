@@ -491,6 +491,13 @@ function OrionLib:MakeNotification(NotificationConfig)
 			})
 		})
 
+                local theme = OrionLib.Themes[OrionLib.SelectedTheme] or OrionLib.Themes.Default
+
+                NotificationFrame.BackgroundColor3 = theme.NotificationBackground or theme.Second
+                ActionsHolder.BackgroundColor3 = theme.NotificationActionsBackground or theme.Main
+                TitleLabel.TextColor3 = theme.Text
+                ContentLabel.TextColor3 = theme.TextDark
+
 		TweenService:Create(NotificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 0, 0, 0)}):Play()
 
 		wait(NotificationConfig.Time - 0.88)
@@ -591,7 +598,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		Size = UDim2.new(1, 0, 0, 50)
 	})
 
-	local WindowStuff = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
+	WindowStuff = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
 		Size = UDim2.new(0, 150, 1, -50),
 		Position = UDim2.new(0, 0, 0, 50)
 	}), {
@@ -970,6 +977,7 @@ function OrionLib:MakeWindow(WindowConfig)
 			function ElementFunction:AddToggle(ToggleConfig)
 				ToggleConfig = ToggleConfig or {}
 				ToggleConfig.Name = ToggleConfig.Name or "Toggle"
+                                ToggleConfig.Description = ToggleConfig.Description or "Desc"
 				ToggleConfig.Default = ToggleConfig.Default or false
 				ToggleConfig.Callback = ToggleConfig.Callback or function() end
 				ToggleConfig.Color = ToggleConfig.Color or Color3.fromRGB(9, 99, 195)
@@ -1011,6 +1019,13 @@ function OrionLib:MakeWindow(WindowConfig)
 						Font = Enum.Font.GothamBold,
 						Name = "Content"
 					}), "Text"),
+                                        AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Description, 13), {
+		                                Size = UDim2.new(1, -12, 0, 14),
+						Position = UDim2.new(0, 12, 0, 24),
+						TextWrapped = true,
+						Font = Enum.Font.Gotham,
+						TextColor3 = OrionLib.Themes[OrionLib.SelectedTheme].TextDark or Color3.fromRGB(150, 150, 150)
+					}), "TextDark"),
 					AddThemeObject(MakeElement("Stroke"), "Stroke"),
 					ToggleBox,
 					Click
@@ -1771,6 +1786,15 @@ end
 
 function OrionLib:Destroy()
 	Orion:Destroy()
+end
+
+function OrionLib:IsVisible()
+	return not UIHidden
+end
+
+function OrionLib:SetVisibility(state)
+	UIHidden = not state
+	WindowStuff.Visible = state
 end
 
 return OrionLib
