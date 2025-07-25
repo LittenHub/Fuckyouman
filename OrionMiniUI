@@ -1021,7 +1021,7 @@ function OrionLib:MakeWindow(WindowConfig)
 					}), "Text"),
                                         AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Description, 13), {
 		                                Size = UDim2.new(1, -12, 0, 14),
-						Position = UDim2.new(0, 12, 0, 24),
+						Position = UDim2.new(0, 12, 0, 20),
 						TextWrapped = true,
 						Font = Enum.Font.Gotham,
 						TextColor3 = OrionLib.Themes[OrionLib.SelectedTheme].TextDark or Color3.fromRGB(150, 150, 150)
