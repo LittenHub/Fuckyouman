@@ -14,6 +14,9 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
+-- others var
+local orionDestroyed = false --true when OrionLib:Destroy() called
+
 -- local Library
 local OrionLib = {
 	Elements = {},
@@ -963,6 +966,9 @@ function OrionLib:MakeWindow(WindowConfig)
 
                                 AddConnection(Click.MouseButton1Click, function()
 					local success, result = pcall(ButtonConfig.Callback)
+					if orionDestroyed then
+						return
+					end
 					if not success then
 						print("Orion | Callback error on button: " .. ButtonConfig.Name .. ", Error: " .. tostring(result))
 					else
@@ -1789,16 +1795,8 @@ function OrionLib:MakeWindow(WindowConfig)
 end   
 
 function OrionLib:Destroy()
+	orionDestroyed = true
 	Orion:Destroy()
-end
-
-function OrionLib:IsVisible()
-	return not UIHidden
-end
-
-function OrionLib:SetVisibility(state)
-	UIHidden = not state
-	WindowStuff.Visible = state
 end
 
 return OrionLib
