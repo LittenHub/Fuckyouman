@@ -941,8 +941,8 @@ function OrionLib:MakeWindow(WindowConfig)
 						Font = Enum.Font.GothamBold,
 						Name = "Content"
 					}), "Text"),
-					AddThemeObject(SetProps(MakeElement("Label", ButtonConfig.Description, 13), {
-		                                Size = UDim2.new(1, -11, 0, 10),
+					AddThemeObject(SetProps(MakeElement("Label", ButtonConfig.Description, 12), {
+		                                Size = UDim2.new(1, -10, 0, 10),
 						Position = UDim2.new(0, 12, 0, 22.5),
 						TextWrapped = true,
 						Font = Enum.Font.Gotham,
@@ -1029,9 +1029,9 @@ function OrionLib:MakeWindow(WindowConfig)
 						Font = Enum.Font.GothamBold,
 						Name = "Content"
 					}), "Text"),
-                                        AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Description, 13), {
-		                                Size = UDim2.new(1, -11, 0, 10),
-						Position = UDim2.new(0, 12, 0, 23.5),
+                                        AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Description, 12), {
+		                                Size = UDim2.new(1, -10, 0, 10),
+						Position = UDim2.new(0, 12, 0, 23.1),
 						TextWrapped = true,
 						Font = Enum.Font.Gotham,
 						TextColor3 = OrionLib.Themes[OrionLib.SelectedTheme].TextDark or Color3.fromRGB(150, 150, 150)
@@ -1059,15 +1059,19 @@ function OrionLib:MakeWindow(WindowConfig)
 					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = OrionLib.Themes[OrionLib.SelectedTheme].Second}):Play()
 				end)
 
-				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(OrionLib.Themes[OrionLib.SelectedTheme].Second.R * 255 + 3, OrionLib.Themes[OrionLib.SelectedTheme].Second.G * 255 + 3, OrionLib.Themes[OrionLib.SelectedTheme].Second.B * 255 + 3)}):Play()
-					SaveCfg(game.GameId)
-					Toggle:Set(not Toggle.Value)
-				end)
-
-				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(OrionLib.Themes[OrionLib.SelectedTheme].Second.R * 255 + 6, OrionLib.Themes[OrionLib.SelectedTheme].Second.G * 255 + 6, OrionLib.Themes[OrionLib.SelectedTheme].Second.B * 255 + 6)}):Play()
-				end)
+				AddConnection(Click.MouseButton1Click, function()
+					local success, result = pcall(function()
+						SaveCfg(game.GameId)
+						Toggle:Set(not Toggle.Value)
+					end)
+					if not success then
+						print("Orion | Callback error on button: " .. ToggleConfig.Name .. ", Error: " .. tostring(result))
+					else
+						TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(OrionLib.Themes[OrionLib.SelectedTheme].Second.R * 255 + 6, OrionLib.Themes[OrionLib.SelectedTheme].Second.G * 255 + 6, OrionLib.Themes[OrionLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+						task.wait(0.2)
+						TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(OrionLib.Themes[OrionLib.SelectedTheme].Second.R * 255 + 3, OrionLib.Themes[OrionLib.SelectedTheme].Second.G * 255 + 3, OrionLib.Themes[OrionLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					end
+			        end)
 
 				if ToggleConfig.Flag then
 					OrionLib.Flags[ToggleConfig.Flag] = Toggle
