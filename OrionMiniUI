@@ -2,10 +2,10 @@
 pcall(function()
 	local oldUI = game.CoreGui
     for _, orion in pairs(oldUI:GetChildren()) do
-	if oldUI then
-		oldUI:Destroy()
-	end
-  end
+	  if orion.Name == "Orion" then
+		  orion:Destroy()
+	  end
+   end
 end)
 
 -- Service
