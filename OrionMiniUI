@@ -1,12 +1,10 @@
 -- destroy ui if there a ui 
-pcall(function()
-	local oldUI = game.CoreGui
-    for _, orion in pairs(oldUI:GetChildren()) do
-	  if orion.Name == "Orion" then
-		  orion:Destroy()
-	  end
-   end
-end)
+local oldUI = game.CoreGui
+for _, orion in pairs(oldUI:GetChildren()) do
+	if orion.Name == "Orion" and orion:IsA("ScreenGui") then
+		orion:Destroy()
+	end
+end
 
 -- Service
 local UserInputService = game:GetService("UserInputService")
