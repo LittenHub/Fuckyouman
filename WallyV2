@@ -1,9 +1,9 @@
--- forked by SharKK | SharKK#1954
+-- // forked by SharKK | SharKK#1954 \\ --
 
 local library = {count = 0, queue = {}, callbacks = {}, rainbowtable = {}, toggled = true, binds = {}};
 local defaults; do
 -- // Drag Function \\ --
--- // thanks to who modify Orion drag handle
+-- // thanks to who modify Orion drag handle \\ --
 local dragger = {}; do
     local UserInputService = game:GetService("UserInputService")
     local TweenService = game:GetService("TweenService")
@@ -991,6 +991,12 @@ end
 		
         local window = types.window(name, library.options);
         dragger.new(window.object);
+
+		-- Tambahin UICorner ke window
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, 4)
+		corner.Parent = window.object
+
         return window
     end
 
