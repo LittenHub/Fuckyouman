@@ -2,59 +2,64 @@
 
 local library = {count = 0, queue = {}, callbacks = {}, rainbowtable = {}, toggled = true, binds = {}};
 local defaults; do
-    local dragger = {}; do
-        local mouse        = game:GetService("Players").LocalPlayer:GetMouse();
-        local inputService = game:GetService('UserInputService');
-        local heartbeat    = game:GetService("RunService").Heartbeat;
-        -- // credits to Ririchi / Inori for this cute drag function :)
-        -- fungsi drag Orion
--- Service
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-local HttpService = game:GetService("HttpService")
+-- // Drag Function \\ --
+-- // thanks to who modify Orion drag handle
+local dragger = {}; do
+    local UserInputService = game:GetService("UserInputService")
+    local TweenService = game:GetService("TweenService")
 
-local function MakeDraggable(DragPoint, Main)
-    pcall(function()
-        local Dragging, DragInput, MousePos, FramePos = false
-        DragPoint.InputBegan:Connect(function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-                Dragging = true
-                MousePos = Input.Position
-                FramePos = Main.Position
+    -- fungsi drag Orion
+    local function MakeDraggable(DragPoint, Main)
+        pcall(function()
+            local Dragging, DragInput, MousePos, FramePos = false
+            DragPoint.InputBegan:Connect(function(Input)
+                if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+                    Dragging = true
+                    MousePos = Input.Position
+                    FramePos = Main.Position
 
-                Input.Changed:Connect(function()
-                    if Input.UserInputState == Enum.UserInputState.End then
-                        Dragging = false
-                    end
-                end)
-            end
+                    Input.Changed:Connect(function()
+                        if Input.UserInputState == Enum.UserInputState.End then
+                            Dragging = false
+                        end
+                    end)
+                end
+            end)
+
+            DragPoint.InputChanged:Connect(function(Input)
+                if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+                    DragInput = Input
+                end
+            end)
+
+            UserInputService.InputChanged:Connect(function(Input)
+                if Input == DragInput and Dragging then
+                    local Delta = Input.Position - MousePos
+                    TweenService:Create(
+                        Main,
+                        TweenInfo.new(0.05, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+                        {Position = UDim2.new(
+                            FramePos.X.Scale,
+                            FramePos.X.Offset + Delta.X,
+                            FramePos.Y.Scale,
+                            FramePos.Y.Offset + Delta.Y
+                        )}
+                    ):Play()
+                end
+            end)
         end)
+    end
 
-        DragPoint.InputChanged:Connect(function(Input)
-            if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
-                DragInput = Input
-            end
-        end)
-
-        game:GetService("UserInputService").InputChanged:Connect(function(Input)
-            if Input == DragInput and Dragging then
-                local Delta = Input.Position - MousePos
-                TweenService:Create(
-                    Main,
-                    TweenInfo.new(0.05, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-                    {Position = UDim2.new(
-                        FramePos.X.Scale,
-                        FramePos.X.Offset + Delta.X,
-                        FramePos.Y.Scale,
-                        FramePos.Y.Offset + Delta.Y
-                    )}
-                ):Play()
-            end
-        end)
-    end)
+    -- this function is using Orion drag
+    function dragger.new(frame)
+        -- cek apakah ada TextLabel untuk judul
+        local title = frame:FindFirstChild("TextLabel")
+        if title then
+            MakeDraggable(title, frame)
+        else
+            MakeDraggable(frame, frame) -- fallback ke frame sendiri
+        end
+    end
 end
     
     local types = {}; do
