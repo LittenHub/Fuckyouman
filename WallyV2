@@ -586,7 +586,7 @@ function types:Slider(name, options, callback)
         Parent = self.container;
     });
 
-    local overlay = check:FindFirstChild('Container'):FindFirstChild('Button')
+    local overlay = check:FindFirstChild(name):FindFirstChild('Container'):FindFirstChild('Button')
     local dragging = false
     local UserInputService = game:GetService("UserInputService")
 
