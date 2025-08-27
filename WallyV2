@@ -517,141 +517,126 @@ local Mouse = LocalPlayer:GetMouse()
         
             self:Resize();
         end
+
 -- Slider Function
 function types:Slider(name, options, callback)
-    local default = options.default or options.min;
-    local min     = options.min or 0;
-    local max     = options.max or 1;
-    local location = options.location or self.flags;
-    local precise  = options.precise or false;
-    local flag     = options.flag or "";
+    local default  = options.default or options.min
+    local min      = options.min or 0
+    local max      = options.max or 1
+    local location = options.location or self.flags
+    local precise  = options.precise or false
+    local flag     = options.flag or ""
     local callback = callback or function() end
 
-    location[flag] = default;
+    location[flag] = default
 
-    local check = library:Create('Frame', {
-        BackgroundTransparency = 1;
-        Size = UDim2.new(1, 0, 0, 25);
-        LayoutOrder = self:GetOrder();
-        library:Create('TextLabel', {
-            Name = name;
-            TextStrokeTransparency = library.options.textstroke;
-            TextStrokeColor3 = library.options.strokecolor;
-            Text = "\r" .. name;
-            BackgroundTransparency = 1;
-            TextColor3 = library.options.textcolor;
-            Position = UDim2.new(0, 5, 0, 2);
-            Size     = UDim2.new(1, -5, 1, 0);
-            TextXAlignment = Enum.TextXAlignment.Left;
-            Font = library.options.font;
-            TextSize = library.options.fontsize;
-            library:Create('Frame', {
-                Name = 'Container';
-                Size = UDim2.new(0, 60, 0, 20);
-                Position = UDim2.new(1, -65, 0, 3);
-                BackgroundTransparency = 1;
-                BorderSizePixel = 0;
-                library:Create('TextLabel', {
-                    Name = 'ValueLabel';
-                    Text = default;
-                    BackgroundTransparency = 1;
-                    TextColor3 = library.options.textcolor;
-                    Position = UDim2.new(0, -10, 0, 0);
-                    Size     = UDim2.new(0, 1, 1, 0);
-                    TextXAlignment = Enum.TextXAlignment.Right;
-                    Font = library.options.font;
-                    TextSize = library.options.fontsize;
-                    TextStrokeTransparency = library.options.textstroke;
-                    TextStrokeColor3 = library.options.strokecolor;
-                });
-                library:Create('TextButton', {
-                    Name = 'Button';
-                    Size = UDim2.new(0, 5, 1, -2);
-                    Position = UDim2.new(0, 0, 0, 1);
-                    AutoButtonColor = false;
-                    Text = "";
-                    BackgroundColor3 = Color3.fromRGB(20, 20, 20);
-                    BorderSizePixel = 0;
-                    ZIndex = 2;
-                    TextStrokeTransparency = library.options.textstroke;
-                    TextStrokeColor3 = library.options.strokecolor;
-                });
-                library:Create('Frame', {
-                    Name = 'Line';
-                    BackgroundTransparency = 0;
-                    Position = UDim2.new(0, 0, 0.5, 0);
-                    Size     = UDim2.new(1, 0, 0, 1);
-                    BackgroundColor3 = library.options.textcolor;
-                    BorderSizePixel = 0;
-                });
-            })
-        });
-        Parent = self.container;
-    });
+    local check = library:Create("Frame", {
+        BackgroundTransparency = 1,
+        Size = UDim2.new(1, 0, 0, 25),
+        LayoutOrder = self:GetOrder(),
+        library:Create("TextLabel", {
+            Name = name,
+            Text = "\r" .. name,
+            BackgroundTransparency = 1,
+            TextColor3 = library.options.textcolor,
+            Position = UDim2.new(0, 5, 0, 2),
+            Size = UDim2.new(1, -5, 1, 0),
+            TextXAlignment = Enum.TextXAlignment.Left,
+            Font = library.options.font,
+            TextSize = library.options.fontsize,
+            library:Create("Frame", {
+                Name = "Container",
+                Size = UDim2.new(0, 60, 0, 20),
+                Position = UDim2.new(1, -65, 0, 3),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0,
+                library:Create("TextLabel", {
+                    Name = "ValueLabel",
+                    Text = default,
+                    BackgroundTransparency = 1,
+                    TextColor3 = library.options.textcolor,
+                    Position = UDim2.new(0, -10, 0, 0),
+                    Size = UDim2.new(0, 1, 1, 0),
+                    TextXAlignment = Enum.TextXAlignment.Right,
+                    Font = library.options.font,
+                    TextSize = library.options.fontsize,
+                }),
+                library:Create("TextButton", {
+                    Name = "Button",
+                    Size = UDim2.new(0, 5, 1, -2),
+                    Position = UDim2.new(0, 0, 0, 1),
+                    AutoButtonColor = false,
+                    Text = "",
+                    BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+                    BorderSizePixel = 0,
+                    ZIndex = 2,
+                }),
+                library:Create("Frame", {
+                    Name = "Line",
+                    BackgroundTransparency = 0,
+                    Position = UDim2.new(0, 0, 0.5, 0),
+                    Size = UDim2.new(1, 0, 0, 1),
+                    BackgroundColor3 = library.options.textcolor,
+                    BorderSizePixel = 0,
+                }),
+            }),
+        }),
+        Parent = self.container,
+    })
 
     local overlay = check:FindFirstChild(name)
-    local dragging = false
-    local UserInputService = game:GetService("UserInputService")
+    local Button = overlay.Container.Button
+    local ValueLabel = overlay.Container.ValueLabel
 
-local function update()
-    local percent = (Mouse.X - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
-    percent = math.clamp(percent, 0, 1)
-    percent = tonumber(string.format("%.2f", percent))
+    -- update slider
+    local function UpdateSlider(inputX)
+        local percent = (inputX - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
+        percent = math.clamp(percent, 0, 1)
 
-    overlay.Container.Button.Position = UDim2.new(math.clamp(percent, 0, 0.99), 0, 0, 1)
+        Button.Position = UDim2.new(percent, 0, 0, 1)
 
-    local num = min + (max - min) * percent
-    local value = (precise and num or math.floor(num))
+        local num = min + (max - min) * percent
+        local value = (precise and num or math.floor(num))
 
-    overlay.Container.ValueLabel.Text = value
-    callback(tonumber(value))
-    location[flag] = tonumber(value)
-end
+        ValueLabel.Text = tostring(value)
+        callback(value)
+        location[flag] = value
+    end
 
+    -- drag logic
     overlay.Container.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            update()
-        end
-    end)
-
-    overlay.Container.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-        end
-    end)
-
-    UserInputService.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            update()
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            local moveConn, endConn
+            moveConn = game:GetService("UserInputService").InputChanged:Connect(function(i)
+                if i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch then
+                    local pos = game:GetService("UserInputService"):GetMouseLocation()
+                    UpdateSlider(pos.X)
+                end
+            end)
+            endConn = input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    if moveConn then moveConn:Disconnect() end
+                    if endConn then endConn:Disconnect() end
+                end
+            end)
         end
     end)
 
     -- set default value
     if default ~= min then
         local percent = 1 - ((max - default) / (max - min))
-        local number  = default 
-        number = tonumber(string.format("%.2f", number))
-        if (not precise) then
-            number = math.floor(number)
-        end
-        overlay.Container.Button.Position  = UDim2.new(math.clamp(percent, 0, 0.99), 0,  0, 1) 
-        overlay.Container.ValueLabel.Text  = number
+        Button.Position = UDim2.new(percent, 0, 0, 1)
+        ValueLabel.Text = default
     end
 
-    self:Resize();
+    self:Resize()
     return {
         Set = function(self, value)
             local percent = 1 - ((max - value) / (max - min))
-            local number  = value 
-            number = tonumber(string.format("%.2f", number))
-            if (not precise) then
-                number = math.floor(number)
-            end
-            overlay.Container.Button.Position  = UDim2.new(math.clamp(percent, 0, 0.99), 0,  0, 1) 
-            overlay.Container.ValueLabel.Text  = number
-            location[flag] = number
-            callback(number)
+            Button.Position = UDim2.new(percent, 0, 0, 1)
+            ValueLabel.Text = value
+            location[flag] = value
+            callback(value)
         end
     }
 end
