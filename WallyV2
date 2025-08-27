@@ -520,7 +520,7 @@ function types:Slider(name, options, callback)
     local min     = options.min or 0;
     local max     = options.max or 1;
     local location = options.location or self.flags;
-    local precise  = options.precise or false;
+    local precise  = options.precise  or false;
     local flag     = options.flag or "";
     local callback = callback or function() end
 
@@ -544,10 +544,12 @@ function types:Slider(name, options, callback)
             TextSize = library.options.fontsize;
             library:Create('Frame', {
                 Name = 'Container';
-                Size = UDim2.new(0, 60, 0, 20);
-                Position = UDim2.new(1, -65, 0, 3);
+                Size = UDim2.new(0, 120, 0, 20);
+                Position = UDim2.new(1, -125, 0, 3);
                 BackgroundTransparency = 1;
                 BorderSizePixel = 0;
+
+                -- value label (kanan)
                 library:Create('TextLabel', {
                     Name = 'ValueLabel';
                     Text = default;
@@ -561,6 +563,8 @@ function types:Slider(name, options, callback)
                     TextStrokeTransparency = library.options.textstroke;
                     TextStrokeColor3 = library.options.strokecolor;
                 });
+
+                -- button lama (biar kompatibel)
                 library:Create('TextButton', {
                     Name = 'Button';
                     Size = UDim2.new(0, 5, 1, -2);
@@ -570,9 +574,9 @@ function types:Slider(name, options, callback)
                     BackgroundColor3 = Color3.fromRGB(20, 20, 20);
                     BorderSizePixel = 0;
                     ZIndex = 2;
-                    TextStrokeTransparency = library.options.textstroke;
-                    TextStrokeColor3 = library.options.strokecolor;
                 });
+
+                -- garis dasar
                 library:Create('Frame', {
                     Name = 'Line';
                     BackgroundTransparency = 0;
@@ -581,6 +585,27 @@ function types:Slider(name, options, callback)
                     BackgroundColor3 = library.options.textcolor;
                     BorderSizePixel = 0;
                 });
+
+                -- Orion style bar
+                library:Create('Frame', {
+                    Name = 'SliderDrag';
+                    BackgroundColor3 = Color3.fromRGB(9, 149, 98);
+                    BackgroundTransparency = 0.3;
+                    Position = UDim2.new(0, 0, 0, 0);
+                    Size = UDim2.new(0, 0, 1, 0);
+                    BorderSizePixel = 0;
+                    library:Create('TextLabel', {
+                        Name = 'ValueInside';
+                        Text = default;
+                        BackgroundTransparency = 1;
+                        TextColor3 = library.options.textcolor;
+                        Position = UDim2.new(0, 5, 0, 0);
+                        Size     = UDim2.new(1, -10, 1, 0);
+                        Font = Enum.Font.GothamBold;
+                        TextSize = 12;
+                        TextXAlignment = Enum.TextXAlignment.Left;
+                    });
+                });
             })
         });
         Parent = self.container;
@@ -588,70 +613,69 @@ function types:Slider(name, options, callback)
 
     local overlay = check:FindFirstChild(name)
     local dragging = false
-    local UserInputService = game:GetService("UserInputService")
 
+    -- update function
     local function update(inputX)
         local percent = (inputX - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
         percent = math.clamp(percent, 0, 1)
-        percent = tonumber(string.format("%.2f", percent))
 
         overlay.Container.Button.Position = UDim2.new(math.clamp(percent, 0, 0.99), 0, 0, 1)
+        overlay.Container.SliderDrag.Size = UDim2.new(percent, 0, 1, 0)
 
         local num = min + (max - min) * percent
-        local value = (precise and num or math.floor(num))
+        local value = (precise and tonumber(string.format("%.2f", num)) or math.floor(num))
 
-        overlay.Container.ValueLabel.Text = value;
-        callback(tonumber(value))
-        location[flag] = tonumber(value)
+        overlay.Container.ValueLabel.Text = value
+        overlay.Container.SliderDrag.ValueInside.Text = tostring(value)
+
+        location[flag] = value
+        callback(value)
     end
 
+    -- input events
     overlay.Container.InputBegan:Connect(function(input)
-        if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = true
             update(input.Position.X)
         end
     end)
 
     overlay.Container.InputEnded:Connect(function(input)
-        if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = false
         end
     end)
 
-    UserInputService.InputChanged:Connect(function(input)
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
             update(input.Position.X)
         end
     end)
 
-    -- set default value
+    -- set default posisi
     if default ~= min then
-        local percent = 1 - ((max - default) / (max - min))
-        local number  = default 
-        number = tonumber(string.format("%.2f", number))
-        if (not precise) then
-            number = math.floor(number)
-        end
-        overlay.Container.Button.Position  = UDim2.new(math.clamp(percent, 0, 0.99), 0,  0, 1) 
-        overlay.Container.ValueLabel.Text  = number
+        local percent = (default - min) / (max - min)
+        overlay.Container.Button.Position = UDim2.new(math.clamp(percent, 0, 0.99), 0, 0, 1)
+        overlay.Container.SliderDrag.Size = UDim2.new(percent, 0, 1, 0)
+        overlay.Container.ValueLabel.Text = default
+        overlay.Container.SliderDrag.ValueInside.Text = tostring(default)
     end
 
-    self:Resize();
+    self:Resize()
     return {
         Set = function(self, value)
-            local percent = 1 - ((max - value) / (max - min))
-            local number  = value 
-            number = tonumber(string.format("%.2f", number))
-            if (not precise) then
-                number = math.floor(number)
-            end
-            overlay.Container.Button.Position  = UDim2.new(math.clamp(percent, 0, 0.99), 0,  0, 1) 
-            overlay.Container.ValueLabel.Text  = number
-            location[flag] = number
-            callback(number)
+            local percent = (value - min) / (max - min)
+            percent = math.clamp(percent, 0, 1)
+            overlay.Container.Button.Position = UDim2.new(math.clamp(percent, 0, 0.99), 0, 0, 1)
+            overlay.Container.SliderDrag.Size = UDim2.new(percent, 0, 1, 0)
+            overlay.Container.ValueLabel.Text = value
+            overlay.Container.SliderDrag.ValueInside.Text = tostring(value)
+            location[flag] = value
+            callback(value)
         end
     }
 end
+
 -- SearchBox Function
         function types:SearchBox(text, options, callback)
             local list = options.list or {};
