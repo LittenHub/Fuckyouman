@@ -594,10 +594,7 @@ function types:Slider(name, options, callback)
     local UserInputService = game:GetService("UserInputService")
 
 local function update()
-    local mouse = UserInputService:GetMouseLocation()
-    local inputX = mouse.X
-
-    local percent = (inputX - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
+    local percent = (Mouse.X - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
     percent = math.clamp(percent, 0, 1)
     percent = tonumber(string.format("%.2f", percent))
 
