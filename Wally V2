@@ -7,49 +7,55 @@ local defaults; do
         local inputService = game:GetService('UserInputService');
         local heartbeat    = game:GetService("RunService").Heartbeat;
         -- // credits to Ririchi / Inori for this cute drag function :)
-        function dragger.new(frame)
-            local s, event = pcall(function()
-                return frame.MouseEnter
-            end)
-    
-            if s then
-                frame.Active = true;
-                
-                event:connect(function()
-                    local input = frame.InputBegan:connect(function(key)
-                        if key.UserInputType == Enum.UserInputType.MouseButton1 then
-                            local objectPosition = Vector2.new(mouse.X - frame.AbsolutePosition.X, mouse.Y - frame.AbsolutePosition.Y);
-                            while heartbeat:wait() and inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-                                pcall(function()
-                                    frame:TweenPosition(UDim2.new(0, mouse.X - objectPosition.X, 0, mouse.Y - objectPosition.Y), 'Out', 'Linear', 0.1, true);
-                                end)
-                            end
-                        end
-                    end)
-    
-                    local leave;
-                    leave = frame.MouseLeave:connect(function()
-                        input:disconnect();
-                        leave:disconnect();
-                    end)
+        -- fungsi drag Orion
+-- Service
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local HttpService = game:GetService("HttpService")
+
+local function MakeDraggable(DragPoint, Main)
+    pcall(function()
+        local Dragging, DragInput, MousePos, FramePos = false
+        DragPoint.InputBegan:Connect(function(Input)
+            if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+                Dragging = true
+                MousePos = Input.Position
+                FramePos = Main.Position
+
+                Input.Changed:Connect(function()
+                    if Input.UserInputState == Enum.UserInputState.End then
+                        Dragging = false
+                    end
                 end)
             end
-        end
+        end)
 
-
-        game:GetService('UserInputService').InputBegan:connect(function(key, gpe)
-            if (not gpe) then
-                if key.KeyCode == Enum.KeyCode.RightControl then
-                    library.toggled = not library.toggled;
-                    for i, data in next, library.queue do
-                        local pos = (library.toggled and data.p or UDim2.new(-1, 0, -0.5,0))
-                        data.w:TweenPosition(pos, (library.toggled and 'Out' or 'In'), 'Quad', 0.15, true)
-                        wait();
-                    end
-                end
+        DragPoint.InputChanged:Connect(function(Input)
+            if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+                DragInput = Input
             end
         end)
-    end
+
+        game:GetService("UserInputService").InputChanged:Connect(function(Input)
+            if Input == DragInput and Dragging then
+                local Delta = Input.Position - MousePos
+                TweenService:Create(
+                    Main,
+                    TweenInfo.new(0.05, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+                    {Position = UDim2.new(
+                        FramePos.X.Scale,
+                        FramePos.X.Offset + Delta.X,
+                        FramePos.Y.Scale,
+                        FramePos.Y.Offset + Delta.Y
+                    )}
+                ):Play()
+            end
+        end)
+    end)
+end
     
     local types = {}; do
         types.__index = types;
