@@ -61,6 +61,9 @@ local dragger = {}; do
         end
     end
 end
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
     
     local types = {}; do
         types.__index = types;
@@ -586,29 +589,32 @@ function types:Slider(name, options, callback)
         Parent = self.container;
     });
 
-    local overlay = check:FindFirstChild(name):FindFirstChild('Container'):FindFirstChild('Button')
+    local overlay = check:FindFirstChild(name)
     local dragging = false
     local UserInputService = game:GetService("UserInputService")
 
-    local function update(inputX)
-        local percent = (inputX - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
-        percent = math.clamp(percent, 0, 1)
-        percent = tonumber(string.format("%.2f", percent))
+local function update()
+    local mouse = UserInputService:GetMouseLocation()
+    local inputX = mouse.X
 
-        overlay.Container.Button.Position = UDim2.new(math.clamp(percent, 0, 0.99), 0, 0, 1)
+    local percent = (inputX - overlay.Container.AbsolutePosition.X) / overlay.Container.AbsoluteSize.X
+    percent = math.clamp(percent, 0, 1)
+    percent = tonumber(string.format("%.2f", percent))
 
-        local num = min + (max - min) * percent
-        local value = (precise and num or math.floor(num))
+    overlay.Container.Button.Position = UDim2.new(math.clamp(percent, 0, 0.99), 0, 0, 1)
 
-        overlay.Container.ValueLabel.Text = value;
-        callback(tonumber(value))
-        location[flag] = tonumber(value)
-    end
+    local num = min + (max - min) * percent
+    local value = (precise and num or math.floor(num))
+
+    overlay.Container.ValueLabel.Text = value
+    callback(tonumber(value))
+    location[flag] = tonumber(value)
+end
 
     overlay.Container.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = true
-            update(input.Position.X)
+            update()
         end
     end)
 
@@ -620,7 +626,7 @@ function types:Slider(name, options, callback)
 
     UserInputService.InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            update(input.Position.X)
+            update()
         end
     end)
 
