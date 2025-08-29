@@ -1,3 +1,52 @@
+-- // How To Use This Library \\ --
+--[[
+
+-- Library
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/turtle"))()
+
+-- Making a window
+local Window = library:Window("Table Turtle Hub")
+
+Window:Button("Button name", function()
+   -- // Put your code here \\ --
+end)
+
+Window:Toggle("Example toggle", true, function(bool)
+    -- // Put your code here (use bool function) \\ --
+    -- example --
+    print(bool) -- this print a bool function 
+end)
+
+Window:ColorPicker("Color Picker", Color3.fromRGB(255, 255, 255), function(color)
+   -- // Put your code here \\ --
+   print(color)
+end)
+
+Window:Slider("Example Slider",0,100,20, function(value)
+   -- // Put your code here \\ --
+   print(value)
+end)
+
+Window:Label("Credits to Intrer#0421", Color3.fromRGB(127, 143, 166))
+
+Window:Box("Walkspeed", function(text, focuslost)
+   if focuslost then
+   -- // Put your code here \\ --
+   print(text)
+   end
+end)
+
+local dropdown = Window:Dropdown("Example dropdown", {"Button 1", "Button 2", "Third button"}, function(name)
+   -- // Put your code here \\ --
+   print(name)
+end)
+
+dropdown:Button("New button")
+
+dropdown:Remove("Button")
+
+]]--
+
 local library = {}
 local windowCount = 0
 local sizes = {}
