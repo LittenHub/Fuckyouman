@@ -637,6 +637,7 @@ function library:Window(name)
             end
             Button_2.MouseButton1Up:Connect(function()
                 callback(name)
+        Dropdown.Text = name
 		DropdownFrame.Visible = false
             end)
         end
