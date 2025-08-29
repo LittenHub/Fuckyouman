@@ -1,8 +1,10 @@
+-- // Credits to Intrer#0421 \\ --
+
 -- // How To Use This Library \\ --
 --[[
 
 -- Library
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/turtle"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LittenHub/Fuckyouman/refs/heads/main/TurtleUi"))()
 
 -- Making a window
 local Window = library:Window("Table Turtle Hub")
@@ -27,7 +29,7 @@ Window:Slider("Example Slider",0,100,20, function(value)
    print(value)
 end)
 
-Window:Label("Credits to Intrer#0421", Color3.fromRGB(127, 143, 166))
+Window:Label("Label Example", Color3.fromRGB(127, 143, 166))
 
 Window:Box("Walkspeed", function(text, focuslost)
    if focuslost then
@@ -46,6 +48,8 @@ dropdown:Button("New button")
 dropdown:Remove("Button")
 
 ]]--
+
+-- // MAIN CODE \\ --
 
 local library = {}
 local windowCount = 0
@@ -73,6 +77,8 @@ local player = players.LocalPlayer;
 local mouse = player:GetMouse();
 local run = game:service('RunService');
 local stepped = run.Stepped;
+
+-- // Draggable Function \\ --
 function Dragify(obj)
 	spawn(function()
 		local minitial;
@@ -102,7 +108,7 @@ function Dragify(obj)
 end)
 end
 
--- Instances:
+-- // Instances:
 
 local function protect_gui(obj) 
 if destroyed then
@@ -118,6 +124,8 @@ else
 obj.Parent = game.CoreGui
 end
 end
+
+-- // Making the ScreenGui \\ --
 local TurtleUiLib = Instance.new("ScreenGui")
 
 TurtleUiLib.Name = "TurtleUiLib"
