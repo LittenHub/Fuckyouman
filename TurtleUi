@@ -81,12 +81,15 @@ local uis = game:GetService("UserInputService")
 
 local keybindConnection
 
+-- // Destroy Function \\ --
 function library:Destroy()
     TurtleUiLib:Destroy()
     if keybindConnection then
         keybindConnection:Disconnect()
     end
 end
+
+-- // Keybind Function \\ --
 function library:Keybind(key)
     if keybindConnection then keybindConnection:Disconnect() end
 
@@ -97,6 +100,7 @@ function library:Keybind(key)
     end)
 end
 
+-- // Window Function \\ --
 function library:Window(name) 
     windowCount = windowCount + 1
     local winCount = windowCount
@@ -197,6 +201,8 @@ function library:Window(name)
 
         pastSliders[winCount] = false
     end
+
+	-- // Label Function \\ --
     function functions:Label(text, color)
         local color = color or Color3.fromRGB(220, 221, 225)
 
@@ -281,6 +287,8 @@ function library:Window(name)
         ToggleFiller.ZIndex = 2 + zindex
         pastSliders[winCount] = false
     end
+
+	-- // TextBox Function \\ --
     function functions:Box(text, callback)
         local callback = callback or function() end
 
@@ -324,6 +332,8 @@ function library:Window(name)
         BoxDescription.ZIndex = 2 + zindex
         pastSliders[winCount] = false
     end
+
+	-- // Slider Function \\ --
     function functions:Slider(text, min, max, default, callback)
         local text = text or "Slider"
         local min = min or 1
@@ -469,6 +479,8 @@ function library:Window(name)
         Max.ZIndex = 2 + zindex
         pastSliders[winCount] = true
     end
+
+	-- // Dropdown Function \\ --
     function functions:Dropdown(text, buttons, callback)
         local text = text or "Dropdown"
         local buttons = buttons or {}
@@ -596,6 +608,8 @@ function library:Window(name)
 
         return dropFunctions
     end
+
+	-- // ColorPicker Function \\ --
     function functions:ColorPicker(name, default, callback)
         local callback = callback or function() end
 
