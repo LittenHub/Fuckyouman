@@ -1015,14 +1015,28 @@ function library:Window(name)
 
     table.insert(colorPickers, ColorPickerFrame)
 
-    return {
-        UpdateColorPicker = function(_, color)
-            if typeof(color) == "Color3" then
-                ToggleFiller_2.Visible = false
-                ColorPicker.BackgroundColor3 = color
-            end
-        end
-    }
+    local colorFuncs = {}
+        function colorFuncs:UpdateColorPicker(color)
+        if type(color) == "userdata" then
+            ToggleFiller_2.Visible = false
+	        ColorPicker.BackgroundColor3 = color
+        elseif color and type(color) == "boolean" and not con then
+	        ToggleFiller_2.Visible = true
+                con = stepped:Connect(function()
+                    if ToggleFiller_2.Visible then
+                        local hue2 = tick() % 5 / 5
+                        color3 = Color3.fromHSV(hue2, 1, 1)
+                        callback(color3)
+                        ColorPicker.BackgroundColor3 = color3
+                    else
+                        con:Disconnect()
+                    end
+                end)
+	        end
+	    end
+	return colorFuncs
+    end
+
    return functions
 end
 
