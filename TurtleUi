@@ -9,8 +9,15 @@ local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Litte
 -- Making a window
 local Window = library:Window("Table Turtle Hub")
 
+-- Making a Notification
+library:Notification({
+	Title = "Title here!",
+	Content = "Content here!",
+	Time = 6
+})
+
 Window:Button("Button name", function()
-   -- // Put your code here \\ --
+	-- code here
 end)
 
 Window:Toggle("Example toggle", true, function(bool)
@@ -59,6 +66,7 @@ local windows = {}
 local pastSliders = {}
 local dropdowns = {}
 local dropdownSizes = {}
+local Notifications = {}
 local destroyed
 
 local colorPickers = {}
@@ -72,6 +80,8 @@ function Lerp(a, b, c)
     return a + ((b - a) * c)
 end
 
+-- // Service \\ --
+local TweenService = game:GetService("TweenService")
 local players = game:service('Players');
 local player = players.LocalPlayer;
 local mouse = player:GetMouse();
@@ -137,6 +147,143 @@ local xOffset = 20
 local uis = game:GetService("UserInputService")
 
 local keybindConnection
+
+-- // ⚠️ Function ⚠️ \\ --
+
+-- // Notification Function \\ --
+function library:Notification(NotificationConfig)
+NotificationConfig = NotificationConfig or {}
+NotificationConfig.Title = NotificationConfig.Title or "Title"
+NotificationConfig.Content = NotificationConfig.Content or "Content"
+NotificationConfig.Time = NotificationConfig.Time or 5
+
+local NotificationFrame = Instance.new("Frame")
+NotificationFrame.Parent = TurtleUiLib
+NotificationFrame.BackgroundColor3 = Color3.fromRGB(40,40,40)
+NotificationFrame.BackgroundTransparency = 0.5
+NotificationFrame.BorderSizePixel = 1
+NotificationFrame.BorderColor3 = Color3.fromRGB(242,243,243)
+NotificationFrame.Position = UDim2.new(1,0,0.65) -- posisi awal
+NotificationFrame.Size = UDim2.new(0.23,0,0.24)
+NotificationFrame.Visible = true
+
+local Title = Instance.new("TextLabel")
+Title.Parent = NotificationFrame
+Title.Name = "Title"
+Title.BackgroundColor3 = Color3.fromRGB(40,40,40)
+Title.BackgroundTransparency = 1
+Title.BorderSizePixel = 1
+Title.BorderColor3 = Color3.fromRGB(0,168,247)
+Title.Position = UDim2.new(0.0,0,0)
+Title.Size = UDim2.new(1,0,0.25)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextColor3 = Color3.fromRGB(242,243,243)
+Title.Text = NotificationConfig.Title
+Title.TextSize = 20
+Title.TextWrapped = true
+
+local Content = Instance.new("TextLabel")
+Content.Parent = NotificationFrame
+Content.Name = "Content"
+Content.BackgroundColor3 = Color3.fromRGB(17,17,17)
+Content.BackgroundTransparency = 1
+Content.BorderSizePixel = 1
+Content.BorderColor3 = Color3.fromRGB(17,17,17)
+Content.Position = UDim2.new(0.0,0,0.3)
+Content.Size = UDim2.new(1,0,0.25)
+Content.Font = Enum.Font.SourceSans
+Content.TextColor3 = Color3.fromRGB(242,243,243)
+Content.Text = NotificationConfig.Content
+Content.TextSize = 16
+Content.TextWrapped = true
+Content.AutomaticSize = Enum.AutomaticSize.Y
+
+-- Progress bar
+local ProgressBar = Instance.new("Frame")
+ProgressBar.Parent = NotificationFrame
+ProgressBar.Size = UDim2.new(1,0,0.03,0)
+ProgressBar.Position = UDim2.new(0,0,0.93,0)
+ProgressBar.BackgroundColor3 = Color3.fromRGB(0,168,247)
+ProgressBar.BorderSizePixel = 0
+
+local BarCorner = Instance.new("UICorner")
+BarCorner.CornerRadius = UDim.new(0.1,0)
+BarCorner.Parent = ProgressBar
+
+local UIStroke1 = Instance.new("UIStroke")
+UIStroke1.Parent = NotificationFrame
+UIStroke1.Transparency = 0.3
+UIStroke1.Color = Color3.fromRGB(0,168,243)
+UIStroke1.Thickness = 2
+
+
+
+for i, notif in ipairs(Notifications) do
+        local goal = {Position = notif.Position - UDim2.new(0,0,0,NotificationFrame.AbsoluteSize.Y + 10)}
+        TweenService:Create(notif, TweenInfo.new(0.4, Enum.EasingStyle.Quint), goal):Play()
+end
+
+table.insert(Notifications, NotificationFrame)
+
+-- tween ke kiri
+local tweenLeft = TweenService:Create(NotificationFrame, TweenInfo.new(0.7, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+	{Position = UDim2.new(0.75,0,0.65)})
+
+-- tween balik ke kanan
+local tweenRight = TweenService:Create(NotificationFrame, TweenInfo.new(0.6, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+	{Position = UDim2.new(1.1,0,0.65)})
+
+-- animasi fade out
+local tweenFade = TweenService:Create(NotificationFrame, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+	{BackgroundTransparency = 0.9})
+
+local tweenFadeUIStroke = TweenService:Create(UIStroke1, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+	{Transparency = 0.5})
+
+local tweenFadeTitle = TweenService:Create(Title, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+	{TextTransparency = 0.5})
+
+local tweenFadeContent = TweenService:Create(Content, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+	{TextTransparency = 0.5})
+
+local tweenFadeBar = TweenService:Create(ProgressBar, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+	{BackgroundTransparency = 0.4})
+
+-- jalankan animasi
+tweenLeft:Play()
+tweenLeft.Completed:Wait()
+
+local tweenProgress = TweenService:Create(ProgressBar, TweenInfo.new(NotificationConfig.Time, Enum.EasingStyle.Linear),
+		{Size = UDim2.new(0,0,0.03,0)})
+	tweenProgress:Play()
+
+task.delay(NotificationConfig.Time - 0.5, function() -- jeda biar notif kebaca
+
+tweenFade:Play()
+
+tweenFadeBar:Play()
+
+tweenFadeTitle:Play()
+
+tweenFadeContent:Play()
+
+tweenFadeUIStroke:Play()
+
+
+task.wait(0.5)
+
+tweenRight:Play()
+tweenRight.Completed:Wait()
+
+for i, v in ipairs(Notifications) do
+            if v == NotificationFrame then
+                table.remove(Notifications, i)
+                break
+            end
+        end
+        NotificationFrame:Destroy()
+    end)
+end
 
 -- // Destroy Function \\ --
 function library:Destroy()
