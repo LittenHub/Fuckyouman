@@ -998,10 +998,9 @@ function library:Window(name)
         Canvas.ZIndex = 4 + zindex
 
         CanvasGradient.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), 
-            ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))
+             ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), 
+             ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
         }
-        CanvasGradient.Parent = Canvas
 
     -- FIX BUG: drag di canvas
     Canvas.InputBegan:Connect(function(input)
