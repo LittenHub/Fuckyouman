@@ -53,6 +53,12 @@ dropdown:Button("New button")
 
 dropdown:Remove("Button")
 
+-- destroy the gui
+library:Destroy()
+
+-- toggle ui maybe?
+library:Keybind(F)
+
 ]]--
 
 -- // MAIN CODE \\ --
@@ -65,7 +71,6 @@ local windows = {}
 local pastSliders = {}
 local dropdowns = {}
 local dropdownSizes = {}
-local Notifications = {}
 local destroyed
 
 local colorPickers = {}
@@ -157,7 +162,6 @@ NotificationHolder.AnchorPoint = Vector2.new(1, 1)
 NotificationHolder.BackgroundTransparency = 1
 NotificationHolder.Parent = TurtleUiLib
 
--- Layout biar otomatis stack
 local ListLayout = Instance.new("UIListLayout")
 ListLayout.Parent = NotificationHolder
 ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -165,7 +169,6 @@ ListLayout.Padding = UDim.new(0, 5)
 ListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 ListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 
--- Function mirip Orion
 function library:Notification(NotificationConfig)
 	task.spawn(function()
 		NotificationConfig = NotificationConfig or {}
@@ -173,14 +176,12 @@ function library:Notification(NotificationConfig)
 		NotificationConfig.Content = NotificationConfig.Content or "Hello World"
 		NotificationConfig.Time = NotificationConfig.Time or 5
 
-		-- Parent wrapper
 		local NotificationParent = Instance.new("Frame")
 		NotificationParent.Size = UDim2.new(1,0,0,0)
 		NotificationParent.AutomaticSize = Enum.AutomaticSize.Y
 		NotificationParent.BackgroundTransparency = 1
 		NotificationParent.Parent = NotificationHolder
 
-		-- Frame utama
 		local NotificationFrame = Instance.new("Frame")
 		NotificationFrame.Size = UDim2.new(1,0,0,0)
 		NotificationFrame.AutomaticSize = Enum.AutomaticSize.Y
@@ -198,7 +199,6 @@ function library:Notification(NotificationConfig)
 		Padding.PaddingLeft = UDim.new(0,10)
 		Padding.PaddingRight = UDim.new(0,10)
 
-		-- Title
 		local Title = Instance.new("TextLabel")
 		Title.Parent = NotificationFrame
 		Title.Size = UDim2.new(1, -10, 0, 20)
@@ -210,7 +210,6 @@ function library:Notification(NotificationConfig)
 		Title.TextXAlignment = Enum.TextXAlignment.Left
 		Title.Text = NotificationConfig.Title
 
-		-- Content
 		local Content = Instance.new("TextLabel")
 		Content.Parent = NotificationFrame
 		Content.Size = UDim2.new(1,0,0,0)
@@ -224,7 +223,6 @@ function library:Notification(NotificationConfig)
 		Content.TextWrapped = true
 		Content.Text = NotificationConfig.Content
 
-        -- Progress Bar
 		local ProgressBar = Instance.new("Frame")
 		ProgressBar.Parent = NotificationFrame
 		ProgressBar.Size = UDim2.new(1,0,0,3)
@@ -234,29 +232,23 @@ function library:Notification(NotificationConfig)
 		ProgressBar.BorderSizePixel = 0
 		Instance.new("UICorner", ProgressBar).CornerRadius = UDim.new(0,3)
 
-		-- animasi masuk (geser dari kanan)
 		NotificationFrame.Position = UDim2.new(1,50,0,0)
 		TweenService:Create(NotificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0,0,0,0)}):Play()
 
-        -- jalanin progress bar
 		local barTween = TweenService:Create(ProgressBar, TweenInfo.new(NotificationConfig.Time, Enum.EasingStyle.Linear), {Size = UDim2.new(0,0,0,3)})
 		barTween:Play()
 
-		-- tunggu beberapa detik
 		task.wait(NotificationConfig.Time - 1)
 
-		-- animasi fade out
 		TweenService:Create(NotificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.8}):Play()
         TweenService:Create(ProgressBar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
 		TweenService:Create(Stroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0.6}):Play()
 		TweenService:Create(Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
 		TweenService:Create(Content, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
 
-		-- keluar kanan
 		task.wait(1)
 		NotificationFrame:TweenPosition(UDim2.new(1, 50, 0, 0), "Out", "Quint", 0.6, true)
 
-		-- destroy
 		task.wait(1)
 		NotificationParent:Destroy()
 	end)
