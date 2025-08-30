@@ -277,6 +277,11 @@ for i, v in ipairs(Notifications) do
             end
         end
         NotificationFrame:Destroy()
+
+		for i, notif in ipairs(Notifications) do
+			local goal = {Position = UDim2.new(1, -260, 0.7, (i-1)*10)}
+			TweenService:Create(notif, TweenInfo.new(0.25, Enum.EasingStyle.Quad), goal):Play()
+		end
     end)
 end
 
