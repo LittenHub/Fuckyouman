@@ -1053,8 +1053,8 @@ function library:Window(name)
                     local rel = math.clamp((mouse.X - Color.AbsolutePosition.X) / Color.AbsoluteSize.X, 0, 1)
                     hue = rel
                     CanvasGradient.Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255))
-						ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1)),
+                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
+						ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1))
                     }
 
                     local xOffset = rel * Color.AbsoluteSize.X
