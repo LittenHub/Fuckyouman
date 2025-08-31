@@ -999,7 +999,7 @@ function library:Window(name)
 
         CanvasGradient.Color = ColorSequence.new{
              ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), 
-             ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
+             ColorSequenceKeypoint.new(1.00, Color3.fromHSV(1, 0, 0))
         }
 
     -- FIX BUG: drag di canvas
@@ -1054,8 +1054,8 @@ function library:Window(name)
                     hue = rel
                     --[[]]--
                     CanvasGradient.Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
-						ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1))
+                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), -- kiri = putih
+                        ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1)) -- kanan = hue
                     }
                     --[[]]--
                     local xOffset = rel * Color.AbsoluteSize.X
