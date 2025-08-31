@@ -245,7 +245,7 @@ function library:Notification(NotificationConfig)
 		ProgressBar.Parent = NotificationFrame
 		ProgressBar.Size = UDim2.new(1,0,0,3)
 		ProgressBar.Position = UDim2.new(0,0,1,3)
-    ProgressBar.BackgroundTransparency = 0
+        ProgressBar.BackgroundTransparency = 0
 		ProgressBar.BackgroundColor3 = Color3.fromRGB(0,168,247)
 		ProgressBar.BorderSizePixel = 0
 		Instance.new("UICorner", ProgressBar).CornerRadius = UDim.new(0,3)
@@ -259,7 +259,7 @@ function library:Notification(NotificationConfig)
 		task.wait(NotificationConfig.Time - 1)
 
 		TweenService:Create(NotificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.8}):Play()
-    TweenService:Create(ProgressBar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
+        TweenService:Create(ProgressBar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
 		TweenService:Create(Stroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0.6}):Play()
 		TweenService:Create(Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
 		TweenService:Create(Content, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
@@ -923,7 +923,6 @@ function library:Window(name)
             ColorPickerFrame.Visible = not ColorPickerFrame.Visible
         end)
 
-        -- Canvas warna
         CanvasGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
         CanvasGradient.Name = "CanvasGradient"
         CanvasGradient.Parent = Canvas
@@ -948,7 +947,6 @@ function library:Window(name)
         Cursor.Image = "rbxassetid://5100115962"
         Cursor.ZIndex = 5 + zindex
 
-    -- Variabel warna
         local draggingColor = false
         local hue = 0
         local sat = 1
@@ -999,10 +997,10 @@ function library:Window(name)
 
         CanvasGradient.Color = ColorSequence.new{
              ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), 
-             ColorSequenceKeypoint.new(1.00, Color3.fromHSV(1, 0, 0))
+             ColorSequenceKeypoint.new(1.00, Color3.fromHSV(0, 1, 1))
         }
 
-    -- FIX BUG: drag di canvas
+    -- FIX BUG:
     Canvas.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             local isdragging = true
@@ -1054,9 +1052,8 @@ function library:Window(name)
                     hue = rel
                     --[[]]--
                     CanvasGradient.Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), -- kiri = putih
-                        ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1)) -- kanan = hue
-                    }
+                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
+                        ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1))
                     --[[]]--
                     local xOffset = rel * Color.AbsoluteSize.X
                     ColorSlider.Position = UDim2.new(0, xOffset, 0, 0)
