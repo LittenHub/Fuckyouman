@@ -29,8 +29,8 @@ local Window = library:Window("Table Turtle Hub")
 
 -- Making a Notification
 library:Notification({
-	Title = "Success!",
-	Content = "Notifikasi pertama 🚀",
+	Title = "Title here!",
+	Content = "Content here!",
 	Time = 5
 })
 
