@@ -390,7 +390,7 @@ function library:Window(name)
         Button.TextStrokeTransparency = 123.000
         Button.TextWrapped = true
         Button.Text = name
-        Button.MouseButton1Down:Connect(callback)
+        Button.MouseButton1Click:Connect(callback)
 
         pastSliders[winCount] = false
     end
@@ -704,7 +704,7 @@ function library:Window(name)
         Dropdown.TextStrokeTransparency = 123.000
         Dropdown.TextWrapped = true
         Dropdown.ZIndex = 3 + zindex
-        Dropdown.MouseButton1Up:Connect(function()
+        Dropdown.MouseButton1Click:Connect(function()
             for i, v in pairs(dropdowns) do
                 if v ~= DropdownFrame then
                 v.Visible = false
@@ -771,7 +771,7 @@ function library:Window(name)
             if #DropdownFrame:GetChildren() < 8 then
             DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset + 27)
             end
-            Button_2.MouseButton1Up:Connect(function()
+            Button_2.MouseButton1Click:Connect(function()
                 callback(name)
         Dropdown.Text = name
 		DropdownFrame.Visible = false
