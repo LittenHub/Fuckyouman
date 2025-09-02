@@ -806,7 +806,7 @@ function library:Window(name)
         end
 
         for i,v in pairs(buttons) do
-			if typeof(v) == "table" then
+			if typeof(v) == "string" then
             	dropFunctions:Button(v)
             elseif typeof(v) == "table" and v.PlaceHolder then
 			    local PlaceholderLabel = Instance.new("TextLabel")
