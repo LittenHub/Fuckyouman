@@ -805,31 +805,35 @@ function library:Window(name)
             end
         end
 
-        for i,v in pairs(buttons) do
-			if typeof(v) == "string" then
-            	dropFunctions:Button(v)
-            elseif typeof(v) == "table" and v.PlaceHolder then
-			    local PlaceholderLabel = Instance.new("TextLabel")
-			    PlaceholderLabel.Name = "Placeholder"
-				PlaceholderLabel.Parent = DropdownFrame
-  				PlaceholderLabel.BackgroundColor3 = Color3.fromRGB(45, 52, 64)
-				PlaceholderLabel.BorderSizePixel = 0
-				PlaceholderLabel.Size = UDim2.new(0, 170, 0, 26)
-				PlaceholderLabel.Position = UDim2.new(0, 6, 0, canvasSize + 1)
- 				PlaceholderLabel.Font = Enum.Font.SourceSansItalic
-				PlaceholderLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
-				PlaceholderLabel.TextSize = 15
-				PlaceholderLabel.Text = v.PlaceHolder
-				PlaceholderLabel.ZIndex = 6 + zindex
-				PlaceholderLabel.TextWrapped = true
-				PlaceholderLabel.TextXAlignment = Enum.TextXAlignment.Left
+        local function AddPlaceholder(labelText)
+    		local PlaceholderLabel = Instance.new("TextLabel")
+    		PlaceholderLabel.Name = "Placeholder"
+    		PlaceholderLabel.Parent = DropdownFrame
+    		PlaceholderLabel.BackgroundColor3 = Color3.fromRGB(45, 52, 64)
+    		PlaceholderLabel.BorderSizePixel = 0
+    		PlaceholderLabel.Size = UDim2.new(0, 170, 0, 26)
+    		PlaceholderLabel.Position = UDim2.new(0, 6, 0, canvasSize + 1)
+    		PlaceholderLabel.Font = Enum.Font.SourceSansItalic
+    		PlaceholderLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+    		PlaceholderLabel.TextSize = 15
+    		PlaceholderLabel.Text = tostring(labelText)
+    		PlaceholderLabel.ZIndex = 6 + zindex
+    		PlaceholderLabel.TextWrapped = true
+    		PlaceholderLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-				canvasSize = canvasSize + 27
-				DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
-				if #DropdownFrame:GetChildren() < 8 then
-					DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset + 27)
-				end
-			end
+    		canvasSize = canvasSize + 27
+    		DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
+    		if #DropdownFrame:GetChildren() < 8 then
+        		DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset + 27)
+    		end
+		end
+
+		for _, item in ipairs(buttons) do
+    		if typeof(item) == "string" then
+        		dropFunctions:Button(item)
+    		elseif typeof(item) == "table" and item.PlaceHolder then
+        		AddPlaceholder(item.PlaceHolder)
+    		end
 		end
 
         return dropFunctions
