@@ -580,12 +580,12 @@ function library:Window(WinConfig)
         SliConfig.Name = SliConfig.Name or "Slider"
         SliConfig.Min = SliConfig.Min or 1
         SliConfig.Max = SliConfig.Max or 100
-        SliConfig.Default = SliConfig.Default or max/2
+        SliConfig.Default = SliConfig.Default or SliConfig.Max/2
         SliConfig.Callback = SliConfig.Callback or function() end
         local offset = 70
         if SliConfig.Default > SliConfig.Max then
             SliConfig.Default = SliConfig.Max
-        elseif default < SliConfig.Min then
+        elseif SliConfig.Default < SliConfig.Min then
             SliConfig.Default = SliConfig.Min
         end
 
@@ -623,7 +623,7 @@ function library:Window(WinConfig)
                             end
                             SliderButton.Position = UDim2.new(0, xOffset , -1.33333337, 0);
                             SilderFiller.Size = UDim2.new(0, xOffset, 0, 6)
-                            local value = Lerp(min, max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset-5))
+                            local value = Lerp(SliConfig.Min, SliConfig.Max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset-5))
                             Current.Text = tostring(math.round(value))
                         else
                             con:Disconnect();
@@ -638,7 +638,7 @@ function library:Window(WinConfig)
         end
         function SliderEnd(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            local value = Lerp(min, max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset-5))
+            local value = Lerp(SliConfig.Min, SliConfig.Max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset-5))
             SliConfig.Callback(math.round(value))
             end
         end
