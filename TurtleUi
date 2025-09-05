@@ -48,10 +48,6 @@ Window:Button({
 	end
 })
 
-Window:Button("Button name", function()
-	-- code here
-end)
-
 Window:Toggle({
     Name = "Toggle",
     Default = false,
@@ -60,20 +56,21 @@ Window:Toggle({
     end
 })
 
-Window:Toggle("Example toggle", true, function(bool)
-    -- // Put your code here (use bool function) \\ --
-    print(bool) -- this print a bool function 
-end)
-
 Window:ColorPicker("Color Picker", Color3.fromRGB(255, 255, 255), function(color)
    -- // Put your code here \\ --
    print(color)
 end)
 
-Window:Slider("Example Slider",0,100,20, function(value)
+Window:Slider({
+   Name = "Example Slider",
+   Min = 0,
+   Max = 100,
+   Default = 20,
+   Callback = function(value)
    -- // Put your code here \\ --
    print(value)
-end)
+end
+})
 
 Window:Label({
    Name = "Label Example", 
