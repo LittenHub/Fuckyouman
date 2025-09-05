@@ -56,10 +56,14 @@ Window:Toggle({
     end
 })
 
-Window:ColorPicker("Color Picker", Color3.fromRGB(255, 255, 255), function(color)
-   -- // Put your code here \\ --
-   print(color)
-end)
+Window:ColorPicker({
+   Name = "Color Picker",
+   Default = Color3.fromRGB(255, 255, 255),
+   Callback = function(color)
+        -- // Put your code here \\ --
+        print(color)
+   end
+})
 
 Window:Slider({
    Name = "Example Slider",
@@ -885,7 +889,10 @@ function library:Window(WinConfig)
 
 	-- // ColorPicker Function \\ --
     function functions:ColorPicker(name, default, callback)
-        local callback = callback or function() end
+        ColConfig = ColConfig or {}
+        ColConfig.Name = ColConfig.Name or "Color picker"
+        ColConfig.Default = ColConfig.Default or Color3.fromRGB(255, 0, 0)
+        ColConfig.Callback = ColConfig.Callback or function() end
 
         local ColorPicker = Instance.new("TextButton")
         local PickerCorner = Instance.new("UICorner")
@@ -938,7 +945,7 @@ function library:Window(WinConfig)
         PickerDescription.Position = UDim2.new(-2.15789509, 0, 0, 0)
         PickerDescription.Size = UDim2.new(0, 116, 0, 26)
         PickerDescription.Font = Enum.Font.SourceSans
-        PickerDescription.Text = name or "Color picker"
+        PickerDescription.Text = ColConfig.Name
         PickerDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
         PickerDescription.TextSize = 16.000
         PickerDescription.TextXAlignment = Enum.TextXAlignment.Left
@@ -1039,7 +1046,7 @@ function library:Window(WinConfig)
                     if ToggleFiller_2.Visible then
                         local hue2 = tick() % 5 / 5
                         color3 = Color3.fromHSV(hue2, 1, 1)
-                        callback(color3, true)
+                        ColConfig.Callback(color3, true)
                         ColorPicker.BackgroundColor3 = color3
                     else
                         con:Disconnect()
@@ -1048,14 +1055,14 @@ function library:Window(WinConfig)
             end
         end)
         
-        if default and type(default) == "boolean" then
+        if ColConfig.Default and type(ColConfig.Default) == "boolean" then
             ToggleFiller_2.Visible = true
             if ToggleFiller_2.Visible then
                 con = stepped:Connect(function()
                     if ToggleFiller_2.Visible then
                         local hue2 = tick() % 5 / 5
                         color3 = Color3.fromHSV(hue2, 1, 1)
-                        callback(color3)
+                        ColConfig.Callback(color3)
                         ColorPicker.BackgroundColor3 = color3
                     else
                         con:Disconnect()
@@ -1063,7 +1070,7 @@ function library:Window(WinConfig)
                 end)
             end
         else
-            ColorPicker.BackgroundColor3 = default or Color3.fromRGB(0, 168, 255)
+            ColorPicker.BackgroundColor3 = ColConfig.Default or Color3.fromRGB(0, 168, 255)
         end
 
         Canvas.Name = "Canvas"
@@ -1096,7 +1103,7 @@ function library:Window(WinConfig)
 
                     Cursor.Position = UDim2.fromOffset(relX * Canvas.AbsoluteSize.X - 4, relY * Canvas.AbsoluteSize.Y - 4)
                     ColorPicker.BackgroundColor3 = color3
-                    callback(color3)
+                    ColConfig.Callback(color3)
                 else
                     con:Disconnect()
                 end
@@ -1139,7 +1146,7 @@ function library:Window(WinConfig)
 
                     color3 = Color3.fromHSV(hue, sat, brightness)
                     ColorPicker.BackgroundColor3  = color3
-                    callback(color3)
+                    ColConfig.Callback(color3)
                 else
                     con:Disconnect()
                 end
@@ -1182,7 +1189,7 @@ function library:Window(WinConfig)
         Title.Position = UDim2.new(0, 10, 0, 5)
         Title.Size = UDim2.new(0, 118, 0, 21)
         Title.Font = Enum.Font.SourceSans
-        Title.Text = name or "Color picker"
+        Title.Text = ColConfig.Name
         Title.TextColor3 = Color3.fromRGB(245, 246, 250)
         Title.TextSize = 16.000
         Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -1201,7 +1208,7 @@ function library:Window(WinConfig)
                     if ToggleFiller_2.Visible then
                         local hue2 = tick() % 5 / 5
                         color3 = Color3.fromHSV(hue2, 1, 1)
-                        callback(color3)
+                        ColConfig.Callback(color3)
                         ColorPicker.BackgroundColor3 = color3
                     else
                         con:Disconnect()
