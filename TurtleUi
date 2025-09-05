@@ -80,12 +80,15 @@ Window:Label({
    Color = Color3.fromRGB(127, 143, 166)
 })
 
-Window:Box("Walkspeed", function(text, focuslost)
-   if focuslost then
-   -- // Put your code here \\ --
-   print(text)
+Window:Box({
+   Name = "Walkspeed", 
+   Callback = function(text, focuslost)
+   		if focuslost then
+        	-- // Put your code here \\ --
+            print(text)
+        end
    end
-end)
+})
 
 local dropdown = Window:Dropdown("Example dropdown", {"Button 1", "Button 2", {PlaceHolder = "- Text here -"}, "Third button"}, function(name)
    -- // Put your code here \\ --
@@ -519,8 +522,10 @@ function library:Window(WinConfig)
     end
 
 	-- // TextBox Function \\ --
-    function functions:Box(text, callback)
-        local callback = callback or function() end
+    function functions:Box(BoxConfig)
+        BoxConfig = BoxConfig or {}
+        BoxConfig.Name = BoxConfig.Name or "Box"
+        BoxConfig.Callback = BoxConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
         Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
@@ -542,10 +547,10 @@ function library:Window(WinConfig)
         TextBox.TextStrokeColor3 = Color3.fromRGB(245, 246, 250)
         TextBox.ZIndex = 2 + zindex
         TextBox:GetPropertyChangedSignal('Text'):connect(function()
-            callback(TextBox.Text, false)
+            BoxConfig.Callback(TextBox.Text, false)
         end)
         TextBox.FocusLost:Connect(function()
-            callback(TextBox.Text, true)
+            BoxConfig.Callback(TextBox.Text, true)
         end)
 
         BoxDescription.Name = "BoxDescription"
@@ -555,7 +560,7 @@ function library:Window(WinConfig)
         BoxDescription.Position = UDim2.new(-0.894736826, 0, 0, 0)
         BoxDescription.Size = UDim2.new(0, 75, 0, 26)
         BoxDescription.Font = Enum.Font.SourceSans
-        BoxDescription.Text = text or "Box"
+        BoxDescription.Text = BoxConfig.Name
         BoxDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
         BoxDescription.TextSize = 16.000
         BoxDescription.TextXAlignment = Enum.TextXAlignment.Left
