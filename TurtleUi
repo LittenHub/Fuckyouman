@@ -507,7 +507,7 @@ function library:Window(WinConfig)
         ToggleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
         ToggleFiller.Position = UDim2.new(0, 5, 0, 5)
         ToggleFiller.Size = UDim2.new(0, 13, 0, 13)
-        ToggleFiller.Visible = TogConfig.Defalult
+        ToggleFiller.Visible = TogConfig.Default
         ToggleFiller.ZIndex = 2 + zindex
         pastSliders[winCount] = false
     end
