@@ -87,10 +87,19 @@ Window:Box({
    end
 })
 
-local dropdown = Window:Dropdown("Example dropdown", {"Button 1", "Button 2", {PlaceHolder = "- Text here -"}, "Third button"}, function(name)
-   -- // Put your code here \\ --
-   print(name)
-end)
+local dropdown = Window:Dropdown({
+   Name = "Example dropdown", 
+   Item = {
+            "Button 1",
+            "Button 2",
+            {PlaceHolder = "- Text here -"},
+            "Third button"
+   }, 
+   Callback = function(name)
+        -- // Put your code here \\ --
+        print(name)
+   end
+})
 
 dropdown:Button("New button")
 
@@ -98,9 +107,6 @@ dropdown:Remove("Button")
 
 -- destroy the gui
 library:Destroy()
-
--- toggle ui maybe?
-library:Keybind(F)
 
 ]]--
 
@@ -720,10 +726,11 @@ function library:Window(WinConfig)
     end
 
 	-- // Dropdown Function \\ --
-    function functions:Dropdown(text, buttons, callback)
-        local text = text or "Dropdown"
-        local buttons = buttons or {}
-        local callback = callback or function() end
+    function functions:Dropdown(DropConfig)
+        DropConfig = DropConfig or {}
+        DropConfig.Name = DropConfig.Name or "Dropdown"
+        DropConfig.Item = DropConfig.Item or {}
+        DropConfig.Callback = DropConfig.Callback or function() end
 
         local Dropdown = Instance.new("TextButton")
         local DownSign = Instance.new("TextLabel")
@@ -742,7 +749,7 @@ function library:Window(WinConfig)
         Dropdown.Size = UDim2.new(0, 182, 0, 26)
         Dropdown.Selected = true
         Dropdown.Font = Enum.Font.SourceSans
-        Dropdown.Text = tostring(text)
+        Dropdown.Text = tostring(DropConfig.Name)
         Dropdown.TextColor3 = Color3.fromRGB(245, 246, 250)
         Dropdown.TextSize = 16.000
         Dropdown.TextStrokeTransparency = 123.000
@@ -816,7 +823,7 @@ function library:Window(WinConfig)
             DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset + 27)
             end
             Button_2.MouseButton1Click:Connect(function()
-                callback(name)
+                DropConfig.Callback(name)
         Dropdown.Text = name
 		DropdownFrame.Visible = false
             end)
@@ -865,7 +872,7 @@ function library:Window(WinConfig)
     		end
 		end
 
-		for _, item in ipairs(buttons) do
+		for _, item in ipairs(DropConfig.Item) do
     		if typeof(item) == "string" then
         		dropFunctions:Button(item)
     		elseif typeof(item) == "table" and item.PlaceHolder then
