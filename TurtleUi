@@ -575,17 +575,18 @@ function library:Window(WinConfig)
     end
 
 	-- // Slider Function \\ --
-    function functions:Slider(text, min, max, default, callback)
-        local text = text or "Slider"
-        local min = min or 1
-        local max = max or 100
-        local default = default or max/2
-        local callback = callback or function() end
+    function functions:Slider(SliConfig)
+        SliConfig = SliConfig or {}
+        SliConfig.Name = SliConfig.Name or "Slider"
+        SliConfig.Min = SliConfig.Min or 1
+        SliConfig.Max = SliConfig.Max or 100
+        SliConfig.Default = SliConfig.Default or max/2
+        SliConfig.Callback = SliConfig.Callback or function() end
         local offset = 70
-        if default > max then
-            default = max
-        elseif default < min then
-            default = min
+        if SliConfig.Default > SliConfig.Max then
+            SliConfig.Default = SliConfig.Max
+        elseif default < SliConfig.Min then
+            SliConfig.Default = SliConfig.Min
         end
 
         if pastSliders[winCount] then
@@ -638,7 +639,7 @@ function library:Window(WinConfig)
         function SliderEnd(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             local value = Lerp(min, max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset-5))
-            callback(math.round(value))
+            SliConfig.Callback(math.round(value))
             end
         end
 
@@ -668,7 +669,7 @@ function library:Window(WinConfig)
         Current.Position = UDim2.new(0, 3, 0, 22   )
         Current.Size = UDim2.new(0, 0, 0, 18)
         Current.Font = Enum.Font.SourceSans
-        Current.Text = tostring(default)
+        Current.Text = tostring(SliConfig.Default)
         Current.TextColor3 = Color3.fromRGB(220, 221, 225)
         Current.TextSize = 14.000  
         Current.ZIndex = 2 + zindex
@@ -680,7 +681,7 @@ function library:Window(WinConfig)
         Description.Position = UDim2.new(0, -10, 0, -35)
         Description.Size = UDim2.new(0, 200, 0, 21)
         Description.Font = Enum.Font.SourceSans
-        Description.Text = text
+        Description.Text = SliConfig.Name
         Description.TextColor3 = Color3.fromRGB(245, 246, 250)
         Description.TextSize = 16.000
         Description.ZIndex = 2 + zindex
@@ -700,7 +701,7 @@ function library:Window(WinConfig)
         Min.Position = UDim2.new(-0.00555555569, 0, -7.33333397, 0)
         Min.Size = UDim2.new(0, 77, 0, 50)
         Min.Font = Enum.Font.SourceSans
-        Min.Text = tostring(min)
+        Min.Text = tostring(SliConfig.Min)
         Min.TextColor3 = Color3.fromRGB(220, 221, 225)
         Min.TextSize = 14.000
         Min.TextXAlignment = Enum.TextXAlignment.Left
@@ -713,7 +714,7 @@ function library:Window(WinConfig)
         Max.Position = UDim2.new(0.577777743, 0, -7.33333397, 0)
         Max.Size = UDim2.new(0, 77, 0, 50)
         Max.Font = Enum.Font.SourceSans
-        Max.Text = tostring(max)
+        Max.Text = tostring(SliConfig.Max)
         Max.TextColor3 = Color3.fromRGB(220, 221, 225)
         Max.TextSize = 14.000
         Max.TextXAlignment = Enum.TextXAlignment.Right
