@@ -546,8 +546,14 @@ function library:Window(WinConfig)
         TextBox.TextSize = 16.000
         TextBox.TextStrokeColor3 = Color3.fromRGB(245, 246, 250)
         TextBox.ZIndex = 2 + zindex
+
+        local LastText = ""
+
         TextBox:GetPropertyChangedSignal('Text'):connect(function()
-            BoxConfig.Callback(TextBox.Text, false)
+            if TextBox.Text ~= LastText then
+				LastText = TextBox.Text
+                BoxConfig.Callback(TextBox.Text, false)
+            end
         end)
         TextBox.FocusLost:Connect(function()
             BoxConfig.Callback(TextBox.Text, true)
