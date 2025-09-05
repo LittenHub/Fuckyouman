@@ -55,7 +55,7 @@ end)
 Window:Toggle({
     Name = "Toggle",
     Default = false,
-    Callback = function()
+    Callback = function(value)
         -- script here
     end
 })
