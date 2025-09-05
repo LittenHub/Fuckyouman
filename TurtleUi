@@ -888,7 +888,7 @@ function library:Window(WinConfig)
     end
 
 	-- // ColorPicker Function \\ --
-    function functions:ColorPicker(name, default, callback)
+    function functions:ColorPicker(ColConfig)
         ColConfig = ColConfig or {}
         ColConfig.Name = ColConfig.Name or "Color picker"
         ColConfig.Default = ColConfig.Default or Color3.fromRGB(255, 0, 0)
