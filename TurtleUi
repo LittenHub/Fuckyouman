@@ -653,7 +653,7 @@ function library:Window(WinConfig)
         Slider.InputBegan:Connect(SliderMovement) 
         Slider.InputEnded:Connect(SliderEnd)      
 
-        SliderButton.Position = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((default - min)/(max-min)), -1.333337, 0)
+        SliderButton.Position = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), -1.333337, 0)
         SliderButton.Name = "SliderButton"
         SliderButton.Parent = Slider
         SliderButton.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
@@ -690,7 +690,7 @@ function library:Window(WinConfig)
         SilderFiller.Parent = Slider
         SilderFiller.BackgroundColor3 = Color3.fromRGB(76, 209, 55)
         SilderFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
-        SilderFiller.Size = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((default - min)/(max-min)), 0, 6)
+        SilderFiller.Size = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), 0, 6)
         SilderFiller.ZIndex = 2 + zindex
         SilderFiller.BorderMode = Enum.BorderMode.Inset
 
