@@ -44,13 +44,21 @@ library:Notification({
 Window:Button({
 	Name = "Button",
     Callback = function()
-		
+		-- script here
 	end
 })
 
 Window:Button("Button name", function()
 	-- code here
 end)
+
+Window:Toggle({
+    Name = "Toggle",
+    Default = false,
+    Callback = function()
+        -- script here
+    end
+})
 
 Window:Toggle("Example toggle", true, function(bool)
     -- // Put your code here (use bool function) \\ --
@@ -451,6 +459,7 @@ function library:Window(WinConfig)
     function functions:Toggle(TogConfig)
 		TogConfig = TogConfig or {}
         TogConfig.Name = TogConfig.Name or "Toggle"
+        TogConfig.Default = TogConfig.Default or false
         TogConfig.Callback = TogConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
@@ -498,7 +507,7 @@ function library:Window(WinConfig)
         ToggleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
         ToggleFiller.Position = UDim2.new(0, 5, 0, 5)
         ToggleFiller.Size = UDim2.new(0, 13, 0, 13)
-        ToggleFiller.Visible = on
+        ToggleFiller.Visible = TogConfig.Defalult
         ToggleFiller.ZIndex = 2 + zindex
         pastSliders[winCount] = false
     end
