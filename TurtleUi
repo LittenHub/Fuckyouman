@@ -89,7 +89,7 @@ Window:Box({
 
 local dropdown = Window:Dropdown({
    Name = "Example dropdown", 
-   Item = {
+   Items = {
             "Button 1",
             "Button 2",
             {PlaceHolder = "- Text here -"},
@@ -729,7 +729,7 @@ function library:Window(WinConfig)
     function functions:Dropdown(DropConfig)
         DropConfig = DropConfig or {}
         DropConfig.Name = DropConfig.Name or "Dropdown"
-        DropConfig.Item = DropConfig.Item or {}
+        DropConfig.Items = DropConfig.Items or {}
         DropConfig.Callback = DropConfig.Callback or function() end
 
         local Dropdown = Instance.new("TextButton")
@@ -872,7 +872,7 @@ function library:Window(WinConfig)
     		end
 		end
 
-		for _, item in ipairs(DropConfig.Item) do
+		for _, item in ipairs(DropConfig.Items) do
     		if typeof(item) == "string" then
         		dropFunctions:Button(item)
     		elseif typeof(item) == "table" and item.PlaceHolder then
