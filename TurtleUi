@@ -32,13 +32,20 @@
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LittenHub/Fuckyouman/refs/heads/main/TurtleUi"))()
 
 -- Making a window
-local Window = library:Window("Table Turtle Hub")
+local Window = library:Window({Name = "Table Turtle Hub"})
 
 -- Making a Notification
 library:Notification({
 	Title = "Title here!",
 	Content = "Content here!",
 	Time = 5
+})
+
+Window:Button({
+	Name = "Button"
+    Callback = function()
+		
+	end
 })
 
 Window:Button("Button name", function()
@@ -299,7 +306,10 @@ function library:Keybind(key)
 end
 
 -- // Window Function \\ --
-function library:Window(name) 
+function library:Window(WinConfig)
+	WinConfig = WinConfig or {}
+    WinConfig.Name = WinConfig.Name or "Window"
+
     windowCount = windowCount + 1
     local winCount = windowCount
     local zindex = winCount * 7
@@ -335,7 +345,7 @@ function library:Window(name)
     HeaderText.Size = UDim2.new(0, 206, 0, 33)
     HeaderText.ZIndex = 6 + zindex
     HeaderText.Font = Enum.Font.SourceSans
-    HeaderText.Text = name or "Window"
+    HeaderText.Text = WinConfig.Name
     HeaderText.TextColor3 = Color3.fromRGB(47, 54, 64)
     HeaderText.TextSize = 17.000
 
@@ -374,9 +384,10 @@ function library:Window(name)
     listOffset[winCount] = 10
 
 	  -- // Button Function \\ --
-    function functions:Button(name, callback)
-        local name = name or "Button"
-        local callback = callback or function() end
+    function functions:Button(ButConfig)
+        ButConfig = ButConfig or {}
+        ButConfig.Name = ButConfig.Name or "Button"
+        ButConfig.Callback = ButConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
         Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
@@ -396,8 +407,8 @@ function library:Window(name)
         Button.TextSize = 16.000
         Button.TextStrokeTransparency = 123.000
         Button.TextWrapped = true
-        Button.Text = name
-        Button.MouseButton1Click:Connect(callback)
+        Button.Text = ButConfig.Name
+        Button.MouseButton1Click:Connect(ButConfig.Callback)
 
         pastSliders[winCount] = false
     end
