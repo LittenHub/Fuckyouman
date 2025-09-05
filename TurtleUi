@@ -75,7 +75,10 @@ Window:Slider("Example Slider",0,100,20, function(value)
    print(value)
 end)
 
-Window:Label("Label Example", Color3.fromRGB(127, 143, 166))
+Window:Label({
+   Name = "Label Example", 
+   Color = Color3.fromRGB(127, 143, 166)
+})
 
 Window:Box("Walkspeed", function(text, focuslost)
    if focuslost then
@@ -422,8 +425,10 @@ function library:Window(WinConfig)
     end
 
 	-- // Label Function \\ --
-    function functions:Label(text, color)
-        local color = color or Color3.fromRGB(220, 221, 225)
+    function functions:Label(LabConfig)
+        LabConfig = LabConfig or {}
+        LabConfig.Name = LabConfig.Name or "Label"
+        LabConfig.Color = LabConfig.Color or Color3.fromRGB(220, 221, 225)
 
         sizes[winCount] = sizes[winCount] + 32
         Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
@@ -438,19 +443,20 @@ function library:Window(WinConfig)
         Label.Position = UDim2.new(0, 0, 0, listOffset[winCount])
         Label.Size = UDim2.new(0, 206, 0, 29)
         Label.Font = Enum.Font.SourceSans
-        Label.Text = text or "Label"
+        Label.Text = LabConfig.Name
         Label.TextSize = 16.000
         Label.ZIndex = 2 + zindex
 
-        if type(color) == "boolean" and color then
-	    spawn(function()
-                while wait() do
+        if LabConfig.Color == "Rainbow" then
+	    	spawn(function()
+                while Label.Parent do
                     local hue = tick() % 5 / 5
                     Label.TextColor3 = Color3.fromHSV(hue, 1, 1)
+					task.wait()
                 end
-	    end)
+	    	end)
         else
-            Label.TextColor3 = color
+            Label.TextColor3 = LabConfig.Color
         end
         pastSliders[winCount] = false
     end
