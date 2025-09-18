@@ -395,8 +395,10 @@ Minimise.MouseButton1Up:Connect(function()
         Window.Visible = false
     else
         Window.Visible = true
-        TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)}):Play()
+        local tween = TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)})
+        tween:Play()
         Minimise.Text = "–"
+        tween.Completed:Wait()
     end
 end)
 
