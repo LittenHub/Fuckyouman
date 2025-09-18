@@ -386,6 +386,7 @@ function library:Window(WinConfig)
     Minimise.MouseButton1Up:connect(function()
         Window.Visible = not Window.Visible
 	if Window.Visible then
+		TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = 0.5}):Play()
 		Minimise.Text = "–"
 	else
 		Minimise.Text = "+"
