@@ -125,7 +125,6 @@ local pastSliders = {}
 local dropdowns = {}
 local dropdownSizes = {}
 local destroyed
-local minimized = false
 
 local colorPickers = {}
 
@@ -371,8 +370,16 @@ function library:Window(WinConfig)
     HeaderText.TextColor3 = Color3.fromRGB(47, 54, 64)
     HeaderText.TextSize = 17.000
 
-    local Minimise = Instance.new("TextButton")
     local Window = Instance.new("Frame")
+    Window.Name = "Window"
+    Window.Parent = Header
+    Window.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
+    Window.BorderColor3 = Color3.fromRGB(47, 54, 64)
+    Window.Position = UDim2.new(0, 0, 0, 0)
+    Window.Size = UDim2.new(0, 207, 0, 33)
+    Window.ZIndex = 1 + zindex
+
+    local Minimise = Instance.new("TextButton")
     Minimise.Name = "Minimise"
     Minimise.Parent = Header
     Minimise.BackgroundColor3 = Color3.fromRGB(0, 168, 255)
@@ -386,27 +393,17 @@ function library:Window(WinConfig)
     Minimise.TextSize = 20.000
 
 Minimise.MouseButton1Up:Connect(function()
-    minimized = not minimized
-    if minimized then
+    Window.Visible = not Window.Visible
+    if Window.Visible then
         TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 0)})Play()
         Minimise.Text = "+"
         wait(0.2)
-        Window.Visible = false
     else
-        Window.Visible = true
         Minimise.Text = "–"
         TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)})Play()
         wait(0.1)
     end
 end)
-
-    Window.Name = "Window"
-    Window.Parent = Header
-    Window.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
-    Window.BorderColor3 = Color3.fromRGB(47, 54, 64)
-    Window.Position = UDim2.new(0, 0, 0, 0)
-    Window.Size = UDim2.new(0, 207, 0, 33)
-    Window.ZIndex = 1 + zindex
 
     local functions = {}
     sizes[winCount] = 33
