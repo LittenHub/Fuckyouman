@@ -125,6 +125,7 @@ local pastSliders = {}
 local dropdowns = {}
 local dropdownSizes = {}
 local destroyed
+local minimized = false
 
 local colorPickers = {}
 
@@ -384,20 +385,17 @@ function library:Window(WinConfig)
     Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
     Minimise.TextSize = 20.000
 
-local minimized = false
 Minimise.MouseButton1Up:Connect(function()
     minimized = not minimized
     if minimized then
-        -- Kecilkan dulu
         local tween = TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 0)})
         tween:Play()
         Minimise.Text = "+"
-        task.wait()
+        tween.Completed:Wait()
         Window.Visible = false
     else
         Window.Visible = true
-        local tween = TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)})
-        tween:Play()
+        TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)}):Play()
         Minimise.Text = "–"
     end
 end)
