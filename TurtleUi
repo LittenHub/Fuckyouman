@@ -386,6 +386,7 @@ function library:Window(WinConfig)
     Minimise.TextSize = 20.000
 
 Minimise.MouseButton1Up:Connect(function()
+    minimized = not minimized
     if minimized then
         TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 0)})Play()
         Minimise.Text = "+"
@@ -397,7 +398,6 @@ Minimise.MouseButton1Up:Connect(function()
         TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)})Play()
         wait(0.1)
     end
-    minimized = not minimized
 end)
 
     Window.Name = "Window"
