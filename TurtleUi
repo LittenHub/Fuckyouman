@@ -395,13 +395,9 @@ function library:Window(WinConfig)
 Minimise.MouseButton1Up:Connect(function()
     Window.Visible = not Window.Visible
     if Window.Visible then
-        TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 0)})Play()
-        Minimise.Text = "+"
-        wait(0.2)
-    else
         Minimise.Text = "–"
-        TweenService:Create(Window, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 207, 0, 33)})Play()
-        wait(0.1)
+    else
+        Minimise.Text = "+"
     end
 end)
 
