@@ -696,14 +696,20 @@ function UILibrary:AddSlider(config)
             config.Callback(value)
         end
     end
-    
+    --[[
     sliderHandle.MouseButton1Down:Connect(function()
         dragging = true
     end)
-    
-    game:GetService("UserInputService").InputEnded:Connect(function(input)
+    ]]
+    sliderTrack.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
+            local mousePos = game:GetService("UserInputService"):GetMouseLocation()
+            local trackPos = sliderTrack.AbsolutePosition
+            local trackSize = sliderTrack.AbsoluteSize
+            local relativeX = (mousePos.X - trackPos.X) / trackSize.X
+            local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
+            updateSlider(value)
+            dragging = true
         end
     end)
     
@@ -718,15 +724,9 @@ function UILibrary:AddSlider(config)
         end
     end)
 
-    sliderTrack.InputBegan:Connect(function(input)
+    game:GetService("UserInputService").InputEnded:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            local mousePos = game:GetService("UserInputService"):GetMouseLocation()
-            local trackPos = sliderTrack.AbsolutePosition
-            local trackSize = sliderTrack.AbsoluteSize
-            local relativeX = (mousePos.X - trackPos.X) / trackSize.X
-            local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
-            updateSlider(value)
-            dragging = true
+            dragging = false
         end
     end)
     
