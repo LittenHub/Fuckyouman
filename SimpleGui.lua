@@ -112,11 +112,27 @@ ui:AddButton({
 ui:AddSeparator()
 local section4 = ui:AddSection("Labels")
 
+-- the Sliders is buggy now.
+local slider = ui:AddSlider({
+    Text = "Speed Changer",
+    Default = 16,
+    Min = 1,
+    Max = 100,
+    Callback = function(value)
+        print("speed change to: ", value)
+    end
+})
+
+ui:AddSeparator()
+local section4 = ui:AddSection("Labels")
+
 -- labelz
 
 ui:AddLabel("I'm a label")
 ui:AddLabel("Today: " .. os.date("%B %d, %Y"))
+]]
 
+--[[
 you can look the original github
 here the link:
 https://github.com/hm5650/SimpleGui/blob/main/Example.lua
@@ -614,6 +630,15 @@ function UILibrary:AddSlider(config)
     local sliderCorner = Instance.new("UICorner")
     sliderCorner.CornerRadius = UDim.new(1, 0)
     sliderCorner.Parent = sliderTrack
+
+    local sliderClickArea = Instance.new("TextButton")
+    sliderClickArea.Name = "ClickArea"
+    sliderClickArea.Size = UDim2.new(1, 0, 1, 0)
+    sliderClickArea.Position = UDim2.new(0, 0, 0, 0)
+    sliderClickArea.BackgroundTransparency = 1
+    sliderClickArea.Text = ""
+    sliderClickArea.AutoButtonColor = false
+    sliderClickArea.Parent = sliderTrack
     
     local sliderFill = Instance.new("Frame")
     sliderFill.Name = "Fill"
@@ -693,7 +718,7 @@ function UILibrary:AddSlider(config)
         end
     end)
     
-    sliderTrack.MouseButton1Down:Connect(function(x, y)
+    sliderClickArea.MouseButton1Down:Connect(function(x, y)
         local trackPos = sliderTrack.AbsolutePosition
         local trackSize = sliderTrack.AbsoluteSize
         local relativeX = (x - trackPos.X) / trackSize.X
@@ -705,6 +730,7 @@ function UILibrary:AddSlider(config)
     return sliderFrame, function() return currentValue end
 end
 
+-- // Function to destroy the UI \\ --
 function UILibrary:Destroy()
     if self.ScreenGui then
         self.ScreenGui:Destroy()
