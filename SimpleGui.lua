@@ -604,8 +604,10 @@ function UILibrary:AddSeparator()
 end
 
 -- // Function for make a Slider \\ --
-
 function UILibrary:AddSlider(config)
+    local runService = game:GetService("RunService")
+    local userInput = game:GetService("UserInputService")
+
     local sliderFrame = Instance.new("Frame")
     sliderFrame.Name = "Slider_" .. config.Text
     sliderFrame.Size = UDim2.new(1, -24, 0, 70)
@@ -614,6 +616,7 @@ function UILibrary:AddSlider(config)
     sliderFrame.LayoutOrder = #self.Elements + 1
     sliderFrame.Parent = self.ScrollingFrame
 
+    -- Judul
     local sliderText = Instance.new("TextLabel")
     sliderText.Size = UDim2.new(0.7, 0, 0.4, 0)
     sliderText.Position = UDim2.new(0, 0, 0, 0)
@@ -625,24 +628,25 @@ function UILibrary:AddSlider(config)
     sliderText.TextSize = self.Config.TextSize
     sliderText.Parent = sliderFrame
 
+    -- TextBox di kanan
     local valueBox = Instance.new("TextBox")
     valueBox.Size = UDim2.new(0.25, 0, 0.4, 0)
     valueBox.Position = UDim2.new(0.75, 0, 0, 0)
-    valueBox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    valueBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     valueBox.Text = tostring(config.Default)
     valueBox.TextColor3 = Color3.fromRGB(255, 255, 255)
     valueBox.Font = self.Config.Font
     valueBox.TextSize = self.Config.TextSize
     valueBox.ClearTextOnFocus = false
     valueBox.Parent = sliderFrame
-	
     local boxCorner = Instance.new("UICorner")
     boxCorner.CornerRadius = UDim.new(0, 6)
     boxCorner.Parent = valueBox
 
+    -- Label min & max
     local minLabel = Instance.new("TextLabel")
     minLabel.Size = UDim2.new(0, 50, 0, 16)
-    minLabel.Position = UDim2.new(0, 0, 0.5, 0)
+    minLabel.Position = UDim2.new(0, 0, 0.5, -5)
     minLabel.BackgroundTransparency = 1
     minLabel.Text = tostring(config.Min)
     minLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -653,7 +657,7 @@ function UILibrary:AddSlider(config)
 
     local maxLabel = Instance.new("TextLabel")
     maxLabel.Size = UDim2.new(0, 50, 0, 16)
-    maxLabel.Position = UDim2.new(1, -50, 0.5, 0)
+    maxLabel.Position = UDim2.new(1, -50, 0.5, -5)
     maxLabel.BackgroundTransparency = 1
     maxLabel.Text = tostring(config.Max)
     maxLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -661,7 +665,8 @@ function UILibrary:AddSlider(config)
     maxLabel.Font = self.Config.Font
     maxLabel.TextSize = 12
     maxLabel.Parent = sliderFrame
-	
+
+    -- Track
     local sliderTrack = Instance.new("Frame")
     sliderTrack.Name = "Track"
     sliderTrack.Size = UDim2.new(1, 0, 0, 6)
@@ -670,11 +675,11 @@ function UILibrary:AddSlider(config)
     sliderTrack.BorderSizePixel = 0
     sliderTrack.ZIndex = 0
     sliderTrack.Parent = sliderFrame
-	
     local trackCorner = Instance.new("UICorner")
     trackCorner.CornerRadius = UDim.new(1, 0)
     trackCorner.Parent = sliderTrack
 
+    -- Fill
     local sliderFill = Instance.new("Frame")
     sliderFill.Name = "Fill"
     sliderFill.Size = UDim2.new((config.Default - config.Min) / (config.Max - config.Min), 0, 1, 0)
@@ -682,11 +687,11 @@ function UILibrary:AddSlider(config)
     sliderFill.BorderSizePixel = 0
     sliderFill.ZIndex = 1
     sliderFill.Parent = sliderTrack
-	
     local fillCorner = Instance.new("UICorner")
     fillCorner.CornerRadius = UDim.new(1, 0)
     fillCorner.Parent = sliderFill
 
+    -- Handle
     local sliderHandle = Instance.new("TextButton")
     sliderHandle.Name = "Handle"
     sliderHandle.Size = UDim2.new(0, 16, 0, 16)
@@ -697,7 +702,6 @@ function UILibrary:AddSlider(config)
     sliderHandle.AutoButtonColor = false
     sliderHandle.ZIndex = 2
     sliderHandle.Parent = sliderTrack
-	
     local handleCorner = Instance.new("UICorner")
     handleCorner.CornerRadius = UDim.new(1, 0)
     handleCorner.Parent = sliderHandle
@@ -709,98 +713,83 @@ function UILibrary:AddSlider(config)
         handleStroke.Parent = sliderHandle
     end
 
--- Fungsi untuk update posisi slider dari value
-local function SetSliderValue(value)
-	value = math.clamp(value, SliConfig.Min, SliConfig.Max)
-	local ratio = (value - SliConfig.Min) / (SliConfig.Max - SliConfig.Min)
-	local xOffset = ratio * (Slider.Size.X.Offset - 5)
-	SliderButton.Position = UDim2.new(0, xOffset, -1.33333337, 0)
-	SliderFiller.Size = UDim2.new(0, xOffset, 0, 6)
+    local function Lerp(a, b, t)
+        return a + (b - a) * t
+    end
 
-	if SliConfig.Round and SliConfig.Round > 0 then
-		value = tonumber(string.format("%."..SliConfig.Round.."f", value))
-	else
-		value = math.round(value)
-	end
+    local currentValue = config.Default
+    local isDragging = false
 
-	TextBox.Text = tostring(value)
-	Current.Text = tostring(value)
-end
+    local function updateSlider(value)
+        value = math.clamp(value, config.Min, config.Max)
+        currentValue = value
+        local fillSize = (value - config.Min) / (config.Max - config.Min)
+        sliderFill.Size = UDim2.new(fillSize, 0, 1, 0)
+        sliderHandle.Position = UDim2.new(fillSize, -8, 0.5, -8)
 
-	local isDragging = false
-	local stepped = RunService.RenderStepped
-	
-function SliderMovement(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		isDragging = true
-		local initial = SliderButton.Position.X.Offset
-		local delta1 = SliderButton.AbsolutePosition.X - initial
-		local connection
+        local displayValue
+        if config.Round and config.Round > 0 then
+            displayValue = tonumber(string.format("%." .. config.Round .. "f", value))
+        else
+            displayValue = math.floor(value)
+        end
+        valueBox.Text = tostring(displayValue)
+        if config.Callback then
+            config.Callback(value)
+        end
+    end
 
-		connection = stepped:Connect(function()
-			if isDragging then
-				local mouseX = UserInputService:GetMouseLocation().X
-				local xOffset = mouseX - delta1 - 3
+    valueBox.FocusLost:Connect(function(enterPressed)
+        local newValue = tonumber(valueBox.Text)
+        if newValue then
+            newValue = math.clamp(newValue, config.Min, config.Max)
+            updateSlider(newValue)
+        else
+            valueBox.Text = tostring(math.floor(currentValue))
+        end
+    end)
 
-				-- Batasi posisi slider
-				xOffset = math.clamp(xOffset, 0, Slider.Size.X.Offset)
+    local function SliderMovement(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            isDragging = true
+            local delta = sliderHandle.AbsolutePosition.X - sliderHandle.Position.X.Offset
+            local connection
+            connection = runService.RenderStepped:Connect(function()
+                if isDragging then
+                    local mousePos = userInput:GetMouseLocation()
+                    local xOffset = mousePos.X - delta - 3
+                    local trackWidth = sliderTrack.AbsoluteSize.X - 5
+                    xOffset = math.clamp(xOffset, 0, trackWidth)
+                    sliderHandle.Position = UDim2.new(0, xOffset, 0.5, -8)
+                    sliderFill.Size = UDim2.new(0, xOffset, 1, 0)
+                    local value = Lerp(config.Min, config.Max, xOffset / trackWidth)
+                    valueBox.Text = tostring(math.floor(value))
+                else
+                    connection:Disconnect()
+                end
+            end)
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    isDragging = false
+                end
+            end)
+        end
+    end
 
-				SliderButton.Position = UDim2.new(0, xOffset, -1.33333337, 0)
-				SliderFiller.Size = UDim2.new(0, xOffset, 0, 6)
+    local function SliderEnd(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            local trackWidth = sliderTrack.AbsoluteSize.X - 5
+            local xOffset = sliderHandle.Position.X.Offset
+            local value = Lerp(config.Min, config.Max, xOffset / trackWidth)
+            updateSlider(value)
+        end
+    end
 
-				local value = Lerp(SliConfig.Min, SliConfig.Max, xOffset / (Slider.Size.X.Offset - 5))
-				if SliConfig.Round and SliConfig.Round > 0 then
-					value = tonumber(string.format("%."..SliConfig.Round.."f", value))
-				else
-					value = math.round(value)
-				end
-
-				TextBox.Text = tostring(value)
-				Current.Text = tostring(value)
-			else
-				connection:Disconnect()
-			end
-		end)
-
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				isDragging = false
-			end
-		end)
-	end
-end
-
-	function SliderEnd(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			local value = Lerp(SliConfig.Min, SliConfig.Max, SliderButton.Position.X.Offset / (Slider.Size.X.Offset - 5))
-			if SliConfig.Round and SliConfig.Round > 0 then
-			value = tonumber(string.format("%."..SliConfig.Round.."f", value))
-		else
-			value = math.round(value)
-		end
-			TextBox.Text = tostring(value)
-			Current.Text = tostring(value)
-			SliConfig.Callback(value)
-		end
-	end
-	
--- Event untuk update slider saat TextBox diubah
-	TextBox.FocusLost:Connect(function()
-		local num = tonumber(TextBox.Text)
-		if num then	
-			SetSliderValue(num)
-			SliConfig.Callback(num)
-		else
-			TextBox.Text = Current.Text
-		end
-	end)
-
+    sliderHandle.InputBegan:Connect(SliderMovement)
+    sliderHandle.InputEnded:Connect(SliderEnd)
     sliderTrack.InputBegan:Connect(SliderMovement)
-	sliderTrack.InputEnded:Connect(SliderEnd)
+    sliderTrack.InputEnded:Connect(SliderEnd)
 
-	sliderHandle.InputBegan:Connect(SliderMovement)
-	sliderHandle.InputEnded:Connect(SliderEnd)
-    
     table.insert(self.Elements, sliderFrame)
     return sliderFrame, function() return currentValue end
 end
