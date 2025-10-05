@@ -661,9 +661,6 @@ function UILibrary:AddSlider(config)
     maxLabel.Font = self.Config.Font
     maxLabel.TextSize = 12
     maxLabel.Parent = sliderFrame
-
-	local isDragging = false
-	local stepped = RunService.RenderStepped
 	
     local sliderTrack = Instance.new("Frame")
     sliderTrack.Name = "Track"
@@ -730,6 +727,9 @@ local function SetSliderValue(value)
 	Current.Text = tostring(value)
 end
 
+	local isDragging = false
+	local stepped = RunService.RenderStepped
+	
 function SliderMovement(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		isDragging = true
