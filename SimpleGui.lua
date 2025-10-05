@@ -141,13 +141,7 @@ https://github.com/hm5650/SimpleGui/blob/main/Example.lua
 ]]
 -- local Service 
 local UILibrary = {}
-local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
 
--- Fungsi Lerp sederhana
-local function Lerp(a, b, t)
-	return a + (b - a) * t
-end
 -- // Color Config \\ --
 UILibrary.DefaultColors = {
     TitleColor = Color3.fromRGB(255, 255, 255),
@@ -184,6 +178,11 @@ UILibrary.DefaultConfig = {
     UIStrokeEnabled = true,
     -- ToggleUI = true -- this is for make the gui invisible
 }
+
+local function Lerp(a, b, t)
+    return a + (b - a) * t
+end
+
 -- // Config function \\ --
 function UILibrary.new(config)
     local self = setmetatable({}, { __index = UILibrary })
@@ -711,10 +710,6 @@ function UILibrary:AddSlider(config)
         handleStroke.Thickness = self.Config.UIStrokeThickness
         handleStroke.Color = self.Colors.UIStrokeColor
         handleStroke.Parent = sliderHandle
-    end
-
-    local function Lerp(a, b, t)
-        return a + (b - a) * t
     end
 
     local currentValue = config.Default
