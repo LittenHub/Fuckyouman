@@ -630,7 +630,7 @@ function UILibrary:AddSlider(config)
     local sliderCorner = Instance.new("UICorner")
     sliderCorner.CornerRadius = UDim.new(1, 0)
     sliderCorner.Parent = sliderTrack
-
+--[[
     local sliderClickArea = Instance.new("TextButton")
     sliderClickArea.Name = "ClickArea"
     sliderClickArea.Size = UDim2.new(1, 0, 1, 0)
@@ -639,7 +639,7 @@ function UILibrary:AddSlider(config)
     sliderClickArea.Text = ""
     sliderClickArea.AutoButtonColor = false
     sliderClickArea.Parent = sliderTrack
-    
+    ]]
     local sliderFill = Instance.new("Frame")
     sliderFill.Name = "Fill"
     sliderFill.Size = UDim2.new((config.Default - config.Min) / (config.Max - config.Min), 0, 1, 0)
@@ -717,7 +717,20 @@ function UILibrary:AddSlider(config)
             updateSlider(value)
         end
     end)
+
+    sliderTrack.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            local mousePos = game:GetService("UserInputService"):GetMouseLocation()
+            local trackPos = sliderTrack.AbsolutePosition
+            local trackSize = sliderTrack.AbsoluteSize
+            local relativeX = (mousePos.X - trackPos.X) / trackSize.X
+            local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
+            updateSlider(value)
+            dragging = true
+        end
+    end)
     
+    --[[
     sliderClickArea.MouseButton1Down:Connect(function(x, y)
         local trackPos = sliderTrack.AbsolutePosition
         local trackSize = sliderTrack.AbsoluteSize
@@ -725,7 +738,7 @@ function UILibrary:AddSlider(config)
         local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
         updateSlider(value)
     end)
-    
+    ]]
     table.insert(self.Elements, sliderFrame)
     return sliderFrame, function() return currentValue end
 end
