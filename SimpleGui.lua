@@ -138,8 +138,10 @@ here the link:
 https://github.com/hm5650/SimpleGui/blob/main/Example.lua
 
 ]]
-
+-- local Service 
 local UILibrary = {}
+local runService = game:GetService("RunService")
+local userInput = game:GetService("UserInputService")
 
 -- // Color Config \\ --
 UILibrary.DefaultColors = {
@@ -177,6 +179,10 @@ UILibrary.DefaultConfig = {
     UIStrokeEnabled = true,
     -- ToggleUI = true -- this is for make the gui invisible
 }
+
+local function Lerp(a, b, t)
+	return a + (b - a) * t
+end
 
 -- // Config function \\ --
 function UILibrary.new(config)
@@ -673,65 +679,67 @@ function UILibrary:AddSlider(config)
         handleStroke.Parent = sliderHandle
     end
 
-    local dragging = false
-local currentValue = config.Default
+local isDragging = false
+local mouse = userInput:GetMouseLocation()
 
-local function updateSlider(value)
-	value = math.clamp(value, config.Min, config.Max)
-	currentValue = value
-	local fillSize = (value - config.Min) / (config.Max - config.Min)
-	sliderFill.Size = UDim2.new(fillSize, 0, 1, 0)
-	sliderHandle.Position = UDim2.new(fillSize, -8, 0.5, -8)
+local function SliderMovement(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		isDragging = true
+		local initialMouseX = input.Position.X
+		local initialHandleX = sliderHandle.Position.X.Offset
+		local delta = sliderHandle.AbsolutePosition.X - initialHandleX
 
-	local displayValue
-	if config.Round and config.Round > 0 then
-		displayValue = tonumber(string.format("%."..config.Round.."f", value))
-	else
-		displayValue = math.floor(value)
-	end
+		local connection
+		connection = runService.RenderStepped:Connect(function()
+			if isDragging then
+				local mousePos = userInput:GetMouseLocation()
+				local xOffset = mousePos.X - delta - 3
 
-	sliderText.Text = config.Text .. ": " .. displayValue
-	if config.Callback then
-		config.Callback(value)
+				local trackWidth = sliderTrack.AbsoluteSize.X - 5
+				xOffset = math.clamp(xOffset, 0, trackWidth)
+
+				sliderHandle.Position = UDim2.new(0, xOffset, 0.5, -8)
+				sliderFill.Size = UDim2.new(0, xOffset, 1, 0)
+
+				local value = Lerp(config.Min, config.Max, xOffset / trackWidth)
+
+				local displayValue
+				if config.Round and config.Round > 0 then
+					displayValue = tonumber(string.format("%." .. config.Round .. "f", value))
+				else
+					displayValue = math.floor(value)
+				end
+				sliderText.Text = config.Text .. ": " .. displayValue
+			else
+				connection:Disconnect()
+			end
+		end)
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				isDragging = false
+			end
+		end)
 	end
 end
 
--- klik pada handle = mulai drag
-sliderHandle.MouseButton1Down:Connect(function()
-	dragging = true
-end)
+local function SliderEnd(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		local trackWidth = sliderTrack.AbsoluteSize.X - 5
+		local xOffset = sliderHandle.Position.X.Offset
+		local value = Lerp(config.Min, config.Max, xOffset / trackWidth)
 
--- klik di track = langsung ubah posisi
-sliderTrack.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		local mousePos = game:GetService("UserInputService"):GetMouseLocation()
-		local trackPos = sliderTrack.AbsolutePosition
-		local trackSize = sliderTrack.AbsoluteSize
-		local relativeX = (mousePos.X - trackPos.X) / trackSize.X
-		local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
-		updateSlider(value)
-		dragging = true
+		if config.Callback then
+			config.Callback(math.round(value))
+		end
 	end
-end)
+end
 
--- update posisi saat mouse digerakkan
-game:GetService("UserInputService").InputChanged:Connect(function(input)
-	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-		local mousePos = game:GetService("UserInputService"):GetMouseLocation()
-		local trackPos = sliderTrack.AbsolutePosition
-		local trackSize = sliderTrack.AbsoluteSize
-		local relativeX = (mousePos.X - trackPos.X) / trackSize.X
-		local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
-		updateSlider(value)
-	end
-end)
+sliderHandle.InputBegan:Connect(SliderMovement)
+sliderHandle.InputEnded:Connect(SliderEnd)
 
--- berhenti drag kalau mouse dilepas
-game:GetService("UserInputService").InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = false
-	end
-end)
+sliderTrack.InputBegan:Connect(SliderMovement)
+sliderTrack.InputEnded:Connect(SliderEnd)
     
     --[[
     local dragging = false
