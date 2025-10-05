@@ -118,6 +118,7 @@ local slider = ui:AddSlider({
     Default = 16,
     Min = 1,
     Max = 100,
+    Round = 0,
     Callback = function(value)
         print("speed change to: ", value)
     end
