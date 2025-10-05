@@ -672,7 +672,68 @@ function UILibrary:AddSlider(config)
         handleStroke.Color = self.Colors.UIStrokeColor
         handleStroke.Parent = sliderHandle
     end
+
+    local dragging = false
+local currentValue = config.Default
+
+local function updateSlider(value)
+	value = math.clamp(value, config.Min, config.Max)
+	currentValue = value
+	local fillSize = (value - config.Min) / (config.Max - config.Min)
+	sliderFill.Size = UDim2.new(fillSize, 0, 1, 0)
+	sliderHandle.Position = UDim2.new(fillSize, -8, 0.5, -8)
+
+	local displayValue
+	if config.Round and config.Round > 0 then
+		displayValue = tonumber(string.format("%."..config.Round.."f", value))
+	else
+		displayValue = math.floor(value)
+	end
+
+	sliderText.Text = config.Text .. ": " .. displayValue
+	if config.Callback then
+		config.Callback(value)
+	end
+end
+
+-- klik pada handle = mulai drag
+sliderHandle.MouseButton1Down:Connect(function()
+	dragging = true
+end)
+
+-- klik di track = langsung ubah posisi
+sliderTrack.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		local mousePos = game:GetService("UserInputService"):GetMouseLocation()
+		local trackPos = sliderTrack.AbsolutePosition
+		local trackSize = sliderTrack.AbsoluteSize
+		local relativeX = (mousePos.X - trackPos.X) / trackSize.X
+		local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
+		updateSlider(value)
+		dragging = true
+	end
+end)
+
+-- update posisi saat mouse digerakkan
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+		local mousePos = game:GetService("UserInputService"):GetMouseLocation()
+		local trackPos = sliderTrack.AbsolutePosition
+		local trackSize = sliderTrack.AbsoluteSize
+		local relativeX = (mousePos.X - trackPos.X) / trackSize.X
+		local value = config.Min + (config.Max - config.Min) * math.clamp(relativeX, 0, 1)
+		updateSlider(value)
+	end
+end)
+
+-- berhenti drag kalau mouse dilepas
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
     
+    --[[
     local dragging = false
     local currentValue = config.Default
     
@@ -696,11 +757,11 @@ function UILibrary:AddSlider(config)
             config.Callback(value)
         end
     end
-    --[[
+    
     sliderHandle.MouseButton1Down:Connect(function()
         dragging = true
     end)
-    ]]
+    
     sliderTrack.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             local mousePos = game:GetService("UserInputService"):GetMouseLocation()
@@ -730,7 +791,6 @@ function UILibrary:AddSlider(config)
         end
     end)
     
-    --[[
     sliderClickArea.MouseButton1Down:Connect(function(x, y)
         local trackPos = sliderTrack.AbsolutePosition
         local trackSize = sliderTrack.AbsoluteSize
