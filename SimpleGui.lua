@@ -665,7 +665,71 @@ function UILibrary:AddSlider(config)
 	local isDragging = false
 	local stepped = RunService.RenderStepped
 	
-	-- Gerak slider
+    local sliderTrack = Instance.new("Frame")
+    sliderTrack.Name = "Track"
+    sliderTrack.Size = UDim2.new(1, 0, 0, 6)
+    sliderTrack.Position = UDim2.new(0, 0, 0.75, 0)
+    sliderTrack.BackgroundColor3 = self.Colors.SliderColor
+    sliderTrack.BorderSizePixel = 0
+    sliderTrack.ZIndex = 0
+    sliderTrack.Parent = sliderFrame
+	
+    local trackCorner = Instance.new("UICorner")
+    trackCorner.CornerRadius = UDim.new(1, 0)
+    trackCorner.Parent = sliderTrack
+
+    local sliderFill = Instance.new("Frame")
+    sliderFill.Name = "Fill"
+    sliderFill.Size = UDim2.new((config.Default - config.Min) / (config.Max - config.Min), 0, 1, 0)
+    sliderFill.BackgroundColor3 = self.Colors.AccentColor
+    sliderFill.BorderSizePixel = 0
+    sliderFill.ZIndex = 1
+    sliderFill.Parent = sliderTrack
+	
+    local fillCorner = Instance.new("UICorner")
+    fillCorner.CornerRadius = UDim.new(1, 0)
+    fillCorner.Parent = sliderFill
+
+    local sliderHandle = Instance.new("TextButton")
+    sliderHandle.Name = "Handle"
+    sliderHandle.Size = UDim2.new(0, 16, 0, 16)
+    sliderHandle.Position = UDim2.new(sliderFill.Size.X.Scale, -8, 0.5, -8)
+    sliderHandle.BackgroundColor3 = self.Colors.SliderHandleColor
+    sliderHandle.BorderSizePixel = 0
+    sliderHandle.Text = ""
+    sliderHandle.AutoButtonColor = false
+    sliderHandle.ZIndex = 2
+    sliderHandle.Parent = sliderTrack
+	
+    local handleCorner = Instance.new("UICorner")
+    handleCorner.CornerRadius = UDim.new(1, 0)
+    handleCorner.Parent = sliderHandle
+
+    if self.Config.UIStrokeEnabled then
+        local handleStroke = Instance.new("UIStroke")
+        handleStroke.Thickness = self.Config.UIStrokeThickness
+        handleStroke.Color = self.Colors.UIStrokeColor
+        handleStroke.Parent = sliderHandle
+    end
+
+-- Fungsi untuk update posisi slider dari value
+local function SetSliderValue(value)
+	value = math.clamp(value, SliConfig.Min, SliConfig.Max)
+	local ratio = (value - SliConfig.Min) / (SliConfig.Max - SliConfig.Min)
+	local xOffset = ratio * (Slider.Size.X.Offset - 5)
+	SliderButton.Position = UDim2.new(0, xOffset, -1.33333337, 0)
+	SliderFiller.Size = UDim2.new(0, xOffset, 0, 6)
+
+	if SliConfig.Round and SliConfig.Round > 0 then
+		value = tonumber(string.format("%."..SliConfig.Round.."f", value))
+	else
+		value = math.round(value)
+	end
+
+	TextBox.Text = tostring(value)
+	Current.Text = tostring(value)
+end
+
 function SliderMovement(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		isDragging = true
@@ -720,88 +784,22 @@ end
 		end
 	end
 	
+-- Event untuk update slider saat TextBox diubah
+	TextBox.FocusLost:Connect(function()
+		local num = tonumber(TextBox.Text)
+		if num then	
+			SetSliderValue(num)
+			SliConfig.Callback(num)
+		else
+			TextBox.Text = Current.Text
+		end
+	end)
 
-    local sliderTrack = Instance.new("Frame")
-    sliderTrack.Name = "Track"
-    sliderTrack.Size = UDim2.new(1, 0, 0, 6)
-    sliderTrack.Position = UDim2.new(0, 0, 0.75, 0)
-    sliderTrack.BackgroundColor3 = self.Colors.SliderColor
-    sliderTrack.BorderSizePixel = 0
-    sliderTrack.ZIndex = 0
-    sliderTrack.Parent = sliderFrame
-	sliderTrack.InputBegan:Connect(SliderMovement)
+    sliderTrack.InputBegan:Connect(SliderMovement)
 	sliderTrack.InputEnded:Connect(SliderEnd)
-	
-    local trackCorner = Instance.new("UICorner")
-    trackCorner.CornerRadius = UDim.new(1, 0)
-    trackCorner.Parent = sliderTrack
 
-    local sliderFill = Instance.new("Frame")
-    sliderFill.Name = "Fill"
-    sliderFill.Size = UDim2.new((config.Default - config.Min) / (config.Max - config.Min), 0, 1, 0)
-    sliderFill.BackgroundColor3 = self.Colors.AccentColor
-    sliderFill.BorderSizePixel = 0
-    sliderFill.ZIndex = 1
-    sliderFill.Parent = sliderTrack
-	
-    local fillCorner = Instance.new("UICorner")
-    fillCorner.CornerRadius = UDim.new(1, 0)
-    fillCorner.Parent = sliderFill
-
-    local sliderHandle = Instance.new("TextButton")
-    sliderHandle.Name = "Handle"
-    sliderHandle.Size = UDim2.new(0, 16, 0, 16)
-    sliderHandle.Position = UDim2.new(sliderFill.Size.X.Scale, -8, 0.5, -8)
-    sliderHandle.BackgroundColor3 = self.Colors.SliderHandleColor
-    sliderHandle.BorderSizePixel = 0
-    sliderHandle.Text = ""
-    sliderHandle.AutoButtonColor = false
-    sliderHandle.ZIndex = 2
-    sliderHandle.Parent = sliderTrack
 	sliderHandle.InputBegan:Connect(SliderMovement)
 	sliderHandle.InputEnded:Connect(SliderEnd)
-	
-    local handleCorner = Instance.new("UICorner")
-    handleCorner.CornerRadius = UDim.new(1, 0)
-    handleCorner.Parent = sliderHandle
-
-    if self.Config.UIStrokeEnabled then
-        local handleStroke = Instance.new("UIStroke")
-        handleStroke.Thickness = self.Config.UIStrokeThickness
-        handleStroke.Color = self.Colors.UIStrokeColor
-        handleStroke.Parent = sliderHandle
-    end
-
--- Fungsi untuk update posisi slider dari value
-local function SetSliderValue(value)
-	value = math.clamp(value, SliConfig.Min, SliConfig.Max)
-	local ratio = (value - SliConfig.Min) / (SliConfig.Max - SliConfig.Min)
-	local xOffset = ratio * (Slider.Size.X.Offset - 5)
-	SliderButton.Position = UDim2.new(0, xOffset, -1.33333337, 0)
-	SliderFiller.Size = UDim2.new(0, xOffset, 0, 6)
-
-	if SliConfig.Round and SliConfig.Round > 0 then
-		value = tonumber(string.format("%."..SliConfig.Round.."f", value))
-	else
-		value = math.round(value)
-	end
-
-	TextBox.Text = tostring(value)
-	Current.Text = tostring(value)
-end
-	
--- Event untuk update slider saat TextBox diubah
-TextBox.FocusLost:Connect(function()
-	local num = tonumber(TextBox.Text)
-	if num then
-		SetSliderValue(num)
-		SliConfig.Callback(num)
-	else
-		TextBox.Text = Current.Text
-	end
-end)
-
--- Koneksi event utam
     
     table.insert(self.Elements, sliderFrame)
     return sliderFrame, function() return currentValue end
