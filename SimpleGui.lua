@@ -1,6 +1,127 @@
+--[[ 
+Hello Again guys, sorry for the TurtleUiLib no new update now.
+but i found another UI lib Called SimpleUI.
+Credits to hm5650 on Github.
+]]
+
+--[[
+How To Call This Lib?
+
+// Here the function: \\
+
+-- really cool gui this is a WIP tho :>
+
+-- Config
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/hm5650/SimpleGui/refs/heads/main/SimpleGui.lua"))()
+local ui = UILibrary.new({
+    TitleText = "My Really cool gui", -- change title text
+    Size = UDim2.new(0, 175, 0, 225), -- change Size
+    Position = UDim2.new(0.5, -140, 0.5, -190), -- change position when UI starts
+    TitleHeight = 30,
+    CornerRadius = 6,
+    ElementPadding = 6,
+    Font = Enum.Font.GothamSemibold,
+    TextSize = 12,
+    SectionHeight = 20,
+    UIStrokeThickness = 1
+})
+
+-- Elements
+
+local section1 = ui:AddSection("Basic Controls") -- section
+
+-- Button
+ui:AddButton({
+    Text = "Button Sample",
+    Callback = function()
+        print("Clicked!")
+    end
+})
+
+-- Toggle
+local toggle = ui:AddToggle({
+    Text = "ToggleGetState",
+    Default = false, -- change default true Toggled On / False Toggled Off
+    Callback = function(state)
+        print("Toggle state changed to:", state)
+    end
+})
+
+-- Toggle with GetState
+local toggle, getToggleState = ui:AddToggle({
+    Text = "Toggle Sample",
+    Default = true,
+    Callback = function(state)
+        print("Toggle state changed to:", state)
+    end
+})
+
+-- Button to check GetState
+ui:AddButton({
+    Text = "Check Toggle State",
+    Callback = function()
+        print("Current toggle state:", getToggleState())
+    end
+})
+
+ui:AddSeparator() -- Separator/Divider
+local section2 = ui:AddSection("TextBoxz")
+
+-- Simple Textbox
+local textBox = ui:AddTextBox({
+    Text = "Type Me!",
+    Default = "stuff",
+    Placeholder = "Type Me!",
+    Callback = function(text)
+        print("entered:", text)
+    end
+})
+
+ui:AddTextBox({
+    Text = "Password",
+    Default = "Stuff",
+    Placeholder = "Enter password",
+    Callback = function(text)
+        print("nice pass:", text)
+    end
+})
+
+ui:AddSeparator()
+local section3 = ui:AddSection("Stuff")
+
+-- UI controlz
+
+ui:AddButton({
+    Text = "Change UI Title",
+    Callback = function()
+        ui:SetTitle("New Title - " .. os.date("%X"))
+    end
+})
+
+ui:AddButton({
+    Text = "ByeBye",
+    Callback = function()
+        ui:Destroy()
+    end
+})
+
+ui:AddSeparator()
+local section4 = ui:AddSection("Labels")
+
+-- labelz
+
+ui:AddLabel("I'm a label")
+ui:AddLabel("Today: " .. os.date("%B %d, %Y"))
+
+you can look the original github
+here the link:
+https://github.com/hm5650/SimpleGui/blob/main/Example.lua
+
+]]
+
 local UILibrary = {}
 
--- cool colors
+-- // Color Config \\ --
 UILibrary.DefaultColors = {
     TitleColor = Color3.fromRGB(255, 255, 255),
     CollapseBtnColor = Color3.fromRGB(25, 25, 25),
@@ -33,9 +154,11 @@ UILibrary.DefaultConfig = {
     TextSize = 12,
     SectionHeight = 20,
     UIStrokeThickness = 1,
-    UIStrokeEnabled = true
+    UIStrokeEnabled = true,
+    -- ToggleUI = true -- this is for make the gui invisible
 }
 
+-- // Config function \\ --
 function UILibrary.new(config)
     local self = setmetatable({}, { __index = UILibrary })
     
@@ -58,6 +181,7 @@ function UILibrary.new(config)
     return self
 end
 
+-- // Main Function for Create the Gui \\ --
 function UILibrary:CreateUI()
     self.ScreenGui = Instance.new("ScreenGui")
     self.ScreenGui.Name = "UILibrary"
@@ -191,16 +315,19 @@ function UILibrary:ToggleMinimize()
     end
 end
 
+-- // Function for set the Visibility \\ --
 function UILibrary:ToggleVisibility()
     self.Visible = not self.Visible
     self.ScreenGui.Enabled = self.Visible
 end
 
+-- // Function for change the title \\ --
 function UILibrary:SetTitle(newTitle)
     self.Config.TitleText = newTitle
     self.TitleText.Text = newTitle
 end
 
+-- // Function for make a section \\ --
 function UILibrary:AddSection(text)
     local section = Instance.new("Frame")
     section.Name = "Section_" .. text
@@ -226,6 +353,7 @@ function UILibrary:AddSection(text)
     return section
 end
 
+-- // Function for make a Label \\ --
 function UILibrary:AddLabel(text)
     local label = Instance.new("TextLabel")
     label.Name = "Label_" .. text
@@ -244,6 +372,7 @@ function UILibrary:AddLabel(text)
     return label
 end
 
+-- // Function for make a Button \\ --
 function UILibrary:AddButton(config)
     local button = Instance.new("TextButton")
     button.Name = "Button_" .. config.Text
@@ -294,6 +423,7 @@ function UILibrary:AddButton(config)
     return button
 end
 
+-- // Function for make a Toggle \\ --
 function UILibrary:AddToggle(config)
     local toggleFrame = Instance.new("Frame")
     toggleFrame.Name = "Toggle_" .. config.Text
@@ -373,6 +503,7 @@ function UILibrary:AddToggle(config)
     return toggleFrame, function() return state end
 end
 
+-- // Function for make a Textbox \\ --
 function UILibrary:AddTextBox(config)
     local textBoxFrame = Instance.new("Frame")
     textBoxFrame.Name = "TextBox_" .. config.Text
@@ -431,6 +562,7 @@ function UILibrary:AddTextBox(config)
     return textBoxFrame
 end
 
+-- // Function for make a Divider \\ --
 function UILibrary:AddSeparator()
     local separator = Instance.new("Frame")
     separator.Name = "Separator"
@@ -445,6 +577,7 @@ function UILibrary:AddSeparator()
     return separator
 end
 
+-- // Function for make a Slider \\ --
 function UILibrary:AddSlider(config)
     local sliderFrame = Instance.new("Frame")
     sliderFrame.Name = "Slider_" .. config.Text
