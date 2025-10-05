@@ -5,7 +5,7 @@ Credits to hm5650 on Github.
 ]]
 
 --[[
-How To Call This Lib?
+How To use This Lib?
 
 // Here the function: \\
 
