@@ -10,9 +10,13 @@ How To Call This Lib?
 // Here the function: \\
 
 -- really cool gui this is a WIP tho :>
-
 -- Config
-local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/hm5650/SimpleGui/refs/heads/main/SimpleGui.lua"))()
+
+-- local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/hm5650/SimpleGui/refs/heads/main/SimpleGui.lua"))()
+-- you can use the original link or my link
+-- if hm5650 update the gui, this script update too.
+
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/LittenHub/Fuckyouman/refs/heads/main/SimpleGui.lua"))()
 local ui = UILibrary.new({
     TitleText = "My Really cool gui", -- change title text
     Size = UDim2.new(0, 175, 0, 225), -- change Size
