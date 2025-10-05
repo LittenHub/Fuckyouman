@@ -110,7 +110,7 @@ ui:AddButton({
 })
 
 ui:AddSeparator()
-local section4 = ui:AddSection("Labels")
+local section4 = ui:AddSection("Slider")
 
 -- the Sliders is buggy now.
 local slider = ui:AddSlider({
