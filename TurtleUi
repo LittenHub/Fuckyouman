@@ -60,6 +60,14 @@ Window:Toggle({
     end
 })
 
+Window:Toogle({
+    Name = "Toogle",
+    Default = false,
+    Callback = function(value)
+        -- script here
+    end
+})
+
 Window:ColorPicker({
    Name = "Color Picker",
    Default = Color3.fromRGB(255, 255, 255),
