@@ -568,7 +568,16 @@ end)
         ToogleButton.ZIndex = 2 + zindex
         ToogleButton.MouseButton1Up:Connect(function()
             ToogleFiller.Visible = not ToogleFiller.Visible
-            ToogConfig.Callback(ToogleFiller.Visible)
+        end)
+
+        local BetterLoopOperator = false
+
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if ToogleFiller.Visible and BetterLoopOperator == false then
+                BetterLoopOperator = true
+                ToogConfig.Callback(ToogleFiller.Visible)
+                BetterLoopOperator = false
+            end
         end)
 
         ToogleFiller.Name = "ToogleFiller"
