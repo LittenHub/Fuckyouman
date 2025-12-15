@@ -21,7 +21,10 @@
 [+] - Added a PlaceHolder on the Dropdown
 
 - / September, 6, Saturday, 2025 \ -
-[+] - Add a Orion or Rayfield function call style
+[+] - Added a Orion or Rayfield function call style
+
+- / December, 15, Tuesday, 2025 \ -
+[-] - Remove destroy gui when you execute the library two times
 
 ]]--
 
@@ -124,14 +127,7 @@ local windows = {}
 local pastSliders = {}
 local dropdowns = {}
 local dropdownSizes = {}
-local destroyed
-
 local colorPickers = {}
-
-if game.CoreGui:FindFirstChild('TurtleUiLib') then
-    game.CoreGui:FindFirstChild('TurtleUiLib'):Destroy()
-    destroyed = true
-end
 
 function Lerp(a, b, c)
     return a + ((b - a) * c)
