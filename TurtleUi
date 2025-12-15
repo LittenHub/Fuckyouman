@@ -525,6 +525,63 @@ end)
         pastSliders[winCount] = false
     end
 
+    -- // Toggle Function \\ --
+    function functions:Toogle(ToogConfig)
+		ToogConfig = ToogConfig or {}
+        ToogConfig.Name = ToogConfig.Name or "Toogle"
+        ToogConfig.Default = ToogConfig.Default or false
+        ToogConfig.Callback = ToogConfig.Callback or function() end
+
+        sizes[winCount] = sizes[winCount] + 32
+        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+
+        listOffset[winCount] = listOffset[winCount] + 32
+
+        local ToogleDescription = Instance.new("TextLabel")
+        local ToogleButton = Instance.new("TextButton")
+        local ToogleFiller = Instance.new("Frame")
+
+        ToogleDescription.Name = "ToogleDescription"
+        ToogleDescription.Parent = Window
+        ToogleDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ToogleDescription.BackgroundTransparency = 1.000
+        ToogleDescription.Position = UDim2.new(0, 14, 0, listOffset[winCount])
+        ToogleDescription.Size = UDim2.new(0, 131, 0, 26)
+        ToogleDescription.Font = Enum.Font.SourceSans
+        ToogleDescription.Text = ToogConfig.Name
+        ToogleDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
+        ToogleDescription.TextSize = 16.000
+        ToogleDescription.TextWrapped = true
+        ToogleDescription.TextXAlignment = Enum.TextXAlignment.Left
+        ToogleDescription.ZIndex = 2 + zindex
+
+        ToogleButton.Name = "ToogleButton"
+        ToogleButton.Parent = ToogleDescription
+        ToogleButton.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
+        ToogleButton.BorderColor3 = Color3.fromRGB(113, 128, 147)
+        ToogleButton.Position = UDim2.new(1.2061069, 0, 0.0769230798, 0)
+        ToogleButton.Size = UDim2.new(0, 22, 0, 22)
+        ToogleButton.Font = Enum.Font.SourceSans
+        ToogleButton.Text = ""
+        ToogleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+        ToogleButton.TextSize = 14.000
+        ToogleButton.ZIndex = 2 + zindex
+        ToogleButton.MouseButton1Up:Connect(function()
+            ToogleFiller.Visible = not ToogleFiller.Visible
+            ToogConfig.Callback(ToogleFiller.Visible)
+        end)
+
+        ToogleFiller.Name = "ToogleFiller"
+        ToogleFiller.Parent = ToogleButton
+        ToogleFiller.BackgroundColor3 = Color3.fromRGB(68, 189, 50)
+        ToogleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
+        ToogleFiller.Position = UDim2.new(0, 5, 0, 5)
+        ToogleFiller.Size = UDim2.new(0, 13, 0, 13)
+        ToogleFiller.Visible = ToogConfig.Default
+        ToogleFiller.ZIndex = 2 + zindex
+        pastSliders[winCount] = false
+    end
+
 	-- // TextBox Function \\ --
     function functions:Box(BoxConfig)
         BoxConfig = BoxConfig or {}
