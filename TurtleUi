@@ -534,7 +534,7 @@ function library:Window(WinConfig)
         pastSliders[winCount] = false
     end
 
-    -- // Toggle Function \\ --
+    -- // Toogle Function \\ --
     function functions:Toogle(ToogConfig)
 		ToogConfig = ToogConfig or {}
         ToogConfig.Name = ToogConfig.Name or "Toogle"
@@ -810,6 +810,7 @@ function library:Window(WinConfig)
 
         local Dropdown = Instance.new("TextButton")
         local DownSign = Instance.new("TextLabel")
+        local DropdownParent = Instance.new("Frame")
         local DropdownFrame = Instance.new("ScrollingFrame")
 
         sizes[winCount] = sizes[winCount] + 32
@@ -834,14 +835,14 @@ function library:Window(WinConfig)
         Dropdown.MouseButton1Click:Connect(function()
             for i, v in pairs(dropdowns) do
                 if v ~= DropdownFrame then
-                v.Visible = false
-                DownSign.Rotation = 0
+                   v.Visible = false
+                   DownSign.Rotation = 0
                 end
             end
             if DropdownFrame.Visible then
-                DownSign.Rotation = 0
+                DownSign.Rotation = 45
             else
-                DownSign.Rotation = 180
+                DownSign.Rotation = 225
             end
             DropdownFrame.Visible = not DropdownFrame.Visible
         end)
@@ -854,10 +855,21 @@ function library:Window(WinConfig)
         DownSign.Size = UDim2.new(0, 27, 0, 22)
         DownSign.Font = Enum.Font.SourceSans
         DownSign.Text = "^"
+        DownSign.Rotation = 45
         DownSign.TextColor3 = Color3.fromRGB(220, 221, 225)
         DownSign.TextSize = 20.000
         DownSign.ZIndex = 4 + zindex
         DownSign.TextYAlignment = Enum.TextYAlignment.Bottom
+
+        DropdownParent.Name = "DropdownParent"
+        DropdownParent.Parent = Window
+        DropdownParent.Active = false
+        DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
+        DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
+        DropdownParent.Position = UDim2.new(1, 10, 0, 0)
+        DropdownParent.Size = UDim2.new(0, 182, 0, 0)
+        DropdownParent.Visible = true
+        DropdownParent.BackgroundTransparency = 1
 
         DropdownFrame.Name = "DropdownFrame"
         DropdownFrame.Parent = Dropdown
@@ -865,10 +877,10 @@ function library:Window(WinConfig)
         DropdownFrame.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         DropdownFrame.BorderColor3 = Color3.fromRGB(53, 59, 72)
         DropdownFrame.Position = UDim2.new(1, 20, -1, 20)
-        DropdownFrame.Size = UDim2.new(0, 182, 0, 0)
+        DropdownFrame.Size = UDim2.new(1, 0, 0, 0)
         DropdownFrame.Visible = false
         DropdownFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-        DropdownFrame.ScrollBarThickness = 4
+        DropdownFrame.ScrollBarThickness = 3
         DropdownFrame.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
         DropdownFrame.ZIndex = 5 + zindex
         DropdownFrame.ScrollingDirection = Enum.ScrollingDirection.Y
@@ -896,12 +908,12 @@ function library:Window(WinConfig)
             canvasSize = canvasSize + 27
             DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
             if #DropdownFrame:GetChildren() < 8 then
-            DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset + 27)
+                DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset + 27)
             end
             Button_2.MouseButton1Click:Connect(function()
                 DropConfig.Callback(name)
-        Dropdown.Text = name
-		DropdownFrame.Visible = false
+                Dropdown.Text = name
+	        	DropdownFrame.Visible = false
             end)
         end
         function dropFunctions:Remove(name)
@@ -924,8 +936,7 @@ function library:Window(WinConfig)
                 warn("The button you tried to remove didn't exist!")
             end
         end
-
-        local function AddPlaceholder(labelText)
+        function dropFunctions:AddPlaceholder(labelText)
     		local PlaceholderLabel = Instance.new("TextLabel")
     		PlaceholderLabel.Name = "Placeholder"
     		PlaceholderLabel.Parent = DropdownFrame
@@ -944,7 +955,7 @@ function library:Window(WinConfig)
     		canvasSize = canvasSize + 27
     		DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
     		if #DropdownFrame:GetChildren() < 8 then
-        		DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset + 27)
+        		DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset + 27)
     		end
 		end
 
@@ -952,7 +963,7 @@ function library:Window(WinConfig)
     		if typeof(item) == "string" then
         		dropFunctions:Button(item)
     		elseif typeof(item) == "table" and item.PlaceHolder then
-        		AddPlaceholder(item.PlaceHolder)
+        		dropFunctions:AddPlaceholder(item.PlaceHolder)
     		end
 		end
 
