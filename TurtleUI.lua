@@ -137,6 +137,28 @@ local pastSliders = {}
 local dropdowns = {}
 local dropdownSizes = {}
 local colorPickers = {}
+local theme = {
+	Default = {
+		WindowBackground = Color3.fromRGB(47, 54, 64),
+		WindowBorder = Color3.fromRGB(47, 54, 64),
+		
+		UIWindow = Color3.fromRGB(0, 151, 230),
+		UIWindowBorder = Color3.fromRGB(0, 151, 230),
+		
+		Header = Color3.fromRGB(0, 168, 255),
+		HeaderBorder = Color3.fromRGB(0, 168, 255),
+		
+		HeaderText = Color3.fromRGB(47, 54, 64),
+
+		NormalText = Color3.fromRGB(245, 246, 250),
+		NormalBackground = Color3.fromRGB(53, 59, 72),
+
+		ToggleFiller = Color3.fromRGB(68, 189, 50),
+		ToggleBackground = Color3.fromRGB(47, 54, 64),
+
+		TextBoxBackground = Color3.fromRGB(53, 59, 72)
+	}
+}
 
 function Lerp(a, b, c)
     return a + ((b - a) * c)
@@ -183,18 +205,18 @@ end
 -- // Instances:
 
 local function protect_gui(obj) 
-if destroyed then
-   obj.Parent = game.CoreGui
-   return
-end
-if syn and syn.protect_gui then
-syn.protect_gui(obj)
-obj.Parent = game.CoreGui
-elseif PROTOSMASHER_LOADED then
-obj.Parent = get_hidden_gui()
-else
-obj.Parent = game.CoreGui
-end
+	if destroyed then
+		obj.Parent = game.CoreGui
+		return
+	end
+	if syn and syn.protect_gui then
+		syn.protect_gui(obj)
+		obj.Parent = game.CoreGui
+	elseif PROTOSMASHER_LOADED then
+		obj.Parent = get_hidden_gui()
+	else
+		obj.Parent = game.CoreGui
+	end
 end
 
 -- // Making the ScreenGui \\ --
@@ -392,9 +414,9 @@ function library:Window(WinConfig)
     Minimise.Position = UDim2.new(0, 185, 0, 2)
     Minimise.Size = UDim2.new(0, 22, 0, 22)
     Minimise.ZIndex = 7 + zindex
-    Minimise.Font = Enum.Font.SourceSansLight
+    Minimise.Font = Enum.Font.SourceSansBold
     Minimise.Text = "–"
-    Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Minimise.TextColor3 = Color3.fromRGB(47, 54, 64)
     Minimise.TextSize = 20.000
 
     Minimise.MouseButton1Click:Connect(function()
@@ -528,7 +550,7 @@ function library:Window(WinConfig)
         ToggleFiller.BackgroundColor3 = Color3.fromRGB(68, 189, 50)
         ToggleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
         ToggleFiller.Position = UDim2.new(0, 4, 0, 4)
-        ToggleFiller.Size = UDim2.new(0, 13, 0, 13)
+        ToggleFiller.Size = UDim2.new(0, 14, 0, 14)
         ToggleFiller.Visible = TogConfig.Default
         ToggleFiller.ZIndex = 2 + zindex
         pastSliders[winCount] = false
@@ -594,7 +616,7 @@ function library:Window(WinConfig)
         ToogleFiller.BackgroundColor3 = Color3.fromRGB(68, 189, 50)
         ToogleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
         ToogleFiller.Position = UDim2.new(0, 4, 0, 4)
-        ToogleFiller.Size = UDim2.new(0, 13, 0, 13)
+        ToogleFiller.Size = UDim2.new(0, 14, 0, 14)
         ToogleFiller.Visible = ToogConfig.Default
         ToogleFiller.ZIndex = 2 + zindex
         pastSliders[winCount] = false
@@ -840,9 +862,9 @@ function library:Window(WinConfig)
                 end
             end
             if DropdownFrame.Visible then
-                DownSign.Rotation = 45
+                DownSign.Rotation = 90
             else
-                DownSign.Rotation = 225
+                DownSign.Rotation = 270
             end
             DropdownFrame.Visible = not DropdownFrame.Visible
         end)
@@ -855,7 +877,7 @@ function library:Window(WinConfig)
         DownSign.Size = UDim2.new(0, 27, 0, 22)
         DownSign.Font = Enum.Font.SourceSans
         DownSign.Text = "^"
-        DownSign.Rotation = 45
+        DownSign.Rotation = 90
         DownSign.TextColor3 = Color3.fromRGB(220, 221, 225)
         DownSign.TextSize = 20.000
         DownSign.ZIndex = 4 + zindex
