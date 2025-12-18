@@ -33,7 +33,7 @@
 --[[
 
 -- Turtle Ui Library
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LittenHub/Fuckyouman/refs/heads/main/TurtleUi"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LittenHub/Fuckyouman/refs/heads/main/TurtleUI.lua"))()
 
 -- Making a window
 local Window = library:Window({Name = "Table Turtle Hub"})
