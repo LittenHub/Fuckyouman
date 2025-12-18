@@ -24,7 +24,6 @@
 [+] - Added a Orion or Rayfield function call style
 
 - / December, 15, Tuesday, 2025 \ -
-[-] - Remove destroy gui when you execute the library two times
 [+] - Added Toggle with loop
 
 ]]--
