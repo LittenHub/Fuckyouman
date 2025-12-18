@@ -25,7 +25,7 @@
 
 - / December, 15, Tuesday, 2025 \ -
 [-] - Remove destroy gui when you execute the library two times
-[+] - Added Toogle with loop
+[+] - Added Toggle with loop
 
 ]]--
 
@@ -244,7 +244,7 @@ function library:Notification(NotificationConfig)
 		NotificationFrame.Size = UDim2.new(1,0,0,0)
 		NotificationFrame.AutomaticSize = Enum.AutomaticSize.Y
 		NotificationFrame.BackgroundColor3 = Color3.fromRGB(40,40,40)
-		NotificationFrame.BackgroundTransparency = 0.5
+		NotificationFrame.BackgroundTransparency = 0.3
 		NotificationFrame.Parent = NotificationParent
 
 		local Stroke = Instance.new("UIStroke", NotificationFrame)
@@ -370,7 +370,7 @@ function library:Window(WinConfig)
     HeaderText.Position = UDim2.new(0, 0, -0.0020698905, 0)
     HeaderText.Size = UDim2.new(0, 206, 0, 33)
     HeaderText.ZIndex = 6 + zindex
-    HeaderText.Font = Enum.Font.SourceSans
+    HeaderText.Font = Enum.Font.SourceSansBold
     HeaderText.Text = WinConfig.Name
     HeaderText.TextColor3 = Color3.fromRGB(47, 54, 64)
     HeaderText.TextSize = 17.000
@@ -397,14 +397,14 @@ function library:Window(WinConfig)
     Minimise.TextColor3 = Color3.fromRGB(0, 0, 0)
     Minimise.TextSize = 20.000
 
-Minimise.MouseButton1Up:Connect(function()
-    Window.Visible = not Window.Visible
-    if Window.Visible then
-        Minimise.Text = "–"
-    else
-        Minimise.Text = "+"
-    end
-end)
+    Minimise.MouseButton1Click:Connect(function()
+       Window.Visible = not Window.Visible
+       if Window.Visible then
+          Minimise.Text = "–"
+       else
+          Minimise.Text = "+"
+       end
+    end)
 
     local functions = {}
     sizes[winCount] = 33
@@ -518,7 +518,7 @@ end)
         ToggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         ToggleButton.TextSize = 14.000
         ToggleButton.ZIndex = 2 + zindex
-        ToggleButton.MouseButton1Up:Connect(function()
+        ToggleButton.MouseButton1Click:Connect(function()
             ToggleFiller.Visible = not ToggleFiller.Visible
             TogConfig.Callback(ToggleFiller.Visible)
         end)
@@ -527,7 +527,7 @@ end)
         ToggleFiller.Parent = ToggleButton
         ToggleFiller.BackgroundColor3 = Color3.fromRGB(68, 189, 50)
         ToggleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
-        ToggleFiller.Position = UDim2.new(0, 5, 0, 5)
+        ToggleFiller.Position = UDim2.new(0, 4, 0, 4)
         ToggleFiller.Size = UDim2.new(0, 13, 0, 13)
         ToggleFiller.Visible = TogConfig.Default
         ToggleFiller.ZIndex = 2 + zindex
@@ -575,7 +575,7 @@ end)
         ToogleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         ToogleButton.TextSize = 14.000
         ToogleButton.ZIndex = 2 + zindex
-        ToogleButton.MouseButton1Up:Connect(function()
+        ToogleButton.MouseButton1Click:Connect(function()
             ToogleFiller.Visible = not ToogleFiller.Visible
         end)
 
@@ -593,7 +593,7 @@ end)
         ToogleFiller.Parent = ToogleButton
         ToogleFiller.BackgroundColor3 = Color3.fromRGB(68, 189, 50)
         ToogleFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
-        ToogleFiller.Position = UDim2.new(0, 5, 0, 5)
+        ToogleFiller.Position = UDim2.new(0, 4, 0, 4)
         ToogleFiller.Size = UDim2.new(0, 13, 0, 13)
         ToogleFiller.Visible = ToogConfig.Default
         ToogleFiller.ZIndex = 2 + zindex
