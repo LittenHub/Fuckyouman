@@ -428,6 +428,17 @@ function library:Window(WinConfig)
        end
     end)
 
+	local DropdownParent = Instance.new("Frame")
+	DropdownParent.Name = "DropdownParent"
+    DropdownParent.Parent = Window
+    DropdownParent.Active = false
+    DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
+    DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
+    DropdownParent.Position = UDim2.new(1, 20, 0, 0)
+    DropdownParent.Size = UDim2.new(0, 182, 0, 0)
+    DropdownParent.Visible = true
+    DropdownParent.BackgroundTransparency = 0
+
     local functions = {}
     sizes[winCount] = 33
     listOffset[winCount] = 10
@@ -832,7 +843,6 @@ function library:Window(WinConfig)
 
         local Dropdown = Instance.new("TextButton")
         local DownSign = Instance.new("TextLabel")
-        local DropdownParent = Instance.new("Frame")
         local DropdownFrame = Instance.new("ScrollingFrame")
 
         sizes[winCount] = sizes[winCount] + 32
@@ -882,16 +892,6 @@ function library:Window(WinConfig)
         DownSign.TextSize = 20.000
         DownSign.ZIndex = 4 + zindex
         DownSign.TextYAlignment = Enum.TextYAlignment.Bottom
-
-        DropdownParent.Name = "DropdownParent"
-        DropdownParent.Parent = Window
-        DropdownParent.Active = false
-        DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
-        DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-        DropdownParent.Position = UDim2.new(1, 20, 0, 0)
-        DropdownParent.Size = UDim2.new(0, 182, 0, 0)
-        DropdownParent.Visible = true
-        DropdownParent.BackgroundTransparency = 0
 
         DropdownFrame.Name = "DropdownFrame"
         DropdownFrame.Parent = DropdownParent
