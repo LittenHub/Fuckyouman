@@ -888,17 +888,17 @@ function library:Window(WinConfig)
         DropdownParent.Active = false
         DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-        DropdownParent.Position = UDim2.new(1, 10, 0, 0)
+        DropdownParent.Position = UDim2.new(1, 20, 0, 0)
         DropdownParent.Size = UDim2.new(0, 182, 0, 0)
         DropdownParent.Visible = true
-        DropdownParent.BackgroundTransparency = 1
+        DropdownParent.BackgroundTransparency = 0
 
         DropdownFrame.Name = "DropdownFrame"
-        DropdownFrame.Parent = Dropdown
+        DropdownFrame.Parent = DropdownParent
         DropdownFrame.Active = true
         DropdownFrame.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         DropdownFrame.BorderColor3 = Color3.fromRGB(53, 59, 72)
-        DropdownFrame.Position = UDim2.new(1, 20, -1, 20)
+        DropdownFrame.Position = UDim2.new(0, 0, 0, 0)
         DropdownFrame.Size = UDim2.new(1, 0, 0, 0)
         DropdownFrame.Visible = false
         DropdownFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
