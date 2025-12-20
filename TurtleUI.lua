@@ -434,7 +434,7 @@ function library:Window(WinConfig)
     DropdownParent.Active = false
     DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-    DropdownParent.Position = UDim2.new(1, 20, 0, 0)
+    DropdownParent.Position = UDim2.new(1, 20, 0, 33)
     DropdownParent.Size = UDim2.new(0, 182, 0, 0)
     DropdownParent.Visible = true
     DropdownParent.BackgroundTransparency = 0
