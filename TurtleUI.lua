@@ -434,10 +434,10 @@ function library:Window(WinConfig)
     DropdownParent.Active = false
     DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-    DropdownParent.Position = UDim2.new(1, 20, 0, 35)
+    DropdownParent.Position = UDim2.new(1, 20, 0, 36)
     DropdownParent.Size = UDim2.new(0, 192, 0, 0)
     DropdownParent.Visible = true
-    DropdownParent.BackgroundTransparency = 0
+    DropdownParent.BackgroundTransparency = 1
 
     local functions = {}
     sizes[winCount] = 33
@@ -868,13 +868,13 @@ function library:Window(WinConfig)
             for i, v in pairs(dropdowns) do
                 if v ~= DropdownFrame and v.Visible then
                    v.Visible = false
-                   TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
+                   TweenService:Create(DownSign, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
                 end
             end
-			if not DropdownFrame.Visible then
-				TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
+			if DropdownFrame.Visible then
+				TweenService:Create(DownSign, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
 			else
-				TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 270}):Play()
+				TweenService:Create(DownSign, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {Rotation = 270}):Play()
 			end
             DropdownFrame.Visible = not DropdownFrame.Visible
         end)
@@ -902,7 +902,7 @@ function library:Window(WinConfig)
         DropdownFrame.Size = UDim2.new(1, 0, 0, 0)
         DropdownFrame.Visible = false
         DropdownFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-        DropdownFrame.ScrollBarThickness = 3
+        DropdownFrame.ScrollBarThickness = 2
         DropdownFrame.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
         DropdownFrame.ZIndex = 5 + zindex
         DropdownFrame.ScrollingDirection = Enum.ScrollingDirection.Y
@@ -917,7 +917,7 @@ function library:Window(WinConfig)
             Button_2.Parent = DropdownFrame
             Button_2.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
             Button_2.BorderColor3 = Color3.fromRGB(113, 128, 147)
-			Button_2.BorderSize = 0
+			Button_2.BorderSizePixel = 0
             Button_2.Position = UDim2.new(0, 6, 0, canvasSize + 1)
             Button_2.Size = UDim2.new(0, 170, 0, 26)
             Button_2.Selected = true
