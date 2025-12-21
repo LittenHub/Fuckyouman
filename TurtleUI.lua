@@ -434,7 +434,7 @@ function library:Window(WinConfig)
     DropdownParent.Active = false
     DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-    DropdownParent.Position = UDim2.new(1, 20, 0, 34)
+    DropdownParent.Position = UDim2.new(1, 20, 0, 35)
     DropdownParent.Size = UDim2.new(0, 192, 0, 0)
     DropdownParent.Visible = true
     DropdownParent.BackgroundTransparency = 0
@@ -865,14 +865,17 @@ function library:Window(WinConfig)
         Dropdown.TextWrapped = true
         Dropdown.ZIndex = 3 + zindex
         Dropdown.MouseButton1Click:Connect(function()
-			local rot = DownSign.Rotation + 180
             for i, v in pairs(dropdowns) do
                 if v ~= DropdownFrame and v.Visible then
                    v.Visible = false
-                   TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = rot}):Play()
+                   TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
                 end
             end
-            TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = rot}):Play()
+			if not DropdownFrame.Visible then
+				TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
+			else
+				TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 270}):Play()
+			end
             DropdownFrame.Visible = not DropdownFrame.Visible
         end)
 
