@@ -610,6 +610,7 @@ function library:Window(WinConfig)
         ToogleButton.ZIndex = 2 + zindex
         ToogleButton.MouseButton1Click:Connect(function()
             ToogleFiller.Visible = not ToogleFiller.Visible
+			ToogConfig.Callback(ToogleFiller.Visible)
         end)
 
         local BetterLoopOperator = false
