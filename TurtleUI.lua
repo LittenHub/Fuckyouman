@@ -434,7 +434,7 @@ function library:Window(WinConfig)
     DropdownParent.Active = false
     DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-    DropdownParent.Position = UDim2.new(1, 20, 0, 36)
+    DropdownParent.Position = UDim2.new(1, 5, 0, 36)
     DropdownParent.Size = UDim2.new(0, 192, 0, 0)
     DropdownParent.Visible = true
     DropdownParent.BackgroundTransparency = 1
@@ -757,6 +757,7 @@ function library:Window(WinConfig)
 
         Slider.Name = "Slider"
         Slider.Parent = Window
+		Slider.Active = true
         Slider.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
         Slider.BorderColor3 = Color3.fromRGB(113, 128, 147)
         Slider.Position = UDim2.new(0, 13, 0, listOffset[winCount])
@@ -767,6 +768,7 @@ function library:Window(WinConfig)
 
         SliderButton.Position = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), -1.333337, 0)
         SliderButton.Name = "SliderButton"
+		SliderButton.Active = true
         SliderButton.Parent = Slider
         SliderButton.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         SliderButton.BorderColor3 = Color3.fromRGB(113, 128, 147)
@@ -931,7 +933,8 @@ function library:Window(WinConfig)
 			local btn_2_stroke = Instance.new("UIStroke")
 			btn_2_stroke.Parent = Button_2
 			btn_2_stroke.Color = Color3.fromRGB(113, 128, 147)
-			btn_2_stroke.Thickness = 5
+			btn_2_stroke.Thickness = 1
+			btn_2_stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             canvasSize = canvasSize + 27
             DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
             if #DropdownFrame:GetChildren() < 8 then
@@ -941,6 +944,7 @@ function library:Window(WinConfig)
                 DropConfig.Callback(name)
                 Dropdown.Text = name
 	        	DropdownFrame.Visible = false
+				TweenService:Create(DownSign, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
             end)
         end
         function dropFunctions:Remove(name)
@@ -967,7 +971,7 @@ function library:Window(WinConfig)
     		local PlaceholderLabel = Instance.new("TextLabel")
     		PlaceholderLabel.Name = "Placeholder"
     		PlaceholderLabel.Parent = DropdownFrame
-    		PlaceholderLabel.BackgroundColor3 = Color3.fromRGB(45, 52, 64)
+    		PlaceholderLabel.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     		PlaceholderLabel.BorderSizePixel = 0
     		PlaceholderLabel.Size = UDim2.new(0, 170, 0, 26)
     		PlaceholderLabel.Position = UDim2.new(0, 6, 0, canvasSize + 1)
@@ -1037,7 +1041,7 @@ function library:Window(WinConfig)
         ColorPicker.TextColor3 = Color3.fromRGB(0, 0, 0)
         ColorPicker.TextSize = 14.000
         ColorPicker.ZIndex = 2 + zindex
-        ColorPicker.MouseButton1Up:Connect(function()
+        ColorPicker.MouseButton1Click:Connect(function()
             for i, v in pairs(colorPickers) do
                 v.Visible = false
             end
