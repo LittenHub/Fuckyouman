@@ -434,8 +434,8 @@ function library:Window(WinConfig)
     DropdownParent.Active = false
     DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-    DropdownParent.Position = UDim2.new(1, 20, 0, 33)
-    DropdownParent.Size = UDim2.new(0, 182, 0, 0)
+    DropdownParent.Position = UDim2.new(1, 20, 0, 34)
+    DropdownParent.Size = UDim2.new(0, 192, 0, 0)
     DropdownParent.Visible = true
     DropdownParent.BackgroundTransparency = 0
 
@@ -850,7 +850,7 @@ function library:Window(WinConfig)
 
         listOffset[winCount] = listOffset[winCount] + 32
 
-        Dropdown.Name = "Dropdown"
+        Dropdown.Name = "Dropdown_" .. DropConfig.Name
         Dropdown.Parent = Window
         Dropdown.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         Dropdown.BorderColor3 = Color3.fromRGB(113, 128, 147)
@@ -865,17 +865,14 @@ function library:Window(WinConfig)
         Dropdown.TextWrapped = true
         Dropdown.ZIndex = 3 + zindex
         Dropdown.MouseButton1Click:Connect(function()
+			local rot = DownSign.Rotation + 180
             for i, v in pairs(dropdowns) do
-                if v ~= DropdownFrame then
+                if v ~= DropdownFrame and v.Visible then
                    v.Visible = false
-                   DownSign.Rotation = 0
+                   TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = rot}):Play()
                 end
             end
-            if DropdownFrame.Visible then
-				TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 90}):Play()
-            else
-				TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = 270}):Play()
-            end
+            TweenService:Create(DownSign, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Rotation = rot}):Play()
             DropdownFrame.Visible = not DropdownFrame.Visible
         end)
 
@@ -917,6 +914,7 @@ function library:Window(WinConfig)
             Button_2.Parent = DropdownFrame
             Button_2.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
             Button_2.BorderColor3 = Color3.fromRGB(113, 128, 147)
+			Button_2.BorderSize = 0
             Button_2.Position = UDim2.new(0, 6, 0, canvasSize + 1)
             Button_2.Size = UDim2.new(0, 170, 0, 26)
             Button_2.Selected = true
@@ -927,6 +925,10 @@ function library:Window(WinConfig)
             Button_2.ZIndex = 6 + zindex
             Button_2.Text = name
             Button_2.TextWrapped = true
+			local btn_2_stroke = Instance.new("UIStroke")
+			btn_2_stroke.Parent = Button_2
+			btn_2_stroke.Color = Color3.fromRGB(113, 128, 147)
+			btn_2_stroke.Thickness = 5
             canvasSize = canvasSize + 27
             DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
             if #DropdownFrame:GetChildren() < 8 then
