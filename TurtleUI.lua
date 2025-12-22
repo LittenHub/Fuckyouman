@@ -166,8 +166,8 @@ function Lerp(a, b, c)
 end
 
 -- // Service \\ --
-local TweenService = game:GetService("TweenService");
-local UserInputService = game:GetService("UserInputService");
+local TweenService = game:GetService("TweenService")
+local uis = game:GetService("UserInputService")
 local players = game:service('Players');
 local player = players.LocalPlayer;
 local mouse = player:GetMouse();
@@ -202,13 +202,13 @@ local function MakeDraggable(DragPoint)
 			end
 		end)
 		
-		UserInputService.InputChanged:Connect(function(Input)
+		uis.InputChanged:Connect(function(Input)
 			if Input == DragInput and Dragging then
 				local Delta = Input.Position - MousePos
 
 				local newPos = UDim2.new(FramePos.X.Scale, FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)
 			    
-				TweenService:Create(DragPoint, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = newPos}):Play()
+				TweenService:Create(DragPoint, TweenInfo.new(0.1, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = newPos}):Play()
 				DragPoint.Position = newPos
 			end
 		end)
@@ -240,8 +240,6 @@ TurtleUiLib.Name = "TurtleUiLib"
 protect_gui(TurtleUiLib)
 
 local xOffset = 20
-
-local uis = game:GetService("UserInputService")
 
 local keybindConnection
 
@@ -374,8 +372,8 @@ function library:Window(WinConfig)
     windowCount = windowCount + 1
     local winCount = windowCount
     local zindex = winCount * 7
-    local UiWindow = Instance.new("Frame")
-
+  
+	local UiWindow = Instance.new("Frame")
     UiWindow.Name = "UiWindow"
     UiWindow.Parent = TurtleUiLib
     UiWindow.BackgroundColor3 = Color3.fromRGB(0, 151, 230)
@@ -384,8 +382,9 @@ function library:Window(WinConfig)
     UiWindow.Size = UDim2.new(0, 207, 0, 33)
     UiWindow.ZIndex = 4 + zindex
     UiWindow.Active = true
+	
 	MakeDraggable(UiWindow)
-
+	
     xOffset = xOffset + 230
 
     local Header = Instance.new("Frame")
