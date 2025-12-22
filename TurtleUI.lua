@@ -379,7 +379,7 @@ function library:Window(WinConfig)
     UiWindow.BackgroundColor3 = Color3.fromRGB(0, 151, 230)
     UiWindow.BorderColor3 = Color3.fromRGB(0, 151, 230)
     UiWindow.Position = UDim2.new(0, xOffset, 0, 20)
-    UiWindow.Size = UDim2.new(0, 207, 0, 33)
+    UiWindow.Size = UDim2.new(0, 217, 0, 33)
     UiWindow.ZIndex = 4 + zindex
     UiWindow.Active = true
 	
@@ -393,7 +393,7 @@ function library:Window(WinConfig)
     Header.BackgroundColor3 = Color3.fromRGB(0, 168, 255)
     Header.BorderColor3 = Color3.fromRGB(0, 168, 255)
     Header.Position = UDim2.new(0, 0, -0.0202544238, 0)
-    Header.Size = UDim2.new(0, 207, 0, 26)
+    Header.Size = UDim2.new(0, 217, 0, 26)
     Header.ZIndex = 5 + zindex
 
     local HeaderText = Instance.new("TextLabel")
@@ -402,7 +402,7 @@ function library:Window(WinConfig)
     HeaderText.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     HeaderText.BackgroundTransparency = 1.000
     HeaderText.Position = UDim2.new(0, 0, -0.0020698905, 0)
-    HeaderText.Size = UDim2.new(0, 206, 0, 33)
+    HeaderText.Size = UDim2.new(0, 217, 0, 33)
     HeaderText.ZIndex = 6 + zindex
     HeaderText.Font = Enum.Font.SourceSansBold
     HeaderText.Text = WinConfig.Name
@@ -424,7 +424,7 @@ function library:Window(WinConfig)
     Minimise.BackgroundColor3 = Color3.fromRGB(0, 168, 255)
 	Minimise.BackgroundTransparency = 1
     Minimise.BorderColor3 = Color3.fromRGB(0, 168, 255)
-    Minimise.Position = UDim2.new(0, 185, 0, 2)
+    Minimise.Position = UDim2.new(0, 195, 0, 2)
     Minimise.Size = UDim2.new(0, 22, 0, 22)
     Minimise.ZIndex = 7 + zindex
     Minimise.Font = Enum.Font.SourceSansBold
@@ -447,7 +447,7 @@ function library:Window(WinConfig)
     DropdownParent.Active = false
     DropdownParent.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     DropdownParent.BorderColor3 = Color3.fromRGB(53, 59, 72)
-    DropdownParent.Position = UDim2.new(1, 5, 0, 36)
+    DropdownParent.Position = UDim2.new(1, 15, 0, 36)
     DropdownParent.Size = UDim2.new(0, 192, 0, 0)
     DropdownParent.Visible = true
     DropdownParent.BackgroundTransparency = 1
@@ -472,7 +472,7 @@ function library:Window(WinConfig)
         Button.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         Button.BorderColor3 = Color3.fromRGB(113, 128, 147)
         Button.Position = UDim2.new(0, 12, 0, listOffset[winCount])
-        Button.Size = UDim2.new(0, 182, 0, 26)
+        Button.Size = UDim2.new(0, 192, 0, 26)
         Button.ZIndex = 2 + zindex
         Button.Selected = true
         Button.Font = Enum.Font.SourceSans
@@ -503,7 +503,7 @@ function library:Window(WinConfig)
         Label.BackgroundTransparency = 1.000
         Label.BorderColor3 = Color3.fromRGB(27, 42, 53)
         Label.Position = UDim2.new(0, 0, 0, listOffset[winCount])
-        Label.Size = UDim2.new(0, 206, 0, 29)
+        Label.Size = UDim2.new(0, 217, 0, 29)
         Label.Font = Enum.Font.SourceSans
         Label.Text = LabConfig.Name
         Label.TextSize = 16.000
@@ -545,7 +545,7 @@ function library:Window(WinConfig)
         ToggleDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         ToggleDescription.BackgroundTransparency = 1.000
         ToggleDescription.Position = UDim2.new(0, 14, 0, listOffset[winCount])
-        ToggleDescription.Size = UDim2.new(0, 131, 0, 26)
+        ToggleDescription.Size = UDim2.new(0, 141, 0, 26)
         ToggleDescription.Font = Enum.Font.SourceSans
         ToggleDescription.Text = TogConfig.Name
         ToggleDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
@@ -611,7 +611,7 @@ function library:Window(WinConfig)
         ToogleDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         ToogleDescription.BackgroundTransparency = 1.000
         ToogleDescription.Position = UDim2.new(0, 14, 0, listOffset[winCount])
-        ToogleDescription.Size = UDim2.new(0, 131, 0, 26)
+        ToogleDescription.Size = UDim2.new(0, 141, 0, 26)
         ToogleDescription.Font = Enum.Font.SourceSans
         ToogleDescription.Text = ToogConfig.Name
         ToogleDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
@@ -672,7 +672,7 @@ function library:Window(WinConfig)
         BoxConfig.Callback = BoxConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + 32
         local TextBox = Instance.new("TextBox")
@@ -793,7 +793,7 @@ function library:Window(WinConfig)
         Slider.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
         Slider.BorderColor3 = Color3.fromRGB(113, 128, 147)
         Slider.Position = UDim2.new(0, 13, 0, listOffset[winCount])
-        Slider.Size = UDim2.new(0, 180, 0, 6)
+        Slider.Size = UDim2.new(0, 190, 0, 6)
         Slider.ZIndex = 2 + zindex
         Slider.InputBegan:Connect(SliderMovement) 
         Slider.InputEnded:Connect(SliderEnd)      
@@ -889,7 +889,7 @@ function library:Window(WinConfig)
         Dropdown.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         Dropdown.BorderColor3 = Color3.fromRGB(113, 128, 147)
         Dropdown.Position = UDim2.new(0, 12, 0, listOffset[winCount])
-        Dropdown.Size = UDim2.new(0, 182, 0, 26)
+        Dropdown.Size = UDim2.new(0, 192, 0, 26)
         Dropdown.Selected = true
         Dropdown.Font = Enum.Font.SourceSans
         Dropdown.Text = tostring(DropConfig.Name)
