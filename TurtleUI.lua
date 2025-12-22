@@ -575,6 +575,7 @@ function library:Window(WinConfig)
 		ToggleButton_stroke.Parent = ToggleButton
 		ToggleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
 		ToggleButton_stroke.Thickness = 1
+		ToggleButton_stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		ToggleButton_stroke.Enabled = true
 
         ToggleFiller.Name = "ToggleFiller"
@@ -649,7 +650,8 @@ function library:Window(WinConfig)
 
 		ToogleButton_stroke.Parent = ToogleButton
 		ToogleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
-		ToogleButton_stroke.Thickness = q
+		ToogleButton_stroke.Thickness = 1
+		ToogleButton_stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		ToogleButton_stroke.Enabled = true
 
         ToogleFiller.Name = "ToogleFiller"
