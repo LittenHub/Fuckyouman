@@ -570,6 +570,7 @@ function library:Window(WinConfig)
 		ToggleButton_stroke.Parent = ToggleButton
 		ToggleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
 		ToggleButton_stroke.Thickness = 1
+		ToggleButton_stroke.Enabled = true
 		
         ToggleButton.MouseButton1Click:Connect(function()
             ToggleFiller.Visible = not ToggleFiller.Visible
@@ -634,6 +635,7 @@ function library:Window(WinConfig)
 		ToogleButton_stroke.Parent = ToogleButton
 		ToogleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
 		ToogleButton_stroke.Thickness = 1
+		ToogleButton_stroke.Enabled = true
 		
         ToogleButton.MouseButton1Click:Connect(function()
             ToogleFiller.Visible = not ToogleFiller.Visible
