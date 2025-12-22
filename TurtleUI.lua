@@ -556,6 +556,7 @@ function library:Window(WinConfig)
         ToggleButton.Name = "ToggleButton"
         ToggleButton.Parent = ToggleDescription
         ToggleButton.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
+		ToggleButton.BackgroundTransparency = 1
         ToggleButton.BorderColor3 = Color3.fromRGB(113, 128, 147)
         ToggleButton.Position = UDim2.new(1.2061069, 0, 0.0769230798, 0)
         ToggleButton.Size = UDim2.new(0, 22, 0, 22)
@@ -564,6 +565,12 @@ function library:Window(WinConfig)
         ToggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         ToggleButton.TextSize = 14.000
         ToggleButton.ZIndex = 2 + zindex
+
+		local ToggleButton_stroke = Instance.new("UIStroke")
+		ToggleButton_stroke.Parent = ToggleButton
+		ToggleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
+		ToggleButton_stroke.Thickness = 1
+		
         ToggleButton.MouseButton1Click:Connect(function()
             ToggleFiller.Visible = not ToggleFiller.Visible
             TogConfig.Callback(ToggleFiller.Visible)
@@ -613,6 +620,7 @@ function library:Window(WinConfig)
         ToogleButton.Name = "ToogleButton"
         ToogleButton.Parent = ToogleDescription
         ToogleButton.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
+		ToogleButton.BackgroundTransparency = 1
         ToogleButton.BorderColor3 = Color3.fromRGB(113, 128, 147)
         ToogleButton.Position = UDim2.new(1.2061069, 0, 0.0769230798, 0)
         ToogleButton.Size = UDim2.new(0, 22, 0, 22)
@@ -621,6 +629,12 @@ function library:Window(WinConfig)
         ToogleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         ToogleButton.TextSize = 14.000
         ToogleButton.ZIndex = 2 + zindex
+
+		local ToogleButton_stroke = Instance.new("UIStroke")
+		ToogleButton_stroke.Parent = ToogleButton
+		ToogleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
+		ToogleButton_stroke.Thickness = 1
+		
         ToogleButton.MouseButton1Click:Connect(function()
             ToogleFiller.Visible = not ToogleFiller.Visible
 			ToogConfig.Callback(ToogleFiller.Visible)
@@ -1017,7 +1031,7 @@ function library:Window(WinConfig)
 
 	-- // ColorPicker Function \\ --
     function functions:ColorPicker(ColConfig)
-        ColConfig = ColConfig or {}
+		ColConfig = ColConfig or {}
         ColConfig.Name = ColConfig.Name or "Color picker"
         ColConfig.Default = ColConfig.Default or Color3.fromRGB(255, 0, 0)
         ColConfig.Callback = ColConfig.Callback or function() end
@@ -1213,39 +1227,37 @@ function library:Window(WinConfig)
              ColorSequenceKeypoint.new(1.00, Color3.fromHSV(0, 1, 1))
         }
 
-    -- FIX BUG:
-    Canvas.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            local isdragging = true
-            local con
+		Canvas.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				local isdragging = true
+				local con
 
-            con = stepped:Connect(function()
-                if isdragging then
-                    local mousePos = Vector2.new(mouse.X, mouse.Y)
-                    local relX = math.clamp((mousePos.X - Canvas.AbsolutePosition.X) / Canvas.AbsoluteSize.X, 0, 1)
-                    local relY = math.clamp((mousePos.Y - Canvas.AbsolutePosition.Y) / Canvas.AbsoluteSize.Y, 0, 1)
+				con = stepped:Connect(function()
+					if isdragging then
+						local mousePos = Vector2.new(mouse.X, mouse.Y)
+						local relX = math.clamp((mousePos.X - Canvas.AbsolutePosition.X) / Canvas.AbsoluteSize.X, 0, 1)
+						local relY = math.clamp((mousePos.Y - Canvas.AbsolutePosition.Y) / Canvas.AbsoluteSize.Y, 0, 1)
+								
+						sat = relX
+						brightness = 1 - relY
+						color3 = Color3.fromHSV(hue, sat, brightness)
+								
+						Cursor.Position = UDim2.fromOffset(relX * Canvas.AbsoluteSize.X - 4, relY * Canvas.AbsoluteSize.Y - 4)
+						ColorPicker.BackgroundColor3 = color3
+						ColConfig.Callback(color3)
+					else
+						con:Disconnect()
+					end
+				end)
+					
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						isdragging = false
+					end
+				end)
+			end
+		end)
 
-                    sat = relX
-                    brightness = 1 - relY
-                    color3 = Color3.fromHSV(hue, sat, brightness)
-
-                    Cursor.Position = UDim2.fromOffset(relX * Canvas.AbsoluteSize.X - 4, relY * Canvas.AbsoluteSize.Y - 4)
-                    ColorPicker.BackgroundColor3 = color3
-                    ColConfig.Callback(color3)
-                else
-                    con:Disconnect()
-                end
-            end)
-
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    isdragging = false
-                end
-            end)
-        end
-    end)
-
-        -- Bar hue
         Color.Name = "Color"
         Color.Parent = ColorPickerFrame
         Color.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1254,50 +1266,51 @@ function library:Window(WinConfig)
         Color.BorderMode = Enum.BorderMode.Inset
         Color.ZIndex = 4 + zindex
 
-        -- Drag slider hue
         Color.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            draggingColor = true
-            local con
-            con = stepped:Connect(function()
-                if draggingColor then
-                    local rel = math.clamp((mouse.X - Color.AbsolutePosition.X) / Color.AbsoluteSize.X, 0, 1)
-                    hue = rel
-                    --[[]]--
-                    CanvasGradient.Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
-                        ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1))
-                    }
-                    --[[]]--
-                    local xOffset = rel * Color.AbsoluteSize.X
-                    ColorSlider.Position = UDim2.new(0, xOffset, 0, 0)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					draggingColor = true
+					local con
+					con = stepped:Connect(function()
+                
+					if draggingColor then
+						local rel = math.clamp((mouse.X - Color.AbsolutePosition.X) / Color.AbsoluteSize.X, 0, 1)
+						hue = rel
+                    
+						CanvasGradient.Color = ColorSequence.new{
+							ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
+							ColorSequenceKeypoint.new(1.00, Color3.fromHSV(hue, 1, 1))
+						}
+                    
+						local xOffset = rel * Color.AbsoluteSize.X
+						ColorSlider.Position = UDim2.new(0, xOffset, 0, 0)
 
-                    color3 = Color3.fromHSV(hue, sat, brightness)
-                    ColorPicker.BackgroundColor3  = color3
-                    ColConfig.Callback(color3)
-                else
-                    con:Disconnect()
-                end
-            end)
-        end
-    end)
-    Color.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            draggingColor = false
-        end
-    end)
+						color3 = Color3.fromHSV(hue, sat, brightness)
+						ColorPicker.BackgroundColor3  = color3
+						ColConfig.Callback(color3)
+					else
+						con:Disconnect()
+					end
+				end)
+			end
+		end)
+    
+		Color.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				draggingColor = false
+			end
+		end)
 
-    ColorGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), 
-        ColorSequenceKeypoint.new(0.17, Color3.fromRGB(255, 255, 0)), 
-        ColorSequenceKeypoint.new(0.33, Color3.fromRGB(0, 255, 0)), 
-        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 255)), 
-        ColorSequenceKeypoint.new(0.66, Color3.fromRGB(0, 0, 255)), 
-        ColorSequenceKeypoint.new(0.82, Color3.fromRGB(255, 0, 255)), 
-        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
-    })
-    ColorGradient.Name = "ColorGradient"
-    ColorGradient.Parent = Color
+		ColorGradient.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), 
+			ColorSequenceKeypoint.new(0.17, Color3.fromRGB(255, 255, 0)), 
+			ColorSequenceKeypoint.new(0.33, Color3.fromRGB(0, 255, 0)), 
+			ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 255)), 
+			ColorSequenceKeypoint.new(0.66, Color3.fromRGB(0, 0, 255)), 
+			ColorSequenceKeypoint.new(0.82, Color3.fromRGB(255, 0, 255)), 
+			ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
+		})
+		ColorGradient.Name = "ColorGradient"
+		ColorGradient.Parent = Color
 
         ColorCorner.Parent = Color
         ColorCorner.Name = "ColorCorner"
@@ -1321,30 +1334,30 @@ function library:Window(WinConfig)
         Title.TextColor3 = Color3.fromRGB(245, 246, 250)
         Title.TextSize = 16.000
         Title.TextXAlignment = Enum.TextXAlignment.Left
-        Title.ZIndex = 4 + zindex
+		Title.ZIndex = 4 + zindex
+		table.insert(colorPickers, ColorPickerFrame)
 
-    table.insert(colorPickers, ColorPickerFrame)
-
-    local colorFuncs = {}
+		local colorFuncs = {}
         function colorFuncs:UpdateColorPicker(color)
-        if type(color) == "userdata" then
-            ToggleFiller_2.Visible = false
-	        ColorPicker.BackgroundColor3 = color
-        elseif color and type(color) == "boolean" and not con then
-	        ToggleFiller_2.Visible = true
-                con = stepped:Connect(function()
-                    if ToggleFiller_2.Visible then
-                        local hue2 = tick() % 5 / 5
-                        color3 = Color3.fromHSV(hue2, 1, 1)
-                        ColConfig.Callback(color3)
-                        ColorPicker.BackgroundColor3 = color3
-                    else
-                        con:Disconnect()
-                    end
-                end)
+			if type(color) == "userdata" then
+				ToggleFiller_2.Visible = false
+				ColorPicker.BackgroundColor3 = color
+			elseif color and type(color) == "boolean" and not con then
+				ToggleFiller_2.Visible = true
+				con = stepped:Connect(function()
+					if ToggleFiller_2.Visible then
+						local hue2 = tick() % 5 / 5
+						color3 = Color3.fromHSV(hue2, 1, 1)
+						ColConfig.Callback(color3)
+						ColorPicker.BackgroundColor3 = color3
+					else
+						con:Disconnect()
+					end
+				end)
 	        end
 	    end
-	return colorFuncs
+		
+		return colorFuncs
     end
 
    return functions
