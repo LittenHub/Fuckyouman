@@ -415,7 +415,7 @@ function library:Window(WinConfig)
     Window.BackgroundColor3 = Color3.fromRGB(47, 54, 64)
     Window.BorderColor3 = Color3.fromRGB(47, 54, 64)
     Window.Position = UDim2.new(0, 0, 0, 0)
-    Window.Size = UDim2.new(0, 207, 0, 33)
+    Window.Size = UDim2.new(0, 217, 0, 33)
     Window.ZIndex = 1 + zindex
 
     local Minimise = Instance.new("TextButton")
@@ -537,6 +537,7 @@ function library:Window(WinConfig)
 
         local ToggleDescription = Instance.new("TextLabel")
         local ToggleButton = Instance.new("TextButton")
+		local ToggleButton_stroke = Instance.new("UIStroke")
         local ToggleFiller = Instance.new("Frame")
 
         ToggleDescription.Name = "ToggleDescription"
@@ -565,17 +566,16 @@ function library:Window(WinConfig)
         ToggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         ToggleButton.TextSize = 14.000
         ToggleButton.ZIndex = 2 + zindex
-
-		local ToggleButton_stroke = Instance.new("UIStroke")
-		ToggleButton_stroke.Parent = ToggleButton
-		ToggleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
-		ToggleButton_stroke.Thickness = 2
-		ToggleButton_stroke.Enabled = true
 		
         ToggleButton.MouseButton1Click:Connect(function()
             ToggleFiller.Visible = not ToggleFiller.Visible
             TogConfig.Callback(ToggleFiller.Visible)
         end)
+
+		ToggleButton_stroke.Parent = ToggleButton
+		ToggleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
+		ToggleButton_stroke.Thickness = 1
+		ToggleButton_stroke.Enabled = true
 
         ToggleFiller.Name = "ToggleFiller"
         ToggleFiller.Parent = ToggleButton
@@ -602,6 +602,7 @@ function library:Window(WinConfig)
 
         local ToogleDescription = Instance.new("TextLabel")
         local ToogleButton = Instance.new("TextButton")
+		local ToogleButton_stroke = Instance.new("UIStroke")
         local ToogleFiller = Instance.new("Frame")
 
         ToogleDescription.Name = "ToogleDescription"
@@ -630,12 +631,6 @@ function library:Window(WinConfig)
         ToogleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
         ToogleButton.TextSize = 14.000
         ToogleButton.ZIndex = 2 + zindex
-
-		local ToogleButton_stroke = Instance.new("UIStroke")
-		ToogleButton_stroke.Parent = ToogleButton
-		ToogleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
-		ToogleButton_stroke.Thickness = 2
-		ToogleButton_stroke.Enabled = true
 		
         ToogleButton.MouseButton1Click:Connect(function()
             ToogleFiller.Visible = not ToogleFiller.Visible
@@ -651,6 +646,11 @@ function library:Window(WinConfig)
                 BetterLoopOperator = false
             end
         end)
+
+		ToogleButton_stroke.Parent = ToogleButton
+		ToogleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
+		ToogleButton_stroke.Thickness = q
+		ToogleButton_stroke.Enabled = true
 
         ToogleFiller.Name = "ToogleFiller"
         ToogleFiller.Parent = ToogleButton
