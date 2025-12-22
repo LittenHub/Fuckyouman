@@ -569,7 +569,7 @@ function library:Window(WinConfig)
 		local ToggleButton_stroke = Instance.new("UIStroke")
 		ToggleButton_stroke.Parent = ToggleButton
 		ToggleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
-		ToggleButton_stroke.Thickness = 1
+		ToggleButton_stroke.Thickness = 2
 		ToggleButton_stroke.Enabled = true
 		
         ToggleButton.MouseButton1Click:Connect(function()
@@ -634,7 +634,7 @@ function library:Window(WinConfig)
 		local ToogleButton_stroke = Instance.new("UIStroke")
 		ToogleButton_stroke.Parent = ToogleButton
 		ToogleButton_stroke.Color = Color3.fromRGB(113, 128, 147)
-		ToogleButton_stroke.Thickness = 1
+		ToogleButton_stroke.Thickness = 2
 		ToogleButton_stroke.Enabled = true
 		
         ToogleButton.MouseButton1Click:Connect(function()
