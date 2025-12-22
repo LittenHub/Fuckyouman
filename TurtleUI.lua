@@ -463,7 +463,7 @@ function library:Window(WinConfig)
         ButConfig.Callback = ButConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         local Button = Instance.new("TextButton")
         listOffset[winCount] = listOffset[winCount] + 32
@@ -493,7 +493,7 @@ function library:Window(WinConfig)
         LabConfig.Color = LabConfig.Color or Color3.fromRGB(220, 221, 225)
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + 32
         local Label = Instance.new("TextLabel")
@@ -531,7 +531,7 @@ function library:Window(WinConfig)
         TogConfig.Callback = TogConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + 32
 
@@ -597,7 +597,7 @@ function library:Window(WinConfig)
         ToogConfig.Callback = ToogConfig.Callback or function() end
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + 32
 
@@ -680,7 +680,7 @@ function library:Window(WinConfig)
         TextBox.Parent = Window
         TextBox.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
         TextBox.BorderColor3 = Color3.fromRGB(113, 128, 147)
-        TextBox.Position = UDim2.new(0, 99, 0, listOffset[winCount])
+        TextBox.Position = UDim2.new(0, 109, 0, listOffset[winCount])
         TextBox.Size = UDim2.new(0, 95, 0, 26)
         TextBox.Font = Enum.Font.SourceSans
         TextBox.PlaceholderColor3 = Color3.fromRGB(220, 221, 225)
@@ -707,7 +707,7 @@ function library:Window(WinConfig)
         BoxDescription.Parent = TextBox
         BoxDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         BoxDescription.BackgroundTransparency = 1.000
-        BoxDescription.Position = UDim2.new(-0.894736826, 0, 0, 0)
+        BoxDescription.Position = UDim2.new(-0.894736826, -10, 0, 0)
         BoxDescription.Size = UDim2.new(0, 75, 0, 26)
         BoxDescription.Font = Enum.Font.SourceSans
         BoxDescription.Text = BoxConfig.Name
@@ -738,7 +738,7 @@ function library:Window(WinConfig)
         end
 
         sizes[winCount] = sizes[winCount] + offset
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + offset
 
@@ -760,8 +760,8 @@ function library:Window(WinConfig)
                     con = stepped:Connect(function()
                         if isdragging then
                             local xOffset = mouse.X - delta1 - 3
-                            if xOffset > 175 then
-                                xOffset = 175
+                            if xOffset > 170 then
+                                xOffset = 170
                             elseif xOffset< 0 then
                                 xOffset = 0
                             end
@@ -798,7 +798,7 @@ function library:Window(WinConfig)
         Slider.InputBegan:Connect(SliderMovement) 
         Slider.InputEnded:Connect(SliderEnd)      
 
-        SliderButton.Position = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), -1.333337, 0)
+        SliderButton.Position = UDim2.new(0, (Slider.Size.X.Offset) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), -1.333337, 0)
         SliderButton.Name = "SliderButton"
 		SliderButton.Active = true
         SliderButton.Parent = Slider
@@ -836,7 +836,7 @@ function library:Window(WinConfig)
         SilderFiller.Parent = Slider
         SilderFiller.BackgroundColor3 = Color3.fromRGB(76, 209, 55)
         SilderFiller.BorderColor3 = Color3.fromRGB(47, 54, 64)
-        SilderFiller.Size = UDim2.new(0, (Slider.Size.X.Offset - 5) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), 0, 6)
+        SilderFiller.Size = UDim2.new(0, (Slider.Size.X.Offset) * ((SliConfig.Default - SliConfig.Min)/(SliConfig.Max-SliConfig.Min)), 0, 6)
         SilderFiller.ZIndex = 2 + zindex
         SilderFiller.BorderMode = Enum.BorderMode.Inset
 
@@ -880,7 +880,7 @@ function library:Window(WinConfig)
         local DropdownFrame = Instance.new("ScrollingFrame")
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + 32
 
@@ -953,7 +953,7 @@ function library:Window(WinConfig)
             Button_2.BorderColor3 = Color3.fromRGB(113, 128, 147)
 			Button_2.BorderSizePixel = 0
             Button_2.Position = UDim2.new(0, 6, 0, canvasSize + 1)
-            Button_2.Size = UDim2.new(0, 170, 0, 26)
+            Button_2.Size = UDim2.new(0, 180, 0, 26)
             Button_2.Selected = true
             Button_2.Font = Enum.Font.SourceSans
             Button_2.TextColor3 = Color3.fromRGB(245, 246, 250)
@@ -968,9 +968,9 @@ function library:Window(WinConfig)
 			btn_2_stroke.Thickness = 1
 			btn_2_stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             canvasSize = canvasSize + 27
-            DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
+            DropdownFrame.CanvasSize = UDim2.new(0, 0, 0, canvasSize + 1)
             if #DropdownFrame:GetChildren() < 8 then
-                DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset + 27)
+                DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset + 28)
             end
             Button_2.MouseButton1Click:Connect(function()
                 DropConfig.Callback(name)
@@ -985,13 +985,13 @@ function library:Window(WinConfig)
                 if foundIt then
                     canvasSize = canvasSize - 27
                     v.Position = UDim2.new(0, 6, 0, v.Position.Y.Offset - 27)
-                    DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
+                    DropdownFrame.CanvasSize = UDim2.new(1, 0, 0, canvasSize + 1)
                 end
                 if v.Text == name then
                     foundIt = true
                     v:Destroy()
                     if #DropdownFrame:GetChildren() < 8 then
-                        DropdownFrame.Size = UDim2.new(0, 182, 0, DropdownFrame.Size.Y.Offset - 27)
+                        DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset - 28)
                     end
                 end
             end
@@ -1005,7 +1005,7 @@ function library:Window(WinConfig)
     		PlaceholderLabel.Parent = DropdownFrame
     		PlaceholderLabel.BackgroundColor3 = Color3.fromRGB(53, 59, 72)
     		PlaceholderLabel.BorderSizePixel = 0
-    		PlaceholderLabel.Size = UDim2.new(0, 170, 0, 26)
+    		PlaceholderLabel.Size = UDim2.new(0, 180, 0, 26)
     		PlaceholderLabel.Position = UDim2.new(0, 6, 0, canvasSize + 1)
     		PlaceholderLabel.Font = Enum.Font.SourceSansItalic
     		PlaceholderLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -1016,9 +1016,9 @@ function library:Window(WinConfig)
     		PlaceholderLabel.TextXAlignment = Enum.TextXAlignment.Left
 
     		canvasSize = canvasSize + 27
-    		DropdownFrame.CanvasSize = UDim2.new(0, 182, 0, canvasSize + 1)
+    		DropdownFrame.CanvasSize = UDim2.new(0, 0, 0, canvasSize + 1)
     		if #DropdownFrame:GetChildren() < 8 then
-        		DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset + 27)
+        		DropdownFrame.Size = UDim2.new(1, 0, 0, DropdownFrame.Size.Y.Offset + 28)
     		end
 		end
 
@@ -1060,13 +1060,13 @@ function library:Window(WinConfig)
         local BlackOverlay = Instance.new("ImageLabel")
 
         sizes[winCount] = sizes[winCount] + 32
-        Window.Size = UDim2.new(0, 207, 0, sizes[winCount] + 10)
+        Window.Size = UDim2.new(0, 217, 0, sizes[winCount] + 10)
 
         listOffset[winCount] = listOffset[winCount] + 32
 
         ColorPicker.Name = "ColorPicker"
         ColorPicker.Parent = Window
-        ColorPicker.Position = UDim2.new(0, 137, 0, listOffset[winCount])
+        ColorPicker.Position = UDim2.new(0, 147, 0, listOffset[winCount])
         ColorPicker.Size = UDim2.new(0, 57, 0, 26)
         ColorPicker.Font = Enum.Font.SourceSans
         ColorPicker.Text = ""
@@ -1088,7 +1088,7 @@ function library:Window(WinConfig)
         PickerDescription.Parent = ColorPicker
         PickerDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         PickerDescription.BackgroundTransparency = 1.000
-        PickerDescription.Position = UDim2.new(-2.15789509, 0, 0, 0)
+        PickerDescription.Position = UDim2.new(-2.15789509, -10, 0, 0)
         PickerDescription.Size = UDim2.new(0, 116, 0, 26)
         PickerDescription.Font = Enum.Font.SourceSans
         PickerDescription.Text = ColConfig.Name
