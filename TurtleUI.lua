@@ -26,7 +26,7 @@
 [+] - Added Toogle with loop
 
 - / December, 22, Monday, 2025 \ -
-[★] - Revamped all drag function
+[★] - Revamped window drag function
 
 
 -- // How To Use This Library \\ --
@@ -166,7 +166,8 @@ function Lerp(a, b, c)
 end
 
 -- // Service \\ --
-local TweenService = game:GetService("TweenService")
+local TweenService = game:GetService("TweenService");
+local UserInputService = game:GetService("UserInputService");
 local players = game:service('Players');
 local player = players.LocalPlayer;
 local mouse = player:GetMouse();
