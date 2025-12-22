@@ -1,4 +1,5 @@
 -- // Credits to Intrer#0421 for the source \\ --
+-- // This UI is updated by me (LucidSc1pt) \\ --
 
 -- // Update \\ --
 --[[
@@ -6,12 +7,10 @@
 [+] <- Added a new function
 [-] <- Remove a function
 [!] <- On development or fixed a function
-[?] <- Change a function or Improving a function
+[★] <- Change a function or Improving a function
 
-]]--
 
 -- // Change Log \\ --
---[[
 
 - / August, 30, Saturday, 2025 \ -
 [+] - Added a Notificaton function
@@ -24,12 +23,13 @@
 [+] - Added a Orion or Rayfield function call style
 
 - / December, 15, Tuesday, 2025 \ -
-[+] - Added Toggle with loop
+[+] - Added Toogle with loop
 
-]]--
+- / December, 22, Monday, 2025 \ -
+[★] - Revamped all drag function
+
 
 -- // How To Use This Library \\ --
---[[
 
 -- Turtle Ui Library
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LittenHub/Fuckyouman/refs/heads/main/TurtleUI.lua"))()
@@ -120,6 +120,8 @@ dropdown:Button("New button")
 
 dropdown:Remove("Button")
 
+dropdown:AddPlaceholder("New Placeholder")
+
 -- destroy the gui
 library:Destroy()
 
@@ -171,34 +173,45 @@ local mouse = player:GetMouse();
 local run = game:service('RunService');
 local stepped = run.Stepped;
 
--- // Draggable Function \\ --
-function Dragify(obj)
-	spawn(function()
-		local minitial;
-		local initial;
-		local isdragging;
-	    obj.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-				isdragging = true;
-				minitial = input.Position;
-				initial = obj.Position;
-				local con;
-                con = stepped:Connect(function()
-        			if isdragging then
-						local delta = Vector3.new(mouse.X, mouse.Y, 0) - minitial;
-						obj.Position = UDim2.new(initial.X.Scale, initial.X.Offset + delta.X, initial.Y.Scale, initial.Y.Offset + delta.Y);
-					else
-						con:Disconnect();
-					end;
-                end);
-                input.Changed:Connect(function()
-    			    if input.UserInputState == Enum.UserInputState.End then
-					    isdragging = false;
-				    end;
-			    end);
-		end;
-	end);
-end)
+local function MakeDraggable(DragPoint)
+	pcall(function()
+		local Dragging = false
+		local DragInput
+		local MousePos
+		local FramePos
+		
+		DragPoint.InputBegan:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+				
+				Dragging = true
+				MousePos = Input.Position
+				FramePos = DragPoint.Position
+				
+				Input.Changed:Connect(function()
+					if Input.UserInputState == Enum.UserInputState.End then
+						Dragging = false
+					end
+				end)
+			end
+		end)
+		
+		DragPoint.InputChanged:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+				DragInput = Input
+			end
+		end)
+		
+		UserInputService.InputChanged:Connect(function(Input)
+			if Input == DragInput and Dragging then
+				local Delta = Input.Position - MousePos
+
+				local newPos = UDim2.new(FramePos.X.Scale, FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)
+			    
+				TweenService:Create(DragPoint, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = newPos}):Play()
+				DragPoint.Position = newPos
+			end
+		end)
+	end)
 end
 
 -- // Instances:
@@ -370,7 +383,7 @@ function library:Window(WinConfig)
     UiWindow.Size = UDim2.new(0, 207, 0, 33)
     UiWindow.ZIndex = 4 + zindex
     UiWindow.Active = true
-    Dragify(UiWindow)
+	MakeDraggable(UiWindow)
 
     xOffset = xOffset + 230
 
