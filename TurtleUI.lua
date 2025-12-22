@@ -545,7 +545,7 @@ function library:Window(WinConfig)
         ToggleDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         ToggleDescription.BackgroundTransparency = 1.000
         ToggleDescription.Position = UDim2.new(0, 14, 0, listOffset[winCount])
-        ToggleDescription.Size = UDim2.new(0, 141, 0, 26)
+        ToggleDescription.Size = UDim2.new(0, 139, 0, 26)
         ToggleDescription.Font = Enum.Font.SourceSans
         ToggleDescription.Text = TogConfig.Name
         ToggleDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
@@ -611,7 +611,7 @@ function library:Window(WinConfig)
         ToogleDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         ToogleDescription.BackgroundTransparency = 1.000
         ToogleDescription.Position = UDim2.new(0, 14, 0, listOffset[winCount])
-        ToogleDescription.Size = UDim2.new(0, 141, 0, 26)
+        ToogleDescription.Size = UDim2.new(0, 139, 0, 26)
         ToogleDescription.Font = Enum.Font.SourceSans
         ToogleDescription.Text = ToogConfig.Name
         ToogleDescription.TextColor3 = Color3.fromRGB(245, 246, 250)
@@ -760,8 +760,8 @@ function library:Window(WinConfig)
                     con = stepped:Connect(function()
                         if isdragging then
                             local xOffset = mouse.X - delta1 - 3
-                            if xOffset > 170 then
-                                xOffset = 170
+                            if xOffset > 175 then
+                                xOffset = 175
                             elseif xOffset< 0 then
                                 xOffset = 0
                             end
@@ -782,7 +782,7 @@ function library:Window(WinConfig)
         end
         function SliderEnd(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            local value = Lerp(SliConfig.Min, SliConfig.Max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset-5))
+            local value = Lerp(SliConfig.Min, SliConfig.Max, SliderButton.Position.X.Offset/(Slider.Size.X.Offset))
             SliConfig.Callback(math.round(value))
             end
         end
