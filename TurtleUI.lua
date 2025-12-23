@@ -760,9 +760,9 @@ function library:Window(WinConfig)
                     con = stepped:Connect(function()
                         if isdragging then
                             local xOffset = mouse.X - delta1 - 3
-                            if xOffset > 180 then
-                                xOffset = 180
-                            elseif xOffset< 0 then
+                            if xOffset > 185 then
+                                xOffset = 185
+                            elseif xOffset < 0 then
                                 xOffset = 0
                             end
                             SliderButton.Position = UDim2.new(0, xOffset , -1.33333337, 0);
@@ -1286,7 +1286,7 @@ function library:Window(WinConfig)
 						}
                     
 						local xOffset = rel * Color.AbsoluteSize.X
-						ColorSlider.Position = UDim2.new(0, xOffset, 0, 0)
+						ColorSlider.Position = UDim2.new(0, xOffset, 0, -1)
 
 						color3 = Color3.fromHSV(hue, sat, brightness)
 						ColorPicker.BackgroundColor3  = color3
