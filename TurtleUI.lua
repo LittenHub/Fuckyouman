@@ -760,8 +760,8 @@ function library:Window(WinConfig)
                     con = stepped:Connect(function()
                         if isdragging then
                             local xOffset = mouse.X - delta1 - 3
-                            if xOffset > 175 then
-                                xOffset = 175
+                            if xOffset > 180 then
+                                xOffset = 180
                             elseif xOffset< 0 then
                                 xOffset = 0
                             end
@@ -917,7 +917,7 @@ function library:Window(WinConfig)
         DownSign.Parent = Dropdown
         DownSign.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         DownSign.BackgroundTransparency = 1.000
-        DownSign.Position = UDim2.new(0, 155, 0, 2)
+        DownSign.Position = UDim2.new(0, 165, 0, 2)
         DownSign.Size = UDim2.new(0, 27, 0, 22)
         DownSign.Font = Enum.Font.SourceSans
         DownSign.Text = "^"
